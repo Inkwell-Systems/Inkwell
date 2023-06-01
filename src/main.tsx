@@ -8,6 +8,7 @@ import {
 } from 'react-router-dom'
 import HomePage from './pages/home/home.page.tsx'
 import PageNotFound from './pages/_pageNotFound/_pageNotFound.tsx'
+import { RecoilRoot } from 'recoil'
 
 const routes: RouteObject[] = [
     { path: '/', element: <HomePage /> },
@@ -17,6 +18,8 @@ const router = createBrowserRouter(routes)
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>
-        <RouterProvider router={router} />
+        <RecoilRoot>
+            <RouterProvider router={router} />
+        </RecoilRoot>
     </React.StrictMode>
 )
