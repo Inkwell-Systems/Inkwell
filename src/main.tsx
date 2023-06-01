@@ -7,10 +7,11 @@ import {
     RouterProvider,
 } from 'react-router-dom'
 import HomePage from './pages/home/home.page.tsx'
+import PageNotFound from './pages/_pageNotFound/_pageNotFound.tsx'
 
 const routes: RouteObject[] = [
     { path: '/', element: <HomePage /> },
-    { path: '' },
+    { path: '*', element: <PageNotFound /> },
 ]
 const router = createBrowserRouter(routes)
 
