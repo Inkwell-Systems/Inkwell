@@ -1,69 +1,61 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "ignorePatterns": [
-    "**/*.js",
-    "**/*.d.ts"
-  ],
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended"
-  ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": [
-    "@typescript-eslint"
-  ],
-  "root": true,
-  "rules": {
-    "@typescript-eslint/explicit-member-accessibility": "error",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-namespace": "off",
-    "@typescript-eslint/no-unused-vars": "error",
-    "@typescript-eslint/naming-convention": [
-      "error",
-      {
-        "selector": "default",
-        "format": ["camelCase"],
-        "leadingUnderscore": "forbid",
-        "trailingUnderscore": "forbid",
-        "filter": {
-          "regex": "^(__html)$",
-          "match": false
-        }
-      },
-      {
-        "selector": "variable",
-        "format": ["camelCase", "PascalCase"]
-      },
-      {
-        "selector": "variable",
-        "modifiers": ["global"],
-        "format": ["PascalCase", "UPPER_CASE"]
-      },
-      {
-        "selector": ["parameter", "variable"],
-        "modifiers": ["unused"],
-        "format": ["camelCase"],
-        "leadingUnderscore": "require"
-      },
-      {
-        "selector": ["typeLike", "enumMember"],
-        "format": ["PascalCase"]
-      },
-      {
-        "selector": "typeParameter",
-        "format": ["PascalCase"],
-        "prefix": ["T"]
-      },
-      {
-        "selector": "interface",
-        "format": ["PascalCase"],
-        "prefix": ["I"]
-      }
-    ]
-  }
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "ignorePatterns": ["**/*.js", "**/*.d.ts"],
+    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "root": true,
+    "rules": {
+        "@typescript-eslint/explicit-member-accessibility": "error",
+        "@typescript-eslint/no-non-null-assertion": "off",
+        "@typescript-eslint/no-namespace": "off",
+        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                "selector": "default",
+                "format": ["camelCase"],
+                "leadingUnderscore": "forbid",
+                "trailingUnderscore": "forbid",
+                "filter": {
+                    "regex": "^(__html)$",
+                    "match": false
+                }
+            },
+            {
+                "selector": "variable",
+                "format": ["camelCase", "PascalCase"]
+            },
+            {
+                "selector": "variable",
+                "modifiers": ["global"],
+                "format": ["PascalCase", "UPPER_CASE"]
+            },
+            {
+                "selector": ["parameter", "variable"],
+                "modifiers": ["unused"],
+                "format": ["camelCase"],
+                "leadingUnderscore": "require"
+            },
+            {
+                "selector": ["typeLike", "enumMember"],
+                "format": ["PascalCase"]
+            },
+            {
+                "selector": "typeParameter",
+                "format": ["PascalCase"],
+                "prefix": ["T"]
+            },
+            {
+                "selector": "interface",
+                "format": ["PascalCase"],
+                "prefix": ["I"]
+            }
+        ]
+    }
 }
 
 /*

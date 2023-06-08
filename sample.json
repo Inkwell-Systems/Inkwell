@@ -1,0 +1,8 @@
+{
+    "key": "value",
+    "age": 14,
+    "complex": {
+        "inside_object": "Yes this is complex",
+        "errorCode": 404
+    }
+}

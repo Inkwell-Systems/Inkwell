@@ -1,21 +1,21 @@
 {
-  "compilerOptions": {
-    // VITE REQUIREMENTS
-    "isolatedModules": true,
-    "skipLibCheck": true, // Some libs don't like `isolatedModules`
-    "useDefineForClassFields": true,
+    "compilerOptions": {
+        // VITE REQUIREMENTS
+        "isolatedModules": true,
+        "skipLibCheck": true, // Some libs don't like `isolatedModules`
+        "useDefineForClassFields": true,
 
-    "target": "ES2021",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+        "target": "ES2021",
+        "lib": ["ES2020", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
 
-    // ON YOUR OWN LOL
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
-  },
-  "include": ["src"],
-  "references": [{"path": "./tsconfig.node.json"}]
+        // ON YOUR OWN LOL
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "noEmit": true,
+        "jsx": "react-jsx"
+    },
+    "include": ["src"],
+    "references": [{"path": "./tsconfig.node.json"}]
 }
