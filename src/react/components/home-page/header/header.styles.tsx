@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const HeaderContainer = styled.div`
+const Container = styled.div`
     position: relative;
 
     height: 100vh;
@@ -14,7 +14,7 @@ const HeaderContainer = styled.div`
     justify-content: center;
 `;
 
-const HeaderLandingImage = styled.img`
+const LandingImage = styled.img`
     position: absolute;
     top: 0;
     left: 0;
@@ -25,6 +25,18 @@ const HeaderLandingImage = styled.img`
     z-index: -1;
 `;
 
+const Header = styled.h1`
+    margin-bottom: 0.5em;
+    font-weight: 800;
+    font-size: 2.5em;
+`;
+
+const SubHeader = styled.h2`
+    font-family: ${p => p.theme.fonts.secondary};
+    font-weight: 100;
+    font-size: 1.5em;
+`;
+
 const ButtonContainer = styled.div`
     margin-top: 1em;
 
@@ -32,4 +44,4 @@ const ButtonContainer = styled.div`
     flex-direction: row;
 `;
 
-export {HeaderContainer, HeaderLandingImage, ButtonContainer};
+export {Container, Header, SubHeader, LandingImage, ButtonContainer};

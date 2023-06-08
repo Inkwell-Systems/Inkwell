@@ -23,6 +23,12 @@ const BaseButtonStyle = styled.div<IButtonStyleParams>`
         padding: 0.75em 1.5em;
         border: none;
 
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
         // Will be overwritten by the styled component
         background: none;
     }
