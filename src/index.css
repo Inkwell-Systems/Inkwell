@@ -27,6 +27,26 @@
     --ink-font-family-desc: 'Dank Mono', monospace;
 }
 
+/*
+
+html {
+    color: $ink-grey-lightest;
+    font-size: 14px;
+
+    h1 {
+        font-family: $ink-font-family-base;
+        font-size: 4em;
+        font-weight: 800;
+    }
+
+    p {
+        font-family: $ink-font-family-desc;
+        font-size: 1.5rem;
+    }
+}
+
+ */
+
 .page-container {
     overflow-x: hidden;
     min-height: 100vh;

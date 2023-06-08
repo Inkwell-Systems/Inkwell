@@ -5,8 +5,6 @@ import {
 } from 'react-router-dom';
 import Home from './react/pages/home/home.page';
 
-import './defaults.scss';
-
 const App = () => {
     const Routes: RouteObject[] = [
         {path: '/', element: <Home />},
