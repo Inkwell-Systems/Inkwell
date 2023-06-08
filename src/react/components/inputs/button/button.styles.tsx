@@ -1,29 +1,10 @@
 import styled from 'styled-components';
 
-interface IButtonStyleConfig {
-    mainColor: string;
-    secondaryColor?: string;
+interface IButtonStyleParams {
     inverted: boolean;
 }
-const BuildButtonStyle = (config: IButtonStyleConfig) => {
-    return styled(BaseButtonStyle)`
-        background: ${config.inverted
-            ? config.secondaryColor
-            : config.mainColor};
 
-        ${config.inverted && 'border: 2px solid ' + config.mainColor + ';'}
-
-        button {
-            color: ${config.inverted
-                ? config.mainColor
-                : config.secondaryColor};
-        }
-
-        // TODO: Add hover effects.
-    `;
-};
-
-const BaseButtonStyle = styled.div`
+const BaseButtonStyle = styled.div<IButtonStyleParams>`
     box-sizing: border-box;
     transition: all 0.2s ease-in-out;
     overflow: hidden;
@@ -47,4 +28,24 @@ const BaseButtonStyle = styled.div`
     }
 `;
 
-export {BuildButtonStyle};
+const PrimaryButtonStyle = styled(BaseButtonStyle)`
+    background: ${p =>
+        p.inverted ? p.theme.colors.transparent : p.theme.colors.primary};
+
+    ${p => p.inverted && 'border: 2px solid ' + p.theme.colors.primary + ';'}
+
+    color: ${p =>
+        p.inverted ? p.theme.colors.primary : p.theme.colors.darkBackground};
+`;
+
+const SecondaryButtonStyle = styled(BaseButtonStyle)`
+    background: ${p =>
+        p.inverted ? p.theme.colors.transparent : p.theme.colors.secondary};
+
+    ${p => p.inverted && 'border: 2px solid ' + p.theme.colors.secondary + ';'}
+
+    color: ${p =>
+        p.inverted ? p.theme.colors.secondary : p.theme.colors.darkBackground};
+`;
+
+export {PrimaryButtonStyle, SecondaryButtonStyle};

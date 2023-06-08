@@ -1,9 +1,9 @@
 import React from 'react';
-import {BuildButtonStyle} from './button.styles.tsx';
+import {PrimaryButtonStyle, SecondaryButtonStyle} from './button.styles.tsx';
 
 // Create the prototype for button props
 type ButtonStyle = 'primary' | 'secondary';
-type ButtonColorStyle = 'filled' | 'outlined';
+type ButtonInverted = boolean;
 
 interface IButtonProps {
     style: React.CSSProperties;
@@ -12,21 +12,9 @@ interface IButtonProps {
 
     config: {
         style: ButtonStyle;
-        color: ButtonColorStyle;
+        inverted: ButtonInverted;
     };
 }
-
-const PrimaryButtonStyle = BuildButtonStyle({
-    mainColor: 'var(--ink-blue-main)',
-    secondaryColor: 'var(--ink-grey-darkest)',
-    inverted: false,
-});
-
-const SecondaryButtonStyle = BuildButtonStyle({
-    mainColor: 'var(--ink-turquoise-green-main)',
-    secondaryColor: 'var(--ink-grey-darkest)',
-    inverted: true,
-});
 
 const StringToButtonStyle = {
     primary: PrimaryButtonStyle,
@@ -37,7 +25,11 @@ const Button = (props: IButtonProps) => {
     const Container = StringToButtonStyle[props.config.style];
 
     return (
-        <Container onClick={props.onClick} style={props.style}>
+        <Container
+            onClick={props.onClick}
+            style={props.style}
+            inverted={props.config.inverted}
+        >
             <button>{props.children}</button>
         </Container>
     );

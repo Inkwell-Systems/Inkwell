@@ -32,13 +32,13 @@ const HomepageHeader = () => {
 
             <ButtonContainer>
                 <Button
-                    config={{style: 'primary', color: 'filled'}}
+                    config={{style: 'primary', inverted: true}}
                     style={{marginRight: '2.5em'}}
                 >
                     Get Started
                 </Button>
                 <Button
-                    config={{style: 'secondary', color: 'outlined'}}
+                    config={{style: 'secondary', inverted: false}}
                     style={{marginRight: '2.5em'}}
                 >
                     Contribute
