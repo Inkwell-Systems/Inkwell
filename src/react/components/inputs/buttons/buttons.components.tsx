@@ -23,7 +23,27 @@ interface IInternalButtonProps {
 }
 
 const Button = (props: IInternalButtonProps) => {
-    const Container = styled.div``;
+    const Container = styled.div`
+        box-sizing: border-box;
+        transition: all 0.2s ease-in-out;
+        overflow: hidden;
+
+        border-radius: $ink-global-radius;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+
+        button {
+            margin: 0;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-family: $ink-font-family-desc;
+            padding: 1rem 2rem;
+            border: none;
+        }
+    `;
 
     return (
         <Container
