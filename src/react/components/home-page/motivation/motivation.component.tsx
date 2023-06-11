@@ -1,8 +1,14 @@
+import {Container} from './motivation.styles.tsx';
+import useScrollProviderHook from '../../../hooks/scroll-provider/useScrollProvider.hook.ts';
+
 const HomepageMotivation = () => {
+    const scroll = useScrollProviderHook();
+
     return (
-        <div>
+        <Container>
             <h1>Why Inkwell</h1>
-        </div>
+            <h2>{scroll.value}</h2>
+        </Container>
     );
 };
 

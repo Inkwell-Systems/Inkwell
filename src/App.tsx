@@ -4,6 +4,7 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 import Home from './react/pages/home/home.page';
+import {ScrollProvider} from './react/contexts/scroll-provider/scroll-provider.ctx.tsx';
 
 const App = () => {
     const Routes: RouteObject[] = [
@@ -17,7 +18,9 @@ const App = () => {
 
     return (
         <div className="App">
-            <RouterProvider router={router} />
+            <ScrollProvider>
+                <RouterProvider router={router} />
+            </ScrollProvider>
         </div>
     );
 };
