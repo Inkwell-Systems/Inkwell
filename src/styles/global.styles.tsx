@@ -93,6 +93,19 @@ const GlobalStyles = createGlobalStyle`
             scroll-behavior: auto !important;
         }
     }
+    
+    // Custom preset styles
+    h1 {
+        font-size: 3.5em;
+        font-weight: 800;
+        margin-bottom: 0.25em;
+    }
+    
+    h2 {
+        font-weight: 100;
+        font-size: 1.5em;
+        margin-bottom: 0.15em;
+    }
 `;
 
 export {GlobalStyles};

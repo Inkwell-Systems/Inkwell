@@ -1,9 +1,8 @@
 import React from 'react';
-import {PrimaryButtonStyle, SecondaryButtonStyle} from './button.styles.tsx';
+import {ButtonContainer, GetButtonScheme} from './button.styles.tsx';
 
 // Create the prototype for button props
 type ButtonStyle = 'primary' | 'secondary';
-type ButtonInverted = boolean;
 
 interface IButtonProps {
     style: React.CSSProperties;
@@ -12,26 +11,21 @@ interface IButtonProps {
 
     config: {
         style: ButtonStyle;
-        inverted: ButtonInverted;
+        inverted: boolean;
     };
 }
 
-const StringToButtonStyle = {
-    primary: PrimaryButtonStyle,
-    secondary: SecondaryButtonStyle,
-};
-
 const Button = (props: IButtonProps) => {
-    const Container = StringToButtonStyle[props.config.style];
-
     return (
-        <Container
+        <ButtonContainer
             onClick={props.onClick}
             style={props.style}
-            inverted={props.config.inverted}
+            scheme={GetButtonScheme(
+                props.config.style + (props.config.inverted ? 'Inverted' : ''),
+            )}
         >
             <button>{props.children}</button>
-        </Container>
+        </ButtonContainer>
     );
 };
 

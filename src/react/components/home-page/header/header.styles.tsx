@@ -25,16 +25,10 @@ const LandingImage = styled.img`
     z-index: -1;
 `;
 
-const Header = styled.h1`
-    margin-bottom: 0.5em;
-    font-weight: 800;
-    font-size: 2.5em;
-`;
+const Header = styled.h1``;
 
 const SubHeader = styled.h2`
     font-family: ${p => p.theme.fonts.secondary};
-    font-weight: 100;
-    font-size: 1.5em;
 `;
 
 const ButtonContainer = styled.div`
