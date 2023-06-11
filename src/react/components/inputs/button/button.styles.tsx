@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {DefaultTheme, useTheme} from 'styled-components';
 
 interface IButtonStyleParams {
     scheme: IButtonScheme;
@@ -11,12 +11,14 @@ interface IButtonScheme {
     border: string;
 }
 
-const ButtonSchemes: {[key: string]: IButtonScheme} = {
+const ButtonSchemes: (p: DefaultTheme) => {
+    [key: string]: IButtonScheme;
+} = p => ({
     primary: {
-        primary: 'var(--ink-transparent)',
-        background: 'var(--ink-blue-main)',
-        text: 'var(--ink-grey-lightest)',
-        border: 'var(--ink-blue-main)',
+        primary: p.colors.primary,
+        background: p.colors.primary,
+        text: p.colors.text,
+        border: p.colors.primary,
     },
     secondaryInverted: {
         primary: 'var(--ink-turquoise-green-main)',
@@ -24,10 +26,12 @@ const ButtonSchemes: {[key: string]: IButtonScheme} = {
         text: 'var(--ink-turquoise-green-main)',
         border: 'var(--ink-turquoise-green-main)',
     },
-};
+});
 
+// TODO: Should probably be caching this.
 const GetButtonScheme = (scheme: string) => {
-    return ButtonSchemes[scheme];
+    const theme = useTheme();
+    return ButtonSchemes(theme)[scheme];
 };
 
 const ButtonContainer = styled.div<IButtonStyleParams>`
