@@ -8,12 +8,14 @@ import {ScrollProvider} from './react/contexts/scroll-provider/scroll-provider.c
 import PageNotFound from './react/pages/page-not-found/page-not-found.page.tsx';
 import SignIn from './react/pages/sign/in/sign-in.page.tsx';
 import SignUp from './react/pages/sign/ouut/sign-up.page.tsx';
+import Projects from './react/pages/editor/projects/project.page.tsx';
 
 const App = () => {
     const Routes: RouteObject[] = [
         {path: '/', element: <Home />},
         {path: '/sign/in', element: <SignIn />},
-        {path: '/sign/Up', element: <SignUp />},
+        {path: '/sign/up', element: <SignUp />},
+        {path: '/projects', element: <Projects />},
         {path: '*', element: <PageNotFound />},
     ];
 
