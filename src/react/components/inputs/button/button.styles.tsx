@@ -20,6 +20,12 @@ const ButtonSchemes: (p: DefaultTheme) => {
         text: p.colors.text,
         border: p.colors.primary,
     },
+    secondary: {
+        primary: p.colors.secondary,
+        background: p.colors.secondary,
+        text: p.colors.text,
+        border: p.colors.secondary,
+    },
     secondaryInverted: {
         primary: 'var(--ink-turquoise-green-main)',
         background: 'var(--ink-transparent)',
