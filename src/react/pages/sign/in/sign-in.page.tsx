@@ -34,6 +34,7 @@ const SignIn = () => {
             <Navigation />
 
             <PageForm
+                addon={null}
                 styles={{
                     display: 'flex',
                     flexDirection: 'column',

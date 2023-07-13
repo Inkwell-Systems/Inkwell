@@ -1,13 +1,14 @@
-import {useState} from 'react';
-import IUser, {DefaultUser} from '../../../types/IUser.ts';
+import {useContext} from 'react';
+import {UserContext} from '../../contexts/user-provider/user-provider.ctx.tsx';
 
 const UseUserProvider = () => {
-    const [user, setUser] = useState<IUser>(DefaultUser);
+    const context = useContext(UserContext);
 
-    return {
-        user,
-        setUser,
-    };
+    if (!context) {
+        throw new Error('useUserProvider must be used within a UserProvider');
+    }
+
+    return context;
 };
 
 export default UseUserProvider;

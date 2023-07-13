@@ -8,10 +8,22 @@ const FormContainer = styled.div`
     min-height: 30rem;
 `;
 
+const FormHeader = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
 const FormTitle = styled.h1`
     font-size: 1.5em;
     font-weight: 500;
     margin: 1.5rem 2rem;
+`;
+
+const FormAddon = styled.div`
+    margin: 1.5rem 2rem;
+    user-select: none;
+    cursor: pointer;
 `;
 
 const FormSeparator = styled.hr`
@@ -24,10 +36,16 @@ const FormChildContainer = styled.div`
     margin: 2rem;
 `;
 
-const PageForm = ({styles, title, children}) => {
+const PageForm = ({styles, title, children, addon, addonOnClick}) => {
     return (
         <FormContainer>
-            <FormTitle>{title}</FormTitle>
+            <FormHeader>
+                <FormTitle>{title}</FormTitle>
+
+                {addon !== null && (
+                    <FormAddon onClick={addonOnClick}>{addon}</FormAddon>
+                )}
+            </FormHeader>
 
             <FormSeparator />
 
