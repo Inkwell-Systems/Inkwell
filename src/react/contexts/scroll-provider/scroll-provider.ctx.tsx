@@ -31,4 +31,5 @@ const ScrollProvider = ({children}) => {
     );
 };
 
+export type {IScrollContext};
 export {ScrollProvider, ScrollContext};

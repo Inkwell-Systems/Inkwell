@@ -5,7 +5,7 @@ import {ButtonContainer, GetButtonScheme} from './button.styles.tsx';
 type ButtonStyle = 'primary' | 'secondary';
 
 interface IButtonProps {
-    style: React.CSSProperties;
+    style?: React.CSSProperties;
     onClick?: () => void;
     children: React.ReactNode[] | React.ReactNode;
 

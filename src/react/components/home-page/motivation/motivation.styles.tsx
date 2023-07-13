@@ -15,4 +15,10 @@ const Container = styled.div`
     align-items: center;
 `;
 
-export {Container};
+const ScrollHeader = styled.h1<{scroll: number}>`
+    position: absolute;
+    top: ${p => window.innerHeight - Math.abs(p.scroll)}px;
+    left: 0;
+`;
+
+export {Container, ScrollHeader};
