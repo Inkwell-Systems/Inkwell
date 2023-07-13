@@ -1,3 +1,9 @@
+## DISCLAIMER INFOEDUCATIE 2023
+Întrucât pe site nu este permisă încărcarea unei organizații ci doar a unui singur repository, l-am ales pe acesta. Toate celelalte părți ale aplicației, inclusiv librăriile, pot fi găsite în cadrul aceleiași organizații.
+
+
+https://github.com/Inkwell-Systems
+
 # Inkwell
 
 The frontend side of Inkwell, an opinionated open source platform aiming to help
