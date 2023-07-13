@@ -29,7 +29,7 @@ const NavbarContainer = styled.div`
     top: 0;
     left: 0;
 
-    background: #1d1d1f;
+    background: rgba(29, 29, 31, 0.13);
     width: 100%;
     height: 8vh;
 `;
@@ -38,6 +38,9 @@ const NavbarLogoIcon = styled.img`
     width: 1.5em;
     height: 1.5em;
     margin-right: 0.5em;
+
+    cursor: pointer;
+    user-select: none;
 `;
 
 const NavbarLogoText = styled.h1`
@@ -45,6 +48,9 @@ const NavbarLogoText = styled.h1`
     font-weight: 500;
 
     margin: 0 1em 0 0;
+
+    cursor: pointer;
+    user-select: none;
 `;
 
 const NavbarSide = styled.div`
@@ -67,11 +73,16 @@ const Navigation = () => {
         nav('/sign/in');
     };
 
+    const navigateHome = () => {
+        nav('/');
+    };
+
+    // TODO(calco): Add navigations
     return (
         <NavbarContainer>
             <NavbarSide>
-                <NavbarLogoIcon src={InkwellLogo} />
-                <NavbarLogoText>Inkwell</NavbarLogoText>
+                <NavbarLogoIcon src={InkwellLogo} onClick={navigateHome} />
+                <NavbarLogoText onClick={navigateHome}>Inkwell</NavbarLogoText>
 
                 <NavbarLink>Docs</NavbarLink>
                 <NavbarLink>Blog</NavbarLink>

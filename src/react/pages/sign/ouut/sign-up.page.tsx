@@ -20,7 +20,6 @@ const SignUp = () => {
     const nav = useNavigate();
 
     const handleSignIn = () => {
-        console.log('Sign in');
         nav('/sign/in');
     };
 
@@ -33,6 +32,8 @@ const SignUp = () => {
             <Navigation />
 
             <PageForm
+                addonOnClick={{}}
+                outerStyles={{}}
                 addon={null}
                 styles={{
                     display: 'flex',
@@ -86,7 +87,7 @@ const SignUp = () => {
                 <GoogleButton src={GoogleIcon} />
                 <p>
                     Already have an account?{' '}
-                    <SignUpStyles onClick={handleSignUp}>SIGN UP</SignUpStyles>
+                    <SignUpStyles onClick={handleSignIn}>SIGN IN</SignUpStyles>
                 </p>
             </PageForm>
         </SignContainer>

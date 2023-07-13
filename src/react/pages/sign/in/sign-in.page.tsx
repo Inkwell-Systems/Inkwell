@@ -25,7 +25,6 @@ const SignIn = () => {
     };
 
     const handleSignUp = () => {
-        console.log('Sign up');
         nav('/sign/up');
     };
 
@@ -34,6 +33,8 @@ const SignIn = () => {
             <Navigation />
 
             <PageForm
+                outerStyles={{}}
+                addonOnClick={{}}
                 addon={null}
                 styles={{
                     display: 'flex',
