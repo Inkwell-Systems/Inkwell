@@ -12,6 +12,7 @@ import Projects from './react/pages/editor/projects/projects.page.tsx';
 import Editor from './react/pages/editor/editor.page.tsx';
 import {UserProvider} from './react/contexts/user-provider/user-provider.ctx.tsx';
 import {ProjectProvider} from './react/contexts/project-provider/project-provider.ctx.tsx';
+import Account from './react/pages/account/account.page.tsx';
 
 const App = () => {
     const Routes: RouteObject[] = [
@@ -20,6 +21,7 @@ const App = () => {
         {path: '/sign/up', element: <SignUp />},
         {path: '/projects', element: <Projects />},
         {path: '/editor/:id', element: <Editor />},
+        {path: '/account', element: <Account />},
         {path: '*', element: <PageNotFound />},
     ];
 

@@ -5,8 +5,9 @@ export default interface IUser {
     profilePicture: string;
 }
 
+// TODO(calco): CHANGE THIS IN PRODUCTION
 export const DefaultUser: IUser = {
-    isAuthenticated: false,
+    isAuthenticated: true,
     id: -1,
     name: 'Debug User',
     profilePicture: 'https://robohash.org/debug.png',

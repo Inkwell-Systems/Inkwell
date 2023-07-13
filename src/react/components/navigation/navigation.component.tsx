@@ -5,7 +5,13 @@ import DiscordIcon from './logos/discord.svg';
 import GitHubIcon from './logos/github.svg';
 import ThemeIcon from './logos/theme.svg';
 import InkwellLogo from './logos/inkwell.svg';
+
+import Settings from './logos/settings.svg';
+import SignOut from './logos/sign-out.svg';
+
 import {useNavigate} from 'react-router-dom';
+import UseUserProvider from '../../hooks/user-provider/userProvider.hook.ts';
+import {useState} from 'react';
 
 const NavbarIcon = styled.img`
     width: 1.5em;
@@ -67,8 +73,60 @@ const NavbarLink = styled.a`
     cursor: pointer;
 `;
 
+const NavbarUserIcon = styled.img`
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: 50%;
+
+    cursor: pointer;
+`;
+
+const UserDropdown = styled.div`
+    position: absolute;
+    width: 15rem;
+    background: #3e3e3e;
+    border-color: #1d1d1f;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 0.5rem;
+
+    overflow: hidden;
+`;
+
+const UserDropdownItem = styled.div`
+    display: flex;
+    align-items: center;
+    padding: 0.8rem 1.2rem;
+
+    cursor: pointer;
+    user-select: none;
+
+    transition: background 0.2s ease-in-out;
+
+    &:hover {
+        background-color: #747474;
+    }
+`;
+
+const UserDropdownItemIcon = styled.img`
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-right: 1rem;
+`;
+
+const UserDropdownItemText = styled.p`
+    font-size: 1rem;
+    font-weight: 300;
+    flex: 1;
+`;
+
 const Navigation = () => {
+    const uCtx = UseUserProvider();
     const nav = useNavigate();
+
+    const [displayUserProfile, setDisplayUserProfile] = useState(false);
+    const [iconRef, setIconRef] = useState<HTMLImageElement>();
+
     const handleSignIn = () => {
         nav('/sign/in');
     };
@@ -77,9 +135,48 @@ const Navigation = () => {
         nav('/');
     };
 
+    const handleAccountSettings = () => {
+        setDisplayUserProfile(false);
+        nav('/account');
+    };
+
+    // TODO(calco): Properly handle sign out.
+    const handleSignOut = () => {
+        setDisplayUserProfile(false);
+        console.log('sign out');
+    };
+
+    const toggleDisplayUserProfile = () => {
+        setDisplayUserProfile(!displayUserProfile);
+    };
+
     // TODO(calco): Add navigations
     return (
         <NavbarContainer>
+            {displayUserProfile && (
+                <UserDropdown
+                    style={{
+                        top: iconRef?.offsetTop + iconRef?.offsetHeight + 20,
+                        right:
+                            window.innerWidth -
+                            iconRef?.offsetLeft -
+                            iconRef?.offsetWidth,
+                    }}
+                >
+                    <UserDropdownItem onClick={handleAccountSettings}>
+                        <UserDropdownItemIcon src={Settings} />
+                        <UserDropdownItemText>
+                            Account Settings
+                        </UserDropdownItemText>
+                    </UserDropdownItem>
+
+                    <UserDropdownItem onClick={handleSignOut}>
+                        <UserDropdownItemIcon src={SignOut} />
+                        <UserDropdownItemText>Sign Out</UserDropdownItemText>
+                    </UserDropdownItem>
+                </UserDropdown>
+            )}
+
             <NavbarSide>
                 <NavbarLogoIcon src={InkwellLogo} onClick={navigateHome} />
                 <NavbarLogoText onClick={navigateHome}>Inkwell</NavbarLogoText>
@@ -94,12 +191,20 @@ const Navigation = () => {
                 <NavbarIcon src={GitHubIcon} />
                 <NavbarIcon src={ThemeIcon} />
 
-                <Button
-                    onClick={handleSignIn}
-                    config={{style: 'primary', inverted: false}}
-                >
-                    SIGN IN
-                </Button>
+                {uCtx.value.isAuthenticated ? (
+                    <NavbarUserIcon
+                        ref={setIconRef}
+                        src={uCtx.value.profilePicture}
+                        onClick={toggleDisplayUserProfile}
+                    />
+                ) : (
+                    <Button
+                        onClick={handleSignIn}
+                        config={{style: 'primary', inverted: false}}
+                    >
+                        SIGN IN
+                    </Button>
+                )}
             </NavbarSide>
         </NavbarContainer>
     );
