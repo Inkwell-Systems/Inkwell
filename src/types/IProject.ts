@@ -1,12 +1,22 @@
 import ITable, {CheckTableValidity} from './ITable.ts';
 
 export default interface IProject {
+    cloud: boolean;
     projectId: string;
     projectName: string;
     projectDescription: string;
     projectCreatedAt: number;
     tables: ITable[];
 }
+
+export const CreateProject = (name, description, cloud): IProject => ({
+    cloud: cloud,
+    projectId: '',
+    projectName: name,
+    projectDescription: description,
+    projectCreatedAt: Date.now(),
+    tables: [],
+});
 
 export const LoadProjectFromJson = (json: string): IProject => {
     const project = JSON.parse(json);

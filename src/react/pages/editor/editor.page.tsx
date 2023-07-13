@@ -15,12 +15,21 @@ const Editor = () => {
 
     useEffect(() => {
         // TODO(calco): Load the project from the API
+        if (id === 'local') return;
+
         const project = LoadProjectFromJson(projectJsonRaw);
         pCtx.setValue(project);
     }, []);
 
     return (
-        <>${pCtx.value === null ? <UnableToLoadProject /> : <h1>Editor</h1>}</>
+        <>
+            $
+            {pCtx.value === null ? (
+                <UnableToLoadProject />
+            ) : (
+                <h1>Editing: {pCtx.value.projectName}</h1>
+            )}
+        </>
     );
 };
 

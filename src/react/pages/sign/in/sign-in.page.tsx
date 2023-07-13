@@ -1,6 +1,6 @@
 import Navigation from '../../../components/navigation/navigation.component.tsx';
 import PageForm from '../../../components/misc/page-form.component.tsx';
-import Input from '../../../components/inputs/input/input.component.tsx';
+import TextInput from '../../../components/inputs/input/text-input.component.tsx';
 import React, {useState} from 'react';
 import {Button} from '../../../components/inputs/button/button.component.tsx';
 
@@ -43,13 +43,13 @@ const SignIn = () => {
                 }}
                 title="SIGN IN"
             >
-                <Input
+                <TextInput
                     value={email}
                     label="Email"
                     onChange={e => setEmail(e.target.value)}
                 />
 
-                <Input
+                <TextInput
                     value={password}
                     label="Password"
                     onChange={e => setPassword(e.target.value)}

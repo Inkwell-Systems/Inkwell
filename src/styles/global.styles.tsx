@@ -15,7 +15,7 @@ const GlobalStyles = createGlobalStyle`
         margin: 0;
         padding: 0;
         overflow-x: hidden;
-        min-height: 100vh;
+        //min-height: 100vh;
         text-rendering: optimizeSpeed;
         font-family: ${({theme}) => theme.fonts.primary}, sans-serif;
         font-size: 1rem;

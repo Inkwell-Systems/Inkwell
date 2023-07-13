@@ -6,7 +6,9 @@ const SignContainer = styled.div`
     align-items: center;
 
     width: 100vw;
-    height: 100vh;
+
+    margin-top: 8vh;
+    height: 92vh;
 
     background: ${p => p.theme.colors.midBackground};
 `;

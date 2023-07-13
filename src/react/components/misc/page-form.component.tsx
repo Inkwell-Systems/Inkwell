@@ -5,7 +5,10 @@ const FormContainer = styled.div`
     border-radius: 0.5em;
 
     min-width: 30rem;
-    min-height: 30rem;
+    height: 30rem;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
 `;
 
 const FormHeader = styled.div`
@@ -21,6 +24,7 @@ const FormTitle = styled.h1`
 `;
 
 const FormAddon = styled.div`
+    font-size: 1.5rem;
     margin: 1.5rem 2rem;
     user-select: none;
     cursor: pointer;
@@ -36,9 +40,16 @@ const FormChildContainer = styled.div`
     margin: 2rem;
 `;
 
-const PageForm = ({styles, title, children, addon, addonOnClick}) => {
+const PageForm = ({
+    outerStyles,
+    styles,
+    title,
+    children,
+    addon,
+    addonOnClick,
+}) => {
     return (
-        <FormContainer>
+        <FormContainer style={outerStyles}>
             <FormHeader>
                 <FormTitle>{title}</FormTitle>
 
