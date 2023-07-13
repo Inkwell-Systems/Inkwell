@@ -1,0 +1,63 @@
+{
+    "projectName": "The Local Project",
+    "projectDescription": "some text I wrote locally on my machine",
+    "projectCreatedAt": 1684947374,
+    "tables": [
+        {
+            "id": 1,
+            "key": "Sample Table",
+            "events": [
+                {
+                    "id": 1,
+                    "key": "MyEvent",
+                    "value": 5e2
+                },
+                {
+                    "id": 2,
+                    "key": "MySecondEvent",
+                    "value": 0.07
+                }
+            ],
+            "facts": [
+                {
+                    "id": 3,
+                    "key": "MyFact",
+                    "value": 22000
+                },
+                {
+                    "id": 4,
+                    "key": "MySecondFact",
+                    "value": 0.71
+                }
+            ],
+            "rules": [
+                {
+                    "id": 5,
+                    "key": "MyRule",
+                    "ruleTriggeredBy": [1],
+                    "ruleTriggers": [2],
+                    "ruleCriteria": [
+                        {
+                            "comparedEntry": 3,
+                            "compareValue": 39,
+                            "comparisonOperator": "equal"
+                        },
+                        {
+                            "comparedEntry": 4,
+                            "compareValue": 42,
+                            "comparisonOperator": "lessThan"
+                        }
+                    ],
+                    "ruleModifications": [
+                        {
+                            "modifiedEntry": 3,
+                            "modificationOperator": "set",
+                            "modifyWithValue": 42
+                        }
+                    ],
+                    "value": 0
+                }
+            ]
+        }
+    ]
+}

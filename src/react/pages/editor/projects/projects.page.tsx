@@ -2,12 +2,22 @@ import PageForm from '../../../components/misc/page-form.component.tsx';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import Navigation from '../../../components/navigation/navigation.component.tsx';
 import {SignContainer} from '../../../components/sign/sign.styles.tsx';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
+import IProject, {LoadProjectFromJson} from '../../../../types/IProject.ts';
+
+import projectJsonRaw from './sampleProject.json?raw';
 
 const Projects = () => {
     const user = UseUserProvider();
-
+    const [projects, setProjects] = useState<IProject[] | null>(null);
     const [stage, setStage] = useState(0);
+
+    useEffect(() => {
+        // TODO(calco): FETCH PROJECTS FROM API
+
+        const defaultProject = LoadProjectFromJson(projectJsonRaw);
+        setProjects([defaultProject]);
+    }, []);
 
     const stages = [
         <PageForm
