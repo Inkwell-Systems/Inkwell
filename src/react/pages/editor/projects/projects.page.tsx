@@ -1,14 +1,14 @@
 import PageForm from '../../../components/misc/page-form.component.tsx';
-import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import Navigation from '../../../components/navigation/navigation.component.tsx';
 import {SignContainer} from '../../../components/sign/sign.styles.tsx';
 import {useEffect, useState} from 'react';
 import IProject, {LoadProjectFromJson} from '../../../../types/IProject.ts';
+import ProjectCard from '../../../components/editor/projects/project-card.components.tsx';
 
-import projectJsonRaw from './sampleProject.json?raw';
+// TODO(calco): REMOVE THIS IN PRODUCTION
+import projectJsonRaw from '../sampleProject.json?raw';
 
 const Projects = () => {
-    const user = UseUserProvider();
     const [projects, setProjects] = useState<IProject[] | null>(null);
     const [stage, setStage] = useState(0);
 
@@ -16,7 +16,7 @@ const Projects = () => {
         // TODO(calco): FETCH PROJECTS FROM API
 
         const defaultProject = LoadProjectFromJson(projectJsonRaw);
-        setProjects([defaultProject]);
+        setProjects([defaultProject, defaultProject, defaultProject]);
     }, []);
 
     const stages = [
@@ -26,7 +26,13 @@ const Projects = () => {
             styles={{}}
             title={'PROJECTS'}
         >
-            <h1>aaaaaa</h1>
+            {projects === null ? (
+                <h2>Loading...</h2>
+            ) : (
+                projects.map((project, index) => (
+                    <ProjectCard project={project} key={index} />
+                ))
+            )}
         </PageForm>,
         <PageForm
             addon={'<-'}

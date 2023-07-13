@@ -1,6 +1,7 @@
 import ITable, {CheckTableValidity} from './ITable.ts';
 
 export default interface IProject {
+    projectId: string;
     projectName: string;
     projectDescription: string;
     projectCreatedAt: number;
@@ -16,6 +17,9 @@ export const LoadProjectFromJson = (json: string): IProject => {
 };
 
 export const CheckProjectValidity = (project: IProject): boolean => {
+    const isIdValid =
+        'projectId' in project && typeof project.projectId === 'string';
+
     const isNameValid =
         'projectName' in project && typeof project.projectName === 'string';
     const isDescriptionValid =
@@ -31,6 +35,7 @@ export const CheckProjectValidity = (project: IProject): boolean => {
         project.tables.every(table => CheckTableValidity(table));
 
     return (
+        isIdValid &&
         isNameValid &&
         isDescriptionValid &&
         isCreatedAtNanoValid &&

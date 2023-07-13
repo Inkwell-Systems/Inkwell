@@ -1,6 +1,5 @@
 import IUser, {DefaultUser} from '../../../types/IUser.ts';
 import {createContext, useState} from 'react';
-import {IScrollContext} from '../scroll-provider/scroll-provider.ctx.tsx';
 
 interface IUserContext {
     value: IUser;

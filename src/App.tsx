@@ -9,6 +9,9 @@ import PageNotFound from './react/pages/page-not-found/page-not-found.page.tsx';
 import SignIn from './react/pages/sign/in/sign-in.page.tsx';
 import SignUp from './react/pages/sign/ouut/sign-up.page.tsx';
 import Projects from './react/pages/editor/projects/projects.page.tsx';
+import Editor from './react/pages/editor/editor.page.tsx';
+import {UserProvider} from './react/contexts/user-provider/user-provider.ctx.tsx';
+import {ProjectProvider} from './react/contexts/project-provider/project-provider.ctx.tsx';
 
 const App = () => {
     const Routes: RouteObject[] = [
@@ -16,6 +19,7 @@ const App = () => {
         {path: '/sign/in', element: <SignIn />},
         {path: '/sign/up', element: <SignUp />},
         {path: '/projects', element: <Projects />},
+        {path: '/editor/:id', element: <Editor />},
         {path: '*', element: <PageNotFound />},
     ];
 
@@ -23,9 +27,11 @@ const App = () => {
 
     return (
         <div className="App">
-            <ScrollProvider>
-                <RouterProvider router={router} />
-            </ScrollProvider>
+            <UserProvider>
+                <ProjectProvider>
+                    <RouterProvider router={router} />
+                </ProjectProvider>
+            </UserProvider>
         </div>
     );
 };
