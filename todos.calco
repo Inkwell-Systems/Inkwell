@@ -2,3 +2,6 @@ We do use Trello, but for some reason having a todos file
 fills me up with determination!
 
 1. Refactor everything lmao, especially to properly use styledcomponents.
+2. Instead of lots of repetition, replace with arrays and stuff.
+    - Navbar Links
+    - many others but I can't think of them atm.

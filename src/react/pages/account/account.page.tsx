@@ -8,6 +8,10 @@ import ManagementIcon from './icons/management.svg';
 import {ReactElement, useState} from 'react';
 import styled from 'styled-components';
 import AccountNavElement from '../../components/account/nav-element.component.tsx';
+import UserProfile from '../../components/account/user-profile.component.tsx';
+import Security from '../../components/account/security.component.tsx';
+import Help from '../../components/account/help.component.tsx';
+import Management from '../../components/account/management.component.tsx';
 
 const AccountSettingsContainer = styled.div`
     width: 100%;
@@ -72,22 +76,22 @@ const Account = () => {
         {
             icon: AccountIcon,
             title: 'User Profile',
-            element: <div>USER PROFILE AAA</div>,
+            element: <UserProfile />,
         },
         {
             icon: SecurityIcon,
             title: 'Password & Security',
-            element: <div>PASSWORD & SECURITY AAA</div>,
+            element: <Security />,
         },
         {
             icon: HelpIcon,
             title: 'Help & Support',
-            element: <div>HELP & SUPPORT AAA</div>,
+            element: <Help />,
         },
         {
             icon: ManagementIcon,
-            title: 'Project Management',
-            element: <div>PROJECT MANAGEMENT AAA</div>,
+            title: 'Management',
+            element: <Management />,
         },
     ];
 

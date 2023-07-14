@@ -71,6 +71,11 @@ const NavbarLink = styled.a`
     font-weight: 200;
     margin-right: 1em;
     cursor: pointer;
+
+    user-select: none;
+    &:hover {
+        text-decoration: underline;
+    }
 `;
 
 const NavbarUserIcon = styled.img`
@@ -127,6 +132,10 @@ const Navigation = () => {
     const [displayUserProfile, setDisplayUserProfile] = useState(false);
     const [iconRef, setIconRef] = useState<HTMLImageElement>();
 
+    const openInNewTab = url => {
+        window.open(url, '_blank', 'noreferrer');
+    };
+
     const handleSignIn = () => {
         nav('/sign/in');
     };
@@ -181,9 +190,42 @@ const Navigation = () => {
                 <NavbarLogoIcon src={InkwellLogo} onClick={navigateHome} />
                 <NavbarLogoText onClick={navigateHome}>Inkwell</NavbarLogoText>
 
-                <NavbarLink>Docs</NavbarLink>
-                <NavbarLink>Blog</NavbarLink>
-                <NavbarLink>Showcase</NavbarLink>
+                <NavbarLink
+                    onAuxClick={() =>
+                        openInNewTab(
+                            'https://github.com/Inkwell-Systems/InkwellAPI',
+                        )
+                    }
+                    onClick={() =>
+                        openInNewTab(
+                            'https://github.com/Inkwell-Systems/InkwellAPI',
+                        )
+                    }
+                >
+                    Docs
+                </NavbarLink>
+                <NavbarLink
+                    onAuxClick={() =>
+                        openInNewTab('https://github.com/CalcoDev')
+                    }
+                    onClick={() => openInNewTab('https://github.com/CalcoDev')}
+                >
+                    Blog
+                </NavbarLink>
+                <NavbarLink
+                    onAuxClick={() =>
+                        openInNewTab(
+                            'https://github.com/Inkwell-Systems/Inkwell',
+                        )
+                    }
+                    onClick={() =>
+                        openInNewTab(
+                            'https://github.com/Inkwell-Systems/Inkwell',
+                        )
+                    }
+                >
+                    Showcase
+                </NavbarLink>
             </NavbarSide>
 
             <NavbarSide>
