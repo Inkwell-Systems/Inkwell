@@ -213,16 +213,8 @@ const Navigation = () => {
                     Blog
                 </NavbarLink>
                 <NavbarLink
-                    onAuxClick={() =>
-                        openInNewTab(
-                            'https://github.com/Inkwell-Systems/Inkwell',
-                        )
-                    }
-                    onClick={() =>
-                        openInNewTab(
-                            'https://github.com/Inkwell-Systems/Inkwell',
-                        )
-                    }
+                    onAuxClick={() => () => nav('/projects')}
+                    onClick={() => nav('/projects')}
                 >
                     Showcase
                 </NavbarLink>

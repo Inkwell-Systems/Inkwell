@@ -7,6 +7,15 @@ import projectJsonRaw from './sampleProject.json?raw';
 
 import {LoadProjectFromJson} from '../../../types';
 import UnableToLoadProject from '../../components/editor/unable-to-load-project/unable-to-load-project.component.tsx';
+import EditorSidebar from '../../components/editor/sidebar/sidebar.component.tsx';
+import styled from 'styled-components';
+
+const EditorContainer = styled.div`
+    width: 100vw;
+    height: 100vh;
+
+    background-color: #131315;
+`;
 
 const Editor = () => {
     const {id} = useParams();
@@ -22,14 +31,16 @@ const Editor = () => {
     }, []);
 
     return (
-        <>
-            $
+        <EditorContainer>
             {pCtx.value === null ? (
                 <UnableToLoadProject />
             ) : (
-                <h1>Editing: {pCtx.value.projectName}</h1>
+                <>
+                    <EditorSidebar />
+                    <h1>Editing: {pCtx.value.projectName}</h1>
+                </>
             )}
-        </>
+        </EditorContainer>
     );
 };
 
