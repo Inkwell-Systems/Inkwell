@@ -8,10 +8,10 @@ import ManagementIcon from './icons/management.svg';
 import {ReactElement, useState} from 'react';
 import styled from 'styled-components';
 import AccountNavElement from '../../components/account/nav-element.component.tsx';
-import UserProfile from '../../components/account/user-profile.component.tsx';
-import Security from '../../components/account/security.component.tsx';
-import Help from '../../components/account/help.component.tsx';
-import Management from '../../components/account/management.component.tsx';
+import UserProfile from '../../components/account/elements/user-profile.component.tsx';
+import Security from '../../components/account/elements/security.component.tsx';
+import Help from '../../components/account/elements/help.component.tsx';
+import Management from '../../components/account/elements/management.component.tsx';
 
 const AccountSettingsContainer = styled.div`
     width: 100%;

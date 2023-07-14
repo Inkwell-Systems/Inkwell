@@ -134,7 +134,7 @@ const PermaSidebar = ({selected, setSelected, elements, setHovered}) => {
                 >
                     <img alt="Help" src={HelpIcon} />
                 </SidebarLink>
-                <SidebarLink onClick={() => console.log('aaa')}>
+                <SidebarLink onClick={() => nav('/account')}>
                     <img src={uCtx.value.profilePicture} alt="User profile" />
                 </SidebarLink>
             </SidebarBottom>
