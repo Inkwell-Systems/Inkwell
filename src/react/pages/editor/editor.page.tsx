@@ -21,6 +21,9 @@ const MainPanel = styled.div`
     width: 100%;
     height: 100%;
 
+    display: flex;
+    flex-direction: column;
+
     padding: 2rem;
 `;
 
@@ -61,6 +64,7 @@ const Editor = () => {
             console.log(`Successfully fetched project: ${id}`);
         }
 
+        console.log(res.data);
         pCtx.setValue(res.data);
     };
 

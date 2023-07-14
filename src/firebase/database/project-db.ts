@@ -19,6 +19,7 @@ export const FetchProjectFromDatabase = async (
 
         const project: IProject = {
             cloud: true,
+            entryMap: snapshot.val().entryMap,
             scopes: snapshot.val().scopes,
             projectBanner: snapshot.val().projectBanner,
             projectId: snapshot.val().projectId,
@@ -29,6 +30,10 @@ export const FetchProjectFromDatabase = async (
             owner: snapshot.val().owner,
             members: snapshot.val().members,
         };
+
+        if (project.entryMap === undefined) project.entryMap = {};
+        if (project.members === undefined) project.members = [];
+        if (project.tables === undefined) project.tables = [];
 
         return {
             data: project,
@@ -98,6 +103,7 @@ export const CreateProjectInDatabase = async (
             projectName: title,
             projectDescription: description,
             projectCreatedAt: Date.now(),
+            entryMap: {},
             tables: [],
             owner: owner.id,
             members: [],

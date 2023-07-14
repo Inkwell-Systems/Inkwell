@@ -9,6 +9,7 @@ export default interface IProject {
     projectDescription: string;
     projectCreatedAt: number;
     tables: ITable[];
+    entryMap: {[key: string]: number};
     scopes: IScopeHierarchy;
     owner: string;
     members: string[];
@@ -23,6 +24,7 @@ export const CreateLocalProject = (name, description): IProject => ({
     projectName: name,
     projectDescription: description,
     projectCreatedAt: Date.now(),
+    entryMap: {},
     tables: [],
     owner: '',
     members: [],
@@ -61,4 +63,38 @@ export const CheckProjectValidity = (project: IProject): boolean => {
         isCreatedAtNanoValid &&
         isTablesValid
     );
+};
+
+export const GetFormattedProjectDate = (date: Date) => {
+    const daysAgo = Math.floor(
+        (new Date().getTime() - date.getTime()) / (1000 * 3600 * 24),
+    );
+
+    if (daysAgo < 7) return `${daysAgo} days ago`;
+    if (daysAgo >= 365) return `${Math.floor(daysAgo / 365)} year(s) ago`;
+    if (daysAgo >= 30) return `${Math.floor(daysAgo / 30)} month(s) ago`;
+    if (daysAgo >= 7) return `${Math.floor(daysAgo / 4)} week(s) ago`;
+
+    return `How did we get here?!`;
+};
+
+export const GetProjectTableCount = (project: IProject) => {
+    return project.tables.length;
+};
+
+export const GetProjectEntryCount = (project: IProject) => {
+    return Object.keys(project.entryMap).length;
+};
+
+export const GetProjectScopeCount = (project: IProject) => {
+    return Object.keys(project.scopes).length;
+};
+
+export const GetProjectScopeLevel = (project: IProject) => {
+    const values = Object.values(project.scopes);
+    return values.length > 0 ? Math.max(...values.map(val => val.level)) : 0;
+};
+
+export const GetProjectMemberCount = (project: IProject) => {
+    return project.members.length;
 };

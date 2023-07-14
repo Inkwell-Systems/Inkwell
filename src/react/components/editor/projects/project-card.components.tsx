@@ -1,4 +1,4 @@
-import IProject from '../../../../types/IProject.ts';
+import IProject, {GetFormattedProjectDate} from '../../../../types/IProject.ts';
 import styled from 'styled-components';
 
 import CloudFalse from './icons/cloud-false.svg';
@@ -85,19 +85,6 @@ const ProjectInfo = styled.div`
 const ProjectCard = ({project}: {project: IProject}) => {
     const uCtx = UseUserProvider();
 
-    const getFormattedDate = (date: Date) => {
-        const daysAgo = Math.floor(
-            (new Date().getTime() - date.getTime()) / (1000 * 3600 * 24),
-        );
-
-        if (daysAgo < 7) return `${daysAgo} days ago`;
-        if (daysAgo >= 365) return `${Math.floor(daysAgo / 365)} year(s) ago`;
-        if (daysAgo >= 30) return `${Math.floor(daysAgo / 30)} month(s) ago`;
-        if (daysAgo >= 7) return `${Math.floor(daysAgo / 4)} week(s) ago`;
-
-        return `How did we get here?!`;
-    };
-
     const nav = useNavigate();
     const handleSelect = () => {
         nav(`/editor/${project.projectId}`);
@@ -113,7 +100,11 @@ const ProjectCard = ({project}: {project: IProject}) => {
                 <p>{project.projectDescription}</p>
             </ProjectMain>
             <ProjectRight>
-                <h2>{getFormattedDate(new Date(project.projectCreatedAt))}</h2>
+                <h2>
+                    {GetFormattedProjectDate(
+                        new Date(project.projectCreatedAt),
+                    )}
+                </h2>
                 <ProjectInfo>
                     {project.owner == uCtx.value.id || !project.cloud ? (
                         <img src={Owner} alt={'Owner'} />
