@@ -5,7 +5,6 @@ import CloudFalse from './icons/cloud-false.svg';
 import CloudTrue from './icons/cloud-true.svg';
 
 import FavouriteTrue from './icons/favourite-true.svg';
-import FavouriteFalse from './icons/favourite-false.svg';
 
 import Owner from './icons/owner.svg';
 import {useNavigate} from 'react-router-dom';

@@ -14,7 +14,7 @@ import ProjectsIcon from './logos/projects.svg';
 import {useNavigate} from 'react-router-dom';
 import UseUserProvider from '../../hooks/user-provider/userProvider.hook.ts';
 import {useState} from 'react';
-import {SignUserOut} from '../../../firebase/auth/init.ts';
+import {SignUserOut} from '../../../firebase/auth';
 import {DefaultUser} from '../../../types';
 import UseProjectProvider from '../../hooks/project-provider/project-provider.hook.ts';
 

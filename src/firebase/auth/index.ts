@@ -1,10 +1,13 @@
 import {getAuth} from 'firebase/auth';
-import {FirebaseApp} from '../init.ts';
-import {DeleteUserFromDatabase} from '../database/user-db.ts';
+import {FirebaseApp} from '../index.ts';
 import {IResult} from '../../types/IResult.ts';
+import {DeleteUserFromDatabase} from '../database';
 
 console.log('Initialized firebase auth!');
 export const Auth = getAuth(FirebaseApp);
+
+export * from './google.auth.ts';
+export * from './password.auth.ts';
 
 export const SignUserOut = async () => {
     await Auth.signOut();

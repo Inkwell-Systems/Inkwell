@@ -4,7 +4,7 @@ import UseProjectProvider from '../../hooks/project-provider/project-provider.ho
 import UnableToLoadProject from '../../components/editor/unable-to-load-project/unable-to-load-project.component.tsx';
 import EditorSidebar from '../../components/editor/sidebar/sidebar.component.tsx';
 import styled from 'styled-components';
-import {FetchProjectFromDatabase} from '../../../firebase/database/project-db.ts';
+import {FetchProjectFromDatabase} from '../../../firebase/database';
 
 const EditorContainer = styled.div`
     width: 100vw;

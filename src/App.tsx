@@ -4,7 +4,6 @@ import {
     RouterProvider,
 } from 'react-router-dom';
 import Home from './react/pages/home/home.page';
-import {ScrollProvider} from './react/contexts/scroll-provider/scroll-provider.ctx.tsx';
 import PageNotFound from './react/pages/page-not-found/page-not-found.page.tsx';
 import SignIn from './react/pages/sign/in/sign-in.page.tsx';
 import SignUp from './react/pages/sign/ouut/sign-up.page.tsx';

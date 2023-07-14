@@ -13,10 +13,10 @@ import {
     SignContainer,
     SignUpStyles,
 } from '../../../components/sign/sign.styles.tsx';
-import {SignInWithPassword} from '../../../../firebase/auth/password-auth.ts';
+import {SignInWithPassword} from '../../../../firebase/auth/password.auth.ts';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
-import {SignWithGoogle} from '../../../../firebase/auth/google-auth.ts';
+import {SignWithGoogle} from '../../../../firebase/auth/google.auth.ts';
 
 const SignIn = () => {
     const uCtx = UseUserProvider();

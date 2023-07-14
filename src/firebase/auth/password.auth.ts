@@ -1,4 +1,4 @@
-import {Auth} from './init.ts';
+import {Auth} from './index.ts';
 
 import {
     createUserWithEmailAndPassword,
@@ -6,7 +6,7 @@ import {
 } from 'firebase/auth';
 import {IResult} from '../../types/IResult.ts';
 import IUser from '../../types/IUser.ts';
-import {SaveUserToDatabase} from '../database/user-db.ts';
+import {SaveUserToDatabase} from '../database';
 
 export const SignUpWithPassword = async (
     email,

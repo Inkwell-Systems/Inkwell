@@ -16,13 +16,13 @@ import {useNavigate} from 'react-router-dom';
 import TextInput from '../../../components/inputs/input/text-input.component.tsx';
 import MultilineInput from '../../../components/inputs/input/multiline-input.component.tsx';
 import CheckboxInput from '../../../components/inputs/input/checkbox-input.component.tsx';
-import {
-    CreateProjectInDatabase,
-    FetchUserProjectsFromDatabase,
-} from '../../../../firebase/database/project-db.ts';
 import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import {DefaultUser} from '../../../../types';
+import {
+    CreateProjectInDatabase,
+    FetchUserProjectsFromDatabase,
+} from '../../../../firebase/database';
 
 const Projects = () => {
     const [error, setError] = useState<Error | null>(null);
@@ -69,17 +69,6 @@ const Projects = () => {
             nav(`/editor/local`);
         }
     };
-
-    function objectsHaveSameKeys(...objects) {
-        const allKeys = objects.reduce(
-            (keys, object) => keys.concat(Object.keys(object)),
-            [],
-        );
-        const union = new Set(allKeys);
-        return objects.every(
-            object => union.size === Object.keys(object).length,
-        );
-    }
 
     const loadCloudProjects = async () => {
         const result = await FetchUserProjectsFromDatabase(uCtx.value);

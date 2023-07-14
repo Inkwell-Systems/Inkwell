@@ -1,6 +1,11 @@
-import {CheckEventValidity, IEvent} from './entries';
-import {CheckFactValidity, IFact} from './entries';
-import {CheckRuleValidity, IRule} from './entries';
+import {
+    CheckEventValidity,
+    CheckFactValidity,
+    CheckRuleValidity,
+    IEvent,
+    IFact,
+    IRule,
+} from './entries';
 
 export default interface ITable {
     id: number;

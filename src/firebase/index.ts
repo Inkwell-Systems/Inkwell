@@ -15,3 +15,6 @@ const FirebaseConfig = {
 
 console.log('Initialized firebase!');
 export const FirebaseApp = initializeApp(FirebaseConfig);
+
+export * from './auth';
+export * from './database';

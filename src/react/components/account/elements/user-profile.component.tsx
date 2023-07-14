@@ -8,11 +8,11 @@ import {
 } from './utils.tsx';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import IUser from '../../../../types/IUser.ts';
-import {UpdateUserInDatabase} from '../../../../firebase/database/user-db.ts';
 import {
     ErrorMessage,
     SuccessMessage,
 } from '../../../../styles/utils.styles.tsx';
+import {UpdateUserInDatabase} from '../../../../firebase/database';
 
 const UserProfile = () => {
     const uCtx = UseUserProvider();
