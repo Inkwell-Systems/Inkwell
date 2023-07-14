@@ -3,6 +3,7 @@ import IProject from '../../types/IProject.ts';
 import {push, ref, set, get} from 'firebase/database';
 import {Database} from './init.ts';
 import IUser from '../../types/IUser.ts';
+import {DefaultScopeHierarchy} from '../../types/IScope.ts';
 
 export const FetchProjectFromDatabase = async (
     projectId: string,
@@ -18,6 +19,7 @@ export const FetchProjectFromDatabase = async (
 
         const project: IProject = {
             cloud: true,
+            scopes: snapshot.val().scopes,
             projectBanner: snapshot.val().projectBanner,
             projectId: snapshot.val().projectId,
             projectName: snapshot.val().projectName,
@@ -90,6 +92,9 @@ export const CreateProjectInDatabase = async (
 
         const proj = {
             projectId: result.key,
+            projectBanner:
+                'https://images.unsplash.com/photo-1460411794035-42aac080490a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
+            scopes: DefaultScopeHierarchy,
             projectName: title,
             projectDescription: description,
             projectCreatedAt: Date.now(),
@@ -108,8 +113,6 @@ export const CreateProjectInDatabase = async (
         return {
             data: {
                 cloud: true,
-                projectBanner:
-                    'https://images.unsplash.com/photo-1460411794035-42aac080490a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
                 ...proj,
             },
             error: null,
