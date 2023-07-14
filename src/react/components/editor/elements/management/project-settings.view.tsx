@@ -165,9 +165,14 @@ const ProjectSettingsView = () => {
         const result = await UpdateProject(project);
         setError(result.error);
         if (!result.error) {
-            pCtx.setValue(project);
+            if (result.data === null) {
+                pCtx.setValue(project);
+                nav('/editor/local');
 
-            if (result.data === null) nav('/editor/local');
+                console.log(
+                    `Moved cloud project to local. (project-settings.view.tsx)`,
+                );
+            }
         }
     };
 

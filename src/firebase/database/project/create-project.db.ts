@@ -29,12 +29,24 @@ export const CreateProjectInDatabase = async (
 
         await set(ref(Database, `projects/${result.key}`), proj);
 
-        const userRef = ref(Database, `users/${owner.id}`);
-        const projects = (await get(userRef)).val().projects;
-        await set(ref(Database, `users/${owner.id}/projects`), [
-            ...projects,
-            result.key,
-        ]);
+        const userSnapshot = await get(ref(Database, `users/${owner.id}`));
+
+        // TODO(calco): Requires refactor.
+        if (
+            userSnapshot.exists() &&
+            userSnapshot.val().projects !== undefined
+        ) {
+            const projects = userSnapshot.val().projects;
+
+            await set(ref(Database, `users/${owner.id}/projects`), [
+                ...projects,
+                result.key,
+            ]);
+        } else {
+            await set(ref(Database, `users/${owner.id}/projects`), [
+                result.key,
+            ]);
+        }
 
         console.log(
             `Created project ${result.key} in database. (CreateProjectInDatabase)`,

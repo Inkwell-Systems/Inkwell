@@ -64,9 +64,6 @@ const OverviewView = () => {
     const [render, setRender] = useState(false);
 
     useEffect(() => {
-        console.log('Project context value:');
-        console.log(pCtx.value);
-
         setRender(pCtx.value !== null);
     }, [pCtx.value]);
 

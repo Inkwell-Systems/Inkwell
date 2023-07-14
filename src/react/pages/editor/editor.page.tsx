@@ -53,13 +53,23 @@ const Separator = styled.hr`
 
 const Editor = () => {
     const {id} = useParams();
-    const pCtx = UseProjectProvider();
+    const [prevId, setPrevId] = useState<string>();
 
+    const pCtx = UseProjectProvider();
     const [element, setElement] = useState<ReactElement | null>(null);
 
     useEffect(() => {
+        if (prevId === id) {
+            console.log(
+                `Reloaded editor page with same ID: ${id}. No changes. (editor.page.tsx)`,
+            );
+            return;
+        }
+
+        setPrevId(id);
+
         if (id === 'local') {
-            if (pCtx.value.cloud) {
+            if (pCtx?.value?.cloud) {
                 const localProject = localStorage.getItem('project');
                 if (localProject === null) {
                     console.log('No local project found');
@@ -74,6 +84,14 @@ const Editor = () => {
         }
 
         const unsub = SubscribeToProject(id, snapshot => {
+            if (snapshot.val() === null) {
+                console.log(
+                    `Project ${id} updated, but value was null. Unsubscribing. (OnValue Callback) (editor.page.tsx)`,
+                );
+                unsub();
+                return;
+            }
+
             console.log(
                 `Project ${id} updated. Updating context. (OnValue Callback) (editor.page.tsx)`,
             );
@@ -87,7 +105,7 @@ const Editor = () => {
             console.log(`Unsubscribing from project ${id} (editor.page.tsx)`);
             unsub();
         };
-    }, []);
+    }, [id]);
 
     return (
         <EditorContainer>
