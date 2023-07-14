@@ -7,11 +7,15 @@ import React from 'react';
 import {Button} from '../../inputs/button/button.component.tsx';
 import {DeleteUser} from '../../../../firebase/auth/init.ts';
 import {useNavigate} from 'react-router-dom';
+import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
+import {DefaultUser} from '../../../../types';
 
 const Management = () => {
+    const uCtx = UseUserProvider();
     const nav = useNavigate();
 
     const handleAccountDeletion = async () => {
+        uCtx.setValue(DefaultUser);
         await DeleteUser();
         nav('/');
     };
