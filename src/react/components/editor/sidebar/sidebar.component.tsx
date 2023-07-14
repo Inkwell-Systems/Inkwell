@@ -1,7 +1,7 @@
 // TODO(calco): Consider modularizing this. For now too diverse to do so?
 import PermaSidebar from './perma-sidebar.component.tsx';
 import styled from 'styled-components';
-import React, {ReactElement, useState} from 'react';
+import React, {useState} from 'react';
 import OverviewIcon from './icons/overview.icon.tsx';
 import ManagementIcon from './icons/management.icon.tsx';
 import ViewsIcon from './icons/views.icon.tsx';
@@ -38,17 +38,32 @@ const Separator = styled.hr`
 `;
 
 const EditorSidebar = () => {
+    const [hovered, setHovered] = useState(-1);
     const [selected, setSelected] = useState(0);
-    const [innerSelected, setInnerSelected] = useState('0');
+    const [innerSelected, setInnerSelected] = useState(0);
+
+    const cantorPairing = (a: number, b: number): number => {
+        return (a + b) * (a + b + 1) + b;
+    };
 
     const elements = [
         {
-            icon: <OverviewIcon selected={selected === 0} />,
+            icon: (
+                <OverviewIcon
+                    hovered={hovered === 0}
+                    selected={selected === 0}
+                />
+            ),
             title: 'OVERVIEW',
             options: [],
         },
         {
-            icon: <ManagementIcon selected={selected === 1} />,
+            icon: (
+                <ManagementIcon
+                    hovered={hovered === 1}
+                    selected={selected === 1}
+                />
+            ),
             title: 'MANAGEMENT',
             options: [
                 [
@@ -68,7 +83,9 @@ const EditorSidebar = () => {
             ],
         },
         {
-            icon: <ViewsIcon selected={selected === 2} />,
+            icon: (
+                <ViewsIcon hovered={hovered === 2} selected={selected === 2} />
+            ),
             title: 'VIEWS',
             options: [
                 [
@@ -104,6 +121,7 @@ const EditorSidebar = () => {
             <PermaSidebar
                 selected={selected}
                 setSelected={setSelected}
+                setHovered={setHovered}
                 elements={elements}
             />
 
@@ -111,29 +129,23 @@ const EditorSidebar = () => {
                 <InnerHeader>{elements[selected].title}</InnerHeader>
                 <Separator />
 
-                {/* TODO(calco): What the frick is this lmao. */}
-                {/* TODO(calco): Please use hashing instead of string addition. */}
-                {/* TODO(calco): That is the most frontend webdev thing */}
                 <div>
                     {elements[selected].options.map((li, i1) => (
-                        <>
+                        <div key={i1}>
                             {li.map((option, i2) => (
                                 <InnerSidebarElement
-                                    key={i1 + i2}
+                                    key={cantorPairing(i1, i2)}
                                     title={option.title}
                                     selected={
-                                        innerSelected ===
-                                        i1.toString() + i2.toString()
+                                        innerSelected === cantorPairing(i1, i2)
                                     }
                                     onClick={() =>
-                                        setInnerSelected(
-                                            i1.toString() + i2.toString(),
-                                        )
+                                        setInnerSelected(cantorPairing(i1, i2))
                                     }
                                 />
                             ))}
-                            <Separator key={i1} />
-                        </>
+                            <Separator />
+                        </div>
                     ))}
                 </div>
             </InnerSidebarContainer>

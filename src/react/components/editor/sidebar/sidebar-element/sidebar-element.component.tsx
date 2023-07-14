@@ -5,6 +5,7 @@ export interface ISidebarElementProps {
     icon: ReactElement;
     selected: boolean;
     onClick: () => void;
+    setHovered: (hovered: boolean) => void;
 }
 
 const Container = styled.div<{selected: boolean}>`
@@ -26,7 +27,12 @@ const Container = styled.div<{selected: boolean}>`
 
 const SidebarElement = (props: ISidebarElementProps) => {
     return (
-        <Container selected={props.selected} onClick={props.onClick}>
+        <Container
+            onMouseEnter={() => props.setHovered(true)}
+            onMouseLeave={() => props.setHovered(false)}
+            selected={props.selected}
+            onClick={props.onClick}
+        >
             {props.icon}
         </Container>
     );

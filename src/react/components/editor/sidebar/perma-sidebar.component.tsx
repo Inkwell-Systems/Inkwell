@@ -70,7 +70,7 @@ const SidebarLink = styled.div`
     }
 `;
 
-const PermaSidebar = ({selected, setSelected, elements}) => {
+const PermaSidebar = ({selected, setSelected, elements, setHovered}) => {
     const uCtx = UseUserProvider();
     const pCtx = UseProjectProvider();
 
@@ -105,6 +105,7 @@ const PermaSidebar = ({selected, setSelected, elements}) => {
                             icon={element.icon}
                             selected={selected === index}
                             onClick={() => setSelected(index)}
+                            setHovered={setHovered}
                         />
                     );
                 })}
