@@ -9,13 +9,16 @@ import {DeleteUser} from '../../../../firebase/auth/init.ts';
 import {useNavigate} from 'react-router-dom';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import {DefaultUser} from '../../../../types';
+import UseProjectProvider from '../../../hooks/project-provider/project-provider.hook.ts';
 
 const Management = () => {
     const uCtx = UseUserProvider();
+    const pCtx = UseProjectProvider();
     const nav = useNavigate();
 
     const handleAccountDeletion = async () => {
         uCtx.setValue(DefaultUser);
+        pCtx.setValue(null);
         await DeleteUser();
         nav('/');
     };

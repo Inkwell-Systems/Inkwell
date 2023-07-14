@@ -14,6 +14,7 @@ import UseUserProvider from '../../hooks/user-provider/userProvider.hook.ts';
 import {useState} from 'react';
 import {SignUserOut} from '../../../firebase/auth/init.ts';
 import {DefaultUser} from '../../../types';
+import UseProjectProvider from '../../hooks/project-provider/project-provider.hook.ts';
 
 const NavbarIcon = styled.img`
     width: 1.5em;
@@ -129,6 +130,7 @@ const UserDropdownItemText = styled.p`
 
 const Navigation = () => {
     const uCtx = UseUserProvider();
+    const pCtx = UseProjectProvider();
     const nav = useNavigate();
 
     const [displayUserProfile, setDisplayUserProfile] = useState(false);
@@ -156,6 +158,7 @@ const Navigation = () => {
         setDisplayUserProfile(false);
 
         uCtx.setValue(DefaultUser);
+        pCtx.setValue(null);
         if (window.location.pathname !== '/') {
             nav('/');
         }

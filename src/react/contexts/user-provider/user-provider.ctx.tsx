@@ -1,5 +1,5 @@
 import IUser, {DefaultUser} from '../../../types/IUser.ts';
-import {createContext, useState} from 'react';
+import {createContext, useEffect, useState} from 'react';
 
 interface IUserContext {
     value: IUser;
@@ -15,6 +15,19 @@ const UserContext = createContext<IUserContext>({
 
 const UserProvider = ({children}) => {
     const [user, setUser] = useState<IUser>(DefaultUser);
+
+    // Load user from local storage if it exists.
+    useEffect(() => {
+        const user = localStorage.getItem('user');
+        if (user) {
+            setUser(JSON.parse(user));
+        }
+    }, []);
+
+    // Save user to local storage.
+    useEffect(() => {
+        localStorage.setItem('user', JSON.stringify(user));
+    }, [user]);
 
     return (
         <UserContext.Provider
