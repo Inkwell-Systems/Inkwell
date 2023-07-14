@@ -57,7 +57,7 @@ const Editor = () => {
 
     // TODO(calco): Should add a timestamp to the project and check if it's outdated
     useEffect(() => {
-        if (id === 'local' || pCtx.value.projectId === id) return;
+        if (id === 'local' || pCtx?.value?.projectId === id) return;
 
         const project = LoadProjectFromJson(projectJsonRaw);
         pCtx.setValue(project);
