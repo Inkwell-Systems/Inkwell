@@ -1,7 +1,7 @@
 // TODO(calco): Consider modularizing this. For now too diverse to do so?
 import PermaSidebar from './perma-sidebar.component.tsx';
 import styled from 'styled-components';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import OverviewIcon from './icons/overview.icon.tsx';
 import ManagementIcon from './icons/management.icon.tsx';
 import ViewsIcon from './icons/views.icon.tsx';
@@ -34,6 +34,7 @@ const InnerHeader = styled.h1`
 const Separator = styled.hr`
     border: 2px solid #131315;
     margin-bottom: 1rem;
+    margin-top: 1rem;
     border-radius: 1rem;
 `;
 
@@ -55,7 +56,14 @@ const EditorSidebar = ({setElement}) => {
                 />
             ),
             title: 'OVERVIEW',
-            options: [],
+            options: [
+                [
+                    {
+                        title: 'Overview',
+                        element: <div>Overview</div>,
+                    },
+                ],
+            ],
         },
         {
             icon: (
@@ -115,6 +123,10 @@ const EditorSidebar = ({setElement}) => {
             ],
         },
     ];
+
+    useEffect(() => {
+        setElement(elements[selected].options[0][0].element);
+    }, []);
 
     return (
         <SidebarContainer>

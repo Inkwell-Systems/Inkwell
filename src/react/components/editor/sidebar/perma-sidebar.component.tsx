@@ -7,6 +7,7 @@ import FreeDownloadHere from './icons/free-download-here.svg';
 import SidebarElement from './sidebar-element/sidebar-element.component.tsx';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import UseProjectProvider from '../../../hooks/project-provider/project-provider.hook.ts';
+import {useNavigate} from 'react-router-dom';
 
 const SidebarContainer = styled.div`
     width: 4rem;
@@ -49,6 +50,9 @@ const SidebarLogo = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    user-select: none;
+    cursor: pointer;
 `;
 
 const SidebarLink = styled.div`
@@ -73,6 +77,7 @@ const SidebarLink = styled.div`
 const PermaSidebar = ({selected, setSelected, elements, setHovered}) => {
     const uCtx = UseUserProvider();
     const pCtx = UseProjectProvider();
+    const nav = useNavigate();
 
     const handleExportProject = () => {
         const text = JSON.stringify(pCtx.value, null, 4);
@@ -95,7 +100,7 @@ const PermaSidebar = ({selected, setSelected, elements, setHovered}) => {
     return (
         <SidebarContainer>
             <SidebarTop>
-                <SidebarLogo>
+                <SidebarLogo onClick={() => nav('/')}>
                     <img src={LogoIcon} alt="Inkwell Logo" />
                 </SidebarLogo>
                 {elements.map((element, index) => {
