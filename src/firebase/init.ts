@@ -7,6 +7,8 @@ const FirebaseConfig = {
     storageBucket: 'inkwell-7dff3.appspot.com',
     messagingSenderId: '48189402311',
     appId: '1:48189402311:web:912ba068609ce2fe0b22e2',
+    databaseURL:
+        'https://inkwell-7dff3-default-rtdb.europe-west1.firebasedatabase.app',
 };
 
 // Initialize Firebase

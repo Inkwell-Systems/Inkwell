@@ -2,7 +2,7 @@ import {User} from 'firebase/auth';
 
 export default interface IUser {
     isAuthenticated: boolean;
-    id: number;
+    id: string;
     name: string;
     profilePicture: string;
 }
@@ -10,15 +10,7 @@ export default interface IUser {
 // TODO(calco): CHANGE THIS IN PRODUCTION
 export const DefaultUser: IUser = {
     isAuthenticated: false,
-    id: -1,
+    id: 'not-a-valid-id',
     name: 'Debug User',
     profilePicture: 'https://robohash.org/debug.png',
 };
-
-// TODO(calco): Convert with ID as well.
-export const ConvertToUser = (data: User): IUser => ({
-    isAuthenticated: true,
-    id: -1,
-    name: data.displayName ?? 'Debug User',
-    profilePicture: data.photoURL ?? 'https://robohash.org/debug.png',
-});

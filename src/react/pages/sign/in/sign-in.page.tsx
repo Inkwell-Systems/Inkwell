@@ -15,7 +15,6 @@ import {
 } from '../../../components/sign/sign.styles.tsx';
 import {SignInWithPassword} from '../../../../firebase/auth/password-auth.ts';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
-import {ConvertToUser} from '../../../../types';
 import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
 import {SignWithGoogle} from '../../../../firebase/auth/google-auth.ts';
 
@@ -35,9 +34,7 @@ const SignIn = () => {
         setError(result.error);
 
         if (result.data) {
-            const user = ConvertToUser(result.data);
-            uCtx.setValue(user);
-
+            uCtx.setValue(result.data);
             nav('/projects');
         }
     };
@@ -47,9 +44,7 @@ const SignIn = () => {
         setError(result.error);
 
         if (result.data) {
-            const user = ConvertToUser(result.data);
-            uCtx.setValue(user);
-
+            uCtx.setValue(result.data);
             nav('/projects');
         }
     };

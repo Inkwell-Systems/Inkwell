@@ -12,7 +12,6 @@ import GoogleIcon from '../in/google.svg';
 import PageForm from '../../../components/misc/page-form.component.tsx';
 import {useNavigate} from 'react-router-dom';
 import {SignUpWithPassword} from '../../../../firebase/auth/password-auth.ts';
-import {ConvertToUser} from '../../../../types';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
 import {SignWithGoogle} from '../../../../firebase/auth/google-auth.ts';
@@ -38,9 +37,7 @@ const SignUp = () => {
         setError(result.error);
 
         if (result.data) {
-            const user = ConvertToUser(result.data);
-            uCtx.setValue(user);
-
+            uCtx.setValue(result.data);
             nav('/projects');
         }
     };
@@ -50,9 +47,7 @@ const SignUp = () => {
         setError(result.error);
 
         if (result.data) {
-            const user = ConvertToUser(result.data);
-            uCtx.setValue(user);
-
+            uCtx.setValue(result.data);
             nav('/projects');
         }
     };
