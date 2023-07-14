@@ -24,20 +24,27 @@ export const SaveUserToDatabase = async (
         const res = await get(r);
 
         // TODO(calco): This is bad. If users signs in with email, changes stuff, then google, it will overwrite the changes
-        if (res.exists()) {
-            usr.projects = res.val().projects;
-            usr.id = res.val().id;
-            usr.email = res.val().email;
-
-            console.log(
-                `Update user ${user.uid} in database. (SaveUserToDatabase)`,
-            );
-            await update(r, usr);
-        } else {
+        if (!res.exists()) {
             console.log(
                 `Set user ${user.uid} to database. (SaveUserToDatabase)`,
             );
             await set(r, usr);
+        } else {
+            console.log(
+                `User ${user.uid} already exists in database. (SaveUserToDatabase)`,
+            );
+
+            return {
+                data: {
+                    isAuthenticated: true,
+                    id: res.val().id,
+                    email: res.val().email,
+                    name: res.val().name,
+                    profilePicture: res.val().profilePicture,
+                    projects: res.val().projects,
+                },
+                error: null,
+            };
         }
 
         return {
@@ -59,11 +66,10 @@ export const UpdateUserInDatabase = async (
     user: IUser,
 ): Promise<IResult<IUser>> => {
     try {
+        // TODO(calco): Decide what to be able to update.
         await update(ref(Database, `users/${user.id}`), {
-            uid: user.id,
-            email: user.email,
-            displayName: user.name,
-            photoURL: user.profilePicture,
+            name: user.name,
+            profilePicture: user.profilePicture,
         });
 
         console.log(

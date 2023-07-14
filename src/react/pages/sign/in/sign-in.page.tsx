@@ -43,7 +43,7 @@ const SignIn = () => {
         const result = await SignWithGoogle();
         setError(result.error);
 
-        if (result.data) {
+        if (result.error === null) {
             uCtx.setValue(result.data);
             nav('/projects');
         }
