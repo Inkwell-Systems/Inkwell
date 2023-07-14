@@ -31,8 +31,7 @@ const ProjectProvider = ({children}) => {
 
     // Save project to local storage.
     useEffect(() => {
-        if (!project) localStorage.removeItem('project');
-        else if (!project.cloud)
+        if (project !== null && !project.cloud)
             localStorage.setItem('project', JSON.stringify(project));
     }, [project]);
 
