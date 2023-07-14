@@ -128,16 +128,23 @@ const ProjectSettingsView = () => {
 
             pCtx.setValue(proj.data);
             nav(`/editor/${proj.data.projectId}`);
+
+            console.log(
+                `Moved local project to cloud. (project-settings.view.tsx)`,
+            );
+        } else {
+            console.log(
+                `Failed to move local project to cloud. (project-settings.view.tsx)`,
+            );
         }
     };
 
     const handleSaveProjectSettings = async () => {
-        if (pCtx.value.cloud === false) {
-            if (cloud === true) {
+        setError(null);
+
+        if (!pCtx.value.cloud) {
+            if (cloud) {
                 await handleTurnProjectCloudOn();
-                console.log(
-                    `Moved local project to cloud. (project-settings.view.tsx)`,
-                );
                 return;
             }
 
@@ -154,7 +161,6 @@ const ProjectSettingsView = () => {
             return;
         }
 
-        setError(null);
         const project = {
             ...pCtx.value,
             cloud: cloud,
@@ -164,15 +170,13 @@ const ProjectSettingsView = () => {
         };
         const result = await UpdateProject(project);
         setError(result.error);
-        if (!result.error) {
-            if (result.data === null) {
-                pCtx.setValue(project);
-                nav('/editor/local');
+        if (!result.error && result.data === null) {
+            pCtx.setValue(project);
+            nav('/editor/local');
 
-                console.log(
-                    `Moved cloud project to local. (project-settings.view.tsx)`,
-                );
-            }
+            console.log(
+                `Moved cloud project to local. (project-settings.view.tsx)`,
+            );
         }
     };
 
