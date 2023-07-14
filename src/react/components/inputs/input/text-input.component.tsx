@@ -10,12 +10,20 @@ const Inp = styled.input`
     ${InputStyles}
 `;
 
-const TextInput = (props: IInputProps<string, HTMLInputElement>) => {
+export interface ITextInputProps extends IInputProps<string, HTMLInputElement> {
+    type?: string;
+}
+
+const TextInput = (props: ITextInputProps) => {
     return (
         <InputContainer style={props.styles}>
             <TextBasedInput value={props.value}>{props.label}</TextBasedInput>
 
-            <Inp value={props.value} onChange={props.onChange} />
+            <Inp
+                type={props.type}
+                value={props.value}
+                onChange={props.onChange}
+            />
         </InputContainer>
     );
 };

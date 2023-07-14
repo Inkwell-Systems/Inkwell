@@ -1,27 +1,12 @@
 import TextInput from '../../inputs/input/text-input.component.tsx';
 import React, {useEffect, useState} from 'react';
 import {Button} from '../../inputs/button/button.component.tsx';
-import styled from 'styled-components';
-import {AccountSettingsHeader} from './utils.tsx';
+import {
+    AccountBottomElement,
+    AccountElementContainer,
+    AccountSettingsHeader,
+} from './utils.tsx';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
-
-const Container = styled.div`
-    height: 100%;
-`;
-
-const ButtonContainer = styled.div`
-    min-width: 20rem;
-    width: 30%;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-`;
-
-const MarginButton = styled.div`
-    margin-top: auto;
-`;
 
 const UserProfile = () => {
     const uCtx = UseUserProvider();
@@ -39,7 +24,7 @@ const UserProfile = () => {
     }, []);
 
     return (
-        <ButtonContainer>
+        <AccountElementContainer>
             <AccountSettingsHeader>General Info</AccountSettingsHeader>
 
             <TextInput
@@ -54,7 +39,7 @@ const UserProfile = () => {
                 onChange={e => setProfileUrl(e.target.value)}
             />
 
-            <MarginButton>
+            <AccountBottomElement>
                 <Button
                     config={{
                         style: 'primary',
@@ -64,8 +49,8 @@ const UserProfile = () => {
                 >
                     Save Settings
                 </Button>
-            </MarginButton>
-        </ButtonContainer>
+            </AccountBottomElement>
+        </AccountElementContainer>
     );
 };
 
