@@ -9,6 +9,8 @@ import InkwellLogo from './logos/inkwell.svg';
 import Settings from './logos/settings.svg';
 import SignOut from './logos/sign-out.svg';
 
+import ProjectsIcon from './logos/projects.svg';
+
 import {useNavigate} from 'react-router-dom';
 import UseUserProvider from '../../hooks/user-provider/userProvider.hook.ts';
 import {useState} from 'react';
@@ -188,6 +190,16 @@ const Navigation = () => {
                         <UserDropdownItemText>
                             Account Settings
                         </UserDropdownItemText>
+                    </UserDropdownItem>
+
+                    <UserDropdownItem
+                        onClick={() => {
+                            setDisplayUserProfile(false);
+                            nav('/projects');
+                        }}
+                    >
+                        <UserDropdownItemIcon src={ProjectsIcon} />
+                        <UserDropdownItemText>Projects</UserDropdownItemText>
                     </UserDropdownItem>
 
                     <UserDropdownItem onClick={handleSignOut}>
