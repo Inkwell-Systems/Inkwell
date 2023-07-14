@@ -1,14 +1,10 @@
 import {useParams} from 'react-router-dom';
 import React, {ReactElement, useEffect, useState} from 'react';
 import UseProjectProvider from '../../hooks/project-provider/project-provider.hook.ts';
-
-// TODO(calco): REMOVE THIS IN PRODUCTION
-import projectJsonRaw from './sampleProject.json?raw';
-
-import {LoadProjectFromJson} from '../../../types';
 import UnableToLoadProject from '../../components/editor/unable-to-load-project/unable-to-load-project.component.tsx';
 import EditorSidebar from '../../components/editor/sidebar/sidebar.component.tsx';
 import styled from 'styled-components';
+import {FetchProjectFromDatabase} from '../../../firebase/database/project-db.ts';
 
 const EditorContainer = styled.div`
     width: 100vw;
@@ -56,11 +52,22 @@ const Editor = () => {
     const [element, setElement] = useState<ReactElement | null>(null);
 
     // TODO(calco): Should add a timestamp to the project and check if it's outdated
+    const fetchProject = async () => {
+        const res = await FetchProjectFromDatabase(id);
+        if (res.error) {
+            console.log(`Error fetching project: ${id}`);
+            console.error(res.error);
+        } else {
+            console.log(`Successfully fetched project: ${id}`);
+        }
+
+        pCtx.setValue(res.data);
+    };
+
     useEffect(() => {
         if (id === 'local' || pCtx?.value?.projectId === id) return;
 
-        const project = LoadProjectFromJson(projectJsonRaw);
-        pCtx.setValue(project);
+        fetchProject();
     }, []);
 
     return (
