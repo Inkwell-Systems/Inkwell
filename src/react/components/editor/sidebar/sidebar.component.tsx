@@ -6,6 +6,15 @@ import OverviewIcon from './icons/overview.icon.tsx';
 import ManagementIcon from './icons/management.icon.tsx';
 import ViewsIcon from './icons/views.icon.tsx';
 import InnerSidebarElement from './inner-sidebar-element/inner-sidebar-element.component.tsx';
+import OverviewView from '../elements/overview/overview.view.tsx';
+import ProjectSettingsView from '../elements/management/project-settings.view.tsx';
+import CollaborationView from '../elements/management/collaboration.view.tsx';
+import CustomEntriesView from '../elements/management/custom-entries.view.tsx';
+import TablesView from '../elements/views/tables.view.tsx';
+import SpreadsheetView from '../elements/views/spreadsheet.view.tsx';
+import ListView from '../elements/views/list.view.tsx';
+import DiagramView from '../elements/views/diagram.view.tsx';
+import ScopesView from '../elements/views/scopes.view.tsx';
 
 const SidebarContainer = styled.div`
     display: flex;
@@ -60,7 +69,7 @@ const EditorSidebar = ({setElement}) => {
                 [
                     {
                         title: 'Overview',
-                        element: <div>Overview</div>,
+                        element: <OverviewView />,
                     },
                 ],
             ],
@@ -77,15 +86,15 @@ const EditorSidebar = ({setElement}) => {
                 [
                     {
                         title: 'Project Settings',
-                        element: <div>Project Settings</div>,
+                        element: <ProjectSettingsView />,
                     },
                     {
                         title: 'Collaboration',
-                        element: <div>Collab screen</div>,
+                        element: <CollaborationView />,
                     },
                     {
                         title: 'Custom Entries',
-                        element: <div>Massive work in progress lmao</div>,
+                        element: <CustomEntriesView />,
                     },
                 ],
             ],
@@ -99,25 +108,25 @@ const EditorSidebar = ({setElement}) => {
                 [
                     {
                         title: 'Table',
-                        element: <div>Tables</div>,
+                        element: <TablesView />,
                     },
                     {
                         title: 'Spreadsheet',
-                        element: <div>Spreadsheet</div>,
+                        element: <SpreadsheetView />,
                     },
                     {
                         title: 'List',
-                        element: <div>List</div>,
+                        element: <ListView />,
                     },
                     {
                         title: 'Diagram',
-                        element: <div>Diagram</div>,
+                        element: <DiagramView />,
                     },
                 ],
                 [
                     {
                         title: 'Scopes',
-                        element: <div>Scopes</div>,
+                        element: <ScopesView />,
                     },
                 ],
             ],
