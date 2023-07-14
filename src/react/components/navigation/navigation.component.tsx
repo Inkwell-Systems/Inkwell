@@ -156,7 +156,7 @@ const Navigation = () => {
         setDisplayUserProfile(false);
 
         uCtx.setValue(DefaultUser);
-        if (window.location.pathname === '/account') {
+        if (window.location.pathname !== '/') {
             nav('/');
         }
 

@@ -15,6 +15,7 @@ import {SignUpWithPassword} from '../../../../firebase/auth/password-auth.ts';
 import {ConvertToUser} from '../../../../types';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
+import {SignWithGoogle} from '../../../../firebase/auth/google-auth.ts';
 
 const SignUp = () => {
     const uCtx = UseUserProvider();
@@ -34,6 +35,18 @@ const SignUp = () => {
         setPassword('');
 
         const result = await SignUpWithPassword(email, password);
+        setError(result.error);
+
+        if (result.data) {
+            const user = ConvertToUser(result.data);
+            uCtx.setValue(user);
+
+            nav('/projects');
+        }
+    };
+
+    const handleGoogleSingUp = async () => {
+        const result = await SignWithGoogle();
         setError(result.error);
 
         if (result.data) {
@@ -107,7 +120,7 @@ const SignUp = () => {
                     alt={'Sign up with google'}
                 />
 
-                <GoogleButton src={GoogleIcon} />
+                <GoogleButton onClick={handleGoogleSingUp} src={GoogleIcon} />
                 <p>
                     Already have an account?{' '}
                     <SignUpStyles onClick={handleSignIn}>SIGN IN</SignUpStyles>
