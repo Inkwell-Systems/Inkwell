@@ -2,7 +2,7 @@ import React from 'react';
 import {ButtonContainer, GetButtonScheme} from './button.styles.tsx';
 
 // Create the prototype for button props
-type ButtonStyle = 'primary' | 'secondary';
+type ButtonStyle = 'primary' | 'secondary' | 'danger';
 
 interface IButtonProps {
     style?: React.CSSProperties;

@@ -1,5 +1,9 @@
 import React from 'react';
-import {AccountElementContainer, AccountSettingsHeader} from './utils.tsx';
+import {
+    AccountButtonSubtext,
+    AccountElementContainer,
+    AccountSettingsHeader,
+} from './utils.tsx';
 import TextInput from '../../inputs/input/text-input.component.tsx';
 import styled from 'styled-components';
 
@@ -10,12 +14,6 @@ const Link = styled.a`
     &:hover {
         text-decoration: underline;
     }
-`;
-
-const Subtext = styled.p`
-    font-size: 0.75rem;
-    color: #a0a0a0;
-    margin-top: 0.25rem;
 `;
 
 const Help = () => {
@@ -36,13 +34,13 @@ const Help = () => {
                         value={'https://github.com/Inkwell-Systems/InkwellAPI'}
                         onChange={_ => {}}
                     />
-                    <Subtext>
+                    <AccountButtonSubtext>
                         Or click{' '}
                         <Link href="https://github.com/Inkwell-Systems/InkwellAPI">
                             here
                         </Link>
                         .
-                    </Subtext>
+                    </AccountButtonSubtext>
                 </div>
             </AccountElementContainer>
         </AccountElementContainer>

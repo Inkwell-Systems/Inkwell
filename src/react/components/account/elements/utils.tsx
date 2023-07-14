@@ -19,3 +19,9 @@ export const AccountSettingsHeader = styled.h1`
 export const AccountBottomElement = styled.div`
     margin-top: auto;
 `;
+
+export const AccountButtonSubtext = styled.p`
+    font-size: 0.75rem;
+    color: #a0a0a0;
+    margin-top: 0.25rem;
+`;

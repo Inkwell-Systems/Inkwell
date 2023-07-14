@@ -26,6 +26,12 @@ const ButtonSchemes: (p: DefaultTheme) => {
         text: p.colors.text,
         border: p.colors.secondary,
     },
+    danger: {
+        primary: '#E02C2A',
+        background: '#E02C2A',
+        text: p.colors.text,
+        border: '#E02C2A',
+    },
     secondaryInverted: {
         primary: 'var(--ink-turquoise-green-main)',
         background: 'var(--ink-transparent)',
