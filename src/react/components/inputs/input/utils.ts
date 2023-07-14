@@ -17,6 +17,13 @@ export const InputContainer = styled.div`
     border-radius: 0.5em;
 `;
 
+export const DisjointInputContainer = styled.div`
+    display: flex;
+    width: fit-content;
+
+    align-items: center;
+`;
+
 export const InputLabel = styled.label`
     pointer-events: none;
     position: absolute;
@@ -29,6 +36,12 @@ export const InputLabel = styled.label`
     left: 1rem;
     top: -1rem;
     font-size: 0.8rem;
+`;
+
+export const DisjointInputLabel = styled.label`
+    pointer-events: none;
+
+    margin-right: 1rem;
 `;
 
 export const InputStyles = params => `
