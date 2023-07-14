@@ -7,10 +7,10 @@ import {InkDefaultTheme} from './styles/theme.styles.tsx';
 import {GlobalStyles} from './styles/global.styles.tsx';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-    <React.StrictMode>
-        <ThemeProvider theme={InkDefaultTheme}>
-            <GlobalStyles />
-            <App />
-        </ThemeProvider>
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <ThemeProvider theme={InkDefaultTheme}>
+        <GlobalStyles />
+        <App />
+    </ThemeProvider>,
+    // </React.StrictMode>,
 );

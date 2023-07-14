@@ -1,5 +1,5 @@
 import {useParams} from 'react-router-dom';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import UseProjectProvider from '../../hooks/project-provider/project-provider.hook.ts';
 
 // TODO(calco): REMOVE THIS IN PRODUCTION
@@ -16,12 +16,13 @@ const EditorContainer = styled.div`
 
     display: flex;
 
+    z-index: 0;
+
     background-color: #131315;
 `;
 
 const Editor = () => {
     const {id} = useParams();
-
     const pCtx = UseProjectProvider();
 
     useEffect(() => {
@@ -39,7 +40,7 @@ const Editor = () => {
             ) : (
                 <>
                     <EditorSidebar />
-                    <h1>Editing: {pCtx.value.projectName}</h1>
+                    <h1 style={{flex: 1}}>Editing: {pCtx.value.projectName}</h1>
                 </>
             )}
         </EditorContainer>

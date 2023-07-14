@@ -1,15 +1,10 @@
 import styled from 'styled-components';
 
 import LogoIcon from './icons/logo.svg';
-import ManagementIcon from './icons/management.icon.tsx';
-import OverviewIcon from './icons/overview.icon.tsx';
-import ViewsIcon from './icons/views.icon.tsx';
-
 import HelpIcon from './icons/help.svg';
 import FreeDownloadHere from './icons/free-download-here.svg';
 
 import SidebarElement from './sidebar-element/sidebar-element.component.tsx';
-import {useState} from 'react';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import UseProjectProvider from '../../../hooks/project-provider/project-provider.hook.ts';
 
@@ -75,41 +70,9 @@ const SidebarLink = styled.div`
     }
 `;
 
-const PermaSidebar = () => {
+const PermaSidebar = ({selected, setSelected, elements}) => {
     const uCtx = UseUserProvider();
     const pCtx = UseProjectProvider();
-    const [selected, setSelected] = useState(0);
-
-    const elements = [
-        {
-            icon: <OverviewIcon selected={selected === 0} />,
-            title: 'OVERVIEW',
-            options: [],
-        },
-        {
-            icon: <ManagementIcon selected={selected === 1} />,
-            title: 'MANAGEMENT',
-            options: [
-                {
-                    title: 'Project Settings',
-                    element: <div>Project Settings</div>,
-                },
-                {
-                    title: 'Collaboration',
-                    element: <div>Collab screen</div>,
-                },
-                {
-                    title: 'Custom Entries',
-                    element: <div>Massive work in progress lmao</div>,
-                },
-            ],
-        },
-        {
-            icon: <ViewsIcon selected={selected === 2} />,
-            title: 'VIEWS',
-            options: [],
-        },
-    ];
 
     const handleExportProject = () => {
         const text = JSON.stringify(pCtx.value, null, 4);
