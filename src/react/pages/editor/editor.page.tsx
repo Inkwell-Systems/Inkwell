@@ -1,5 +1,5 @@
 import {useParams} from 'react-router-dom';
-import React, {useEffect} from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
 import UseProjectProvider from '../../hooks/project-provider/project-provider.hook.ts';
 
 // TODO(calco): REMOVE THIS IN PRODUCTION
@@ -21,9 +21,39 @@ const EditorContainer = styled.div`
     background-color: #131315;
 `;
 
+const MainPanel = styled.div`
+    width: 100%;
+    height: 100%;
+
+    padding: 2rem;
+`;
+
+const TinyProjectTitle = styled.h1`
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: #b4b4b4;
+
+    margin-bottom: 3rem;
+`;
+
+const BigProjectTitle = styled.h1`
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #b4b4b4;
+`;
+
+const Separator = styled.hr`
+    border: 2px solid #48484a;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    width: 100%;
+`;
+
 const Editor = () => {
     const {id} = useParams();
     const pCtx = UseProjectProvider();
+
+    const [element, setElement] = useState<ReactElement | null>(null);
 
     useEffect(() => {
         // TODO(calco): Load the project from the API
@@ -39,8 +69,18 @@ const Editor = () => {
                 <UnableToLoadProject />
             ) : (
                 <>
-                    <EditorSidebar />
-                    <h1 style={{flex: 1}}>Editing: {pCtx.value.projectName}</h1>
+                    <EditorSidebar setElement={setElement} />
+                    <MainPanel>
+                        <TinyProjectTitle>
+                            {pCtx.value.projectName}
+                        </TinyProjectTitle>
+
+                        <BigProjectTitle>
+                            {pCtx.value.projectName}
+                        </BigProjectTitle>
+                        <Separator />
+                        {element !== null && element}
+                    </MainPanel>
                 </>
             )}
         </EditorContainer>

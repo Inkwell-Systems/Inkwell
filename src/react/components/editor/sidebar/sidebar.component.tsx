@@ -37,7 +37,7 @@ const Separator = styled.hr`
     border-radius: 1rem;
 `;
 
-const EditorSidebar = () => {
+const EditorSidebar = ({setElement}) => {
     const [hovered, setHovered] = useState(-1);
     const [selected, setSelected] = useState(0);
     const [innerSelected, setInnerSelected] = useState(0);
@@ -139,9 +139,10 @@ const EditorSidebar = () => {
                                     selected={
                                         innerSelected === cantorPairing(i1, i2)
                                     }
-                                    onClick={() =>
-                                        setInnerSelected(cantorPairing(i1, i2))
-                                    }
+                                    onClick={() => {
+                                        setInnerSelected(cantorPairing(i1, i2));
+                                        setElement(option.element);
+                                    }}
                                 />
                             ))}
                             <Separator />
