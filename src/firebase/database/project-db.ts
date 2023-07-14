@@ -1,6 +1,6 @@
 import {IResult} from '../../types/IResult.ts';
 import IProject from '../../types/IProject.ts';
-import {push, ref, set, get, update} from 'firebase/database';
+import {push, ref, set, get} from 'firebase/database';
 import {Database} from './init.ts';
 import IUser from '../../types/IUser.ts';
 
@@ -59,11 +59,19 @@ export const FetchUserProjectsFromDatabase = async (
             }
         }
 
+        console.log(
+            `Fetched ${projects.length} projects from database. (FetchUserProjectsFromDatabase)`,
+        );
+
         return {
             data: projects,
             error: null,
         };
     } catch (error) {
+        console.log(
+            `Failed to fetch user projects from database. (FetchUserProjectsFromDatabase)\n ${error}`,
+        );
+
         return {
             data: null,
             error: error,
@@ -91,6 +99,11 @@ export const CreateProjectInDatabase = async (
 
         await set(ref(Database, `projects/${result.key}`), proj);
         await set(ref(Database, `users/${owner.id}/projects`), [result.key]);
+
+        console.log(
+            `Created project ${result.key} in database. (CreateProjectInDatabase)`,
+        );
+
         return {
             data: {
                 cloud: true,
@@ -99,6 +112,10 @@ export const CreateProjectInDatabase = async (
             error: null,
         };
     } catch (error) {
+        console.log(
+            `Failed to create project in database. (CreateProjectInDatabase)\n ${error}`,
+        );
+
         return {
             data: null,
             error: error,

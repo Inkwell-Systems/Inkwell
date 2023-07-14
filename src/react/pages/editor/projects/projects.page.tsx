@@ -40,8 +40,6 @@ const Projects = () => {
     const [projectCloud, setProjectCloud] = useState(false);
 
     const handleLoadLocalProject = () => {
-        console.log(loadedJson);
-
         const project = LoadProjectFromJson(loadedJson);
         pCtx.setValue(project);
 
@@ -92,12 +90,8 @@ const Projects = () => {
 
     const loadLocalProject = () => {
         const jsonProj = localStorage.getItem('project');
-        console.log(`jsonProj: ${jsonProj}`);
         if (jsonProj !== null) {
             const project = JSON.parse(jsonProj);
-
-            console.log(`Found local project: ${project}`);
-
             return [project];
         }
 
