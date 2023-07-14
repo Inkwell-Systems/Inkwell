@@ -9,6 +9,7 @@ import FavouriteFalse from './icons/favourite-false.svg';
 
 import Owner from './icons/owner.svg';
 import {useNavigate} from 'react-router-dom';
+import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 
 const ProjectContainer = styled.div`
     width: 100%;
@@ -82,6 +83,8 @@ const ProjectInfo = styled.div`
 // TODO(calco): Add project owner and cloud status.
 // TODO(calco): Add favourite status.
 const ProjectCard = ({project}: {project: IProject}) => {
+    const uCtx = UseUserProvider();
+
     const getFormattedDate = (date: Date) => {
         const daysAgo = Math.floor(
             (new Date().getTime() - date.getTime()) / (1000 * 3600 * 24),
@@ -112,8 +115,14 @@ const ProjectCard = ({project}: {project: IProject}) => {
             <ProjectRight>
                 <h2>{getFormattedDate(new Date(project.projectCreatedAt))}</h2>
                 <ProjectInfo>
-                    <img src={Owner} alt={'Owner'} />
-                    <img src={CloudFalse} alt={'Cloud'} />
+                    {project.owner == uCtx.value.id || !project.cloud ? (
+                        <img src={Owner} alt={'Owner'} />
+                    ) : null}
+                    {project.cloud ? (
+                        <img src={CloudTrue} alt={'Cloud'} />
+                    ) : (
+                        <img src={CloudFalse} alt={'Local'} />
+                    )}
                 </ProjectInfo>
             </ProjectRight>
         </ProjectContainer>

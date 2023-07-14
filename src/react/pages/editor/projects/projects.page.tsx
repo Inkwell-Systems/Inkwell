@@ -3,13 +3,12 @@ import Navigation from '../../../components/navigation/navigation.component.tsx'
 import {SignContainer} from '../../../components/sign/sign.styles.tsx';
 import {useEffect, useState} from 'react';
 import IProject, {
-    CreateProject,
+    CreateLocalProject,
     LoadProjectFromJson,
 } from '../../../../types/IProject.ts';
 import ProjectCard from '../../../components/editor/projects/project-card.components.tsx';
 
 // TODO(calco): REMOVE THIS IN PRODUCTION
-import projectJsonRaw from '../sampleProject.json?raw';
 import CreateProjectCard from '../../../components/editor/projects/create-project-card.component.tsx';
 import {Button} from '../../../components/inputs/button/button.component.tsx';
 import UseProjectProvider from '../../../hooks/project-provider/project-provider.hook.ts';
@@ -17,13 +16,23 @@ import {useNavigate} from 'react-router-dom';
 import TextInput from '../../../components/inputs/input/text-input.component.tsx';
 import MultilineInput from '../../../components/inputs/input/multiline-input.component.tsx';
 import CheckboxInput from '../../../components/inputs/input/checkbox-input.component.tsx';
+import {
+    CreateProjectInDatabase,
+    FetchUserProjectsFromDatabase,
+} from '../../../../firebase/database/project-db.ts';
+import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
+import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
+import {DefaultUser} from '../../../../types';
 
 const Projects = () => {
+    const [error, setError] = useState<Error | null>(null);
+
     const [stage, setStage] = useState(0);
     const [projects, setProjects] = useState<IProject[] | null>(null);
     const nav = useNavigate();
 
     const pCtx = UseProjectProvider();
+    const uCtx = UseUserProvider();
 
     const [loadedJson, setLoadedJson] = useState('');
     const [projectTitle, setProjectTitle] = useState('');
@@ -39,28 +48,74 @@ const Projects = () => {
         nav('/editor/local');
     };
 
-    // TODO(calco): CREATE PROJECT API AND CLOUD
-    const handleCreateNewProject = () => {
-        const project = CreateProject(
-            projectTitle,
-            projectDescription,
-            projectCloud,
-        );
-        pCtx.setValue(project);
+    const handleCreateNewProject = async () => {
+        if (projectCloud) {
+            const result = await CreateProjectInDatabase(
+                projectTitle,
+                projectDescription,
+                uCtx.value,
+            );
+            setError(result.error);
+
+            if (result.data) {
+                pCtx.setValue(result.data);
+                nav(`/editor/${result.data.projectId}`);
+            }
+        } else {
+            const project = CreateLocalProject(
+                projectTitle,
+                projectDescription,
+            );
+
+            pCtx.setValue(project);
+            nav(`/editor/local`);
+        }
     };
 
-    useEffect(() => {
-        // TODO(calco): FETCH PROJECTS FROM API
+    function objectsHaveSameKeys(...objects) {
+        const allKeys = objects.reduce(
+            (keys, object) => keys.concat(Object.keys(object)),
+            [],
+        );
+        const union = new Set(allKeys);
+        return objects.every(
+            object => union.size === Object.keys(object).length,
+        );
+    }
 
-        const defaultProject = LoadProjectFromJson(projectJsonRaw);
-        setProjects([
-            defaultProject,
-            defaultProject,
-            defaultProject,
-            defaultProject,
-            defaultProject,
-        ]);
+    const loadCloudProjects = async () => {
+        const result = await FetchUserProjectsFromDatabase(uCtx.value);
+        if (!result.error) {
+            return result.data;
+        }
+    };
+
+    const loadLocalProject = () => {
+        const jsonProj = localStorage.getItem('project');
+        console.log(`jsonProj: ${jsonProj}`);
+        if (jsonProj !== null) {
+            const project = JSON.parse(jsonProj);
+
+            console.log(`Found local project: ${project}`);
+
+            return [project];
+        }
+
+        return [];
+    };
+
+    // TODO(calco): This is bad.
+    useEffect(() => {
+        setProjects(loadLocalProject());
     }, []);
+
+    useEffect(() => {
+        if (uCtx.value !== DefaultUser) {
+            loadCloudProjects().then(projects => {
+                setProjects([...projects, ...loadLocalProject()]);
+            });
+        }
+    }, [uCtx.value]);
 
     const stages = [
         <PageForm
@@ -73,7 +128,10 @@ const Projects = () => {
             title={'PROJECTS'}
         >
             {projects === null ? (
-                <h2>Loading...</h2>
+                <>
+                    <h2>Loading...</h2>
+                    <ErrorMessage>{error?.message}</ErrorMessage>
+                </>
             ) : (
                 projects.map((project, index) => (
                     <ProjectCard project={project} key={index} />
@@ -171,6 +229,8 @@ const Projects = () => {
                     value={projectDescription}
                     onChange={e => setProjectDescription(e.target.value)}
                 />
+
+                <ErrorMessage>{error?.message}</ErrorMessage>
             </div>
 
             <div

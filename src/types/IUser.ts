@@ -1,11 +1,10 @@
-import {User} from 'firebase/auth';
-
 export default interface IUser {
     isAuthenticated: boolean;
     id: string;
     name: string;
     email: string;
     profilePicture: string;
+    projects: string[];
 }
 
 // TODO(calco): CHANGE THIS IN PRODUCTION
@@ -15,4 +14,5 @@ export const DefaultUser: IUser = {
     name: 'Debug User',
     email: 'not-a-valid-email',
     profilePicture: 'https://robohash.org/debug.png',
+    projects: [],
 };

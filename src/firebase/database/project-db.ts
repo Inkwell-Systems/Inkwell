@@ -1,0 +1,107 @@
+import {IResult} from '../../types/IResult.ts';
+import IProject from '../../types/IProject.ts';
+import {push, ref, set, get, update} from 'firebase/database';
+import {Database} from './init.ts';
+import IUser from '../../types/IUser.ts';
+
+export const FetchProjectFromDatabase = async (
+    projectId: string,
+): Promise<IResult<IProject>> => {
+    try {
+        const snapshot = await get(ref(Database, `projects/${projectId}`));
+        if (!snapshot.exists()) {
+            return {
+                data: null,
+                error: new Error('Project does not exist.'),
+            };
+        }
+
+        const project: IProject = {
+            cloud: true,
+            projectId: snapshot.val().projectId,
+            projectName: snapshot.val().projectName,
+            projectDescription: snapshot.val().projectDescription,
+            projectCreatedAt: snapshot.val().projectCreatedAt,
+            tables: snapshot.val().tables,
+            owner: snapshot.val().owner,
+            members: snapshot.val().members,
+        };
+
+        return {
+            data: project,
+            error: null,
+        };
+    } catch (error) {
+        return {
+            data: null,
+            error: error,
+        };
+    }
+};
+
+export const FetchUserProjectsFromDatabase = async (
+    user: IUser,
+): Promise<IResult<IProject[]>> => {
+    try {
+        const snapshot = await get(ref(Database, `users/${user.id}/projects`));
+        if (!snapshot.exists()) {
+            return {
+                data: [],
+                error: null,
+            };
+        }
+
+        const projects: IProject[] = [];
+        for (const projectId of snapshot.val()) {
+            const result = await FetchProjectFromDatabase(projectId);
+            if (!result.error) {
+                projects.push(result.data);
+            }
+        }
+
+        return {
+            data: projects,
+            error: null,
+        };
+    } catch (error) {
+        return {
+            data: null,
+            error: error,
+        };
+    }
+};
+
+export const CreateProjectInDatabase = async (
+    title: string,
+    description: string,
+    owner: IUser,
+): Promise<IResult<IProject>> => {
+    try {
+        const result = await push(ref(Database, `projects/`));
+
+        const proj = {
+            projectId: result.key,
+            projectName: title,
+            projectDescription: description,
+            projectCreatedAt: Date.now(),
+            tables: [],
+            owner: owner.id,
+            members: [],
+        };
+
+        await set(ref(Database, `projects/${result.key}`), proj);
+        await set(ref(Database, `users/${owner.id}/projects`), [result.key]);
+        return {
+            data: {
+                cloud: true,
+                ...proj,
+            },
+            error: null,
+        };
+    } catch (error) {
+        return {
+            data: null,
+            error: error,
+        };
+    }
+};

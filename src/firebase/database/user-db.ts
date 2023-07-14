@@ -12,20 +12,20 @@ export const SaveUserToDatabase = async (
         const displayName = user.displayName ?? 'Default Name';
         const photoURL = user.photoURL ?? `https://robohash.org/${user.uid}`;
 
-        await set(ref(Database, `users/${user.uid}`), {
-            uid: user.uid,
+        const proj = {
+            id: user.uid,
             email: user.email,
-            displayName: displayName,
-            photoURL: photoURL,
-        });
+            name: displayName,
+            profilePicture: photoURL,
+            projects: [],
+        };
+
+        await set(ref(Database, `users/${user.uid}`), proj);
 
         return {
             data: {
                 isAuthenticated: true,
-                id: user.uid,
-                name: displayName,
-                email: user.email,
-                profilePicture: photoURL,
+                ...proj,
             },
             error: null,
         };

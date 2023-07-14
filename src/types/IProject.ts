@@ -7,15 +7,19 @@ export default interface IProject {
     projectDescription: string;
     projectCreatedAt: number;
     tables: ITable[];
+    owner: string;
+    members: string[];
 }
 
-export const CreateProject = (name, description, cloud): IProject => ({
-    cloud: cloud,
+export const CreateLocalProject = (name, description): IProject => ({
+    cloud: false,
     projectId: '',
     projectName: name,
     projectDescription: description,
     projectCreatedAt: Date.now(),
     tables: [],
+    owner: '',
+    members: [],
 });
 
 export const LoadProjectFromJson = (json: string): IProject => {

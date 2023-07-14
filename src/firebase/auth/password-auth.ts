@@ -59,6 +59,7 @@ export const SignInWithPassword = async (
             email: firebaseUser.email,
             name: firebaseUser.displayName,
             profilePicture: firebaseUser.photoURL,
+            projects: [],
         };
 
         return {
