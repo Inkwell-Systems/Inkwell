@@ -14,6 +14,8 @@ const EditorContainer = styled.div`
     width: 100vw;
     height: 100vh;
 
+    display: flex;
+
     background-color: #131315;
 `;
 
