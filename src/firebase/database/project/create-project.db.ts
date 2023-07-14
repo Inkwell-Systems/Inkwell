@@ -1,9 +1,9 @@
 import IUser from '../../../types/IUser.ts';
 import {IResult} from '../../../types/IResult.ts';
 import IProject from '../../../types/IProject.ts';
-import {push, ref, set} from 'firebase/database';
-import {Database} from '../index.ts';
+import {get, push, ref, set} from 'firebase/database';
 import {DefaultScopeHierarchy} from '../../../types/IScope.ts';
+import {Database} from '../../index.ts';
 
 export const CreateProjectInDatabase = async (
     title: string,
@@ -28,7 +28,13 @@ export const CreateProjectInDatabase = async (
         };
 
         await set(ref(Database, `projects/${result.key}`), proj);
-        await set(ref(Database, `users/${owner.id}/projects`), [result.key]);
+
+        const userRef = ref(Database, `users/${owner.id}`);
+        const projects = (await get(userRef)).val().projects;
+        await set(ref(Database, `users/${owner.id}/projects`), [
+            ...projects,
+            result.key,
+        ]);
 
         console.log(
             `Created project ${result.key} in database. (CreateProjectInDatabase)`,

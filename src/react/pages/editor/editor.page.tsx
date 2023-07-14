@@ -69,7 +69,20 @@ const Editor = () => {
     };
 
     useEffect(() => {
-        if (id === 'local' || pCtx?.value?.projectId === id) return;
+        if (id === 'local') {
+            if (pCtx.value.cloud) {
+                const localProject = localStorage.getItem('project');
+                if (localProject === null) {
+                    console.log('No local project found');
+                    return;
+                }
+
+                pCtx.setValue(JSON.parse(localProject));
+                console.log('Loaded local project from storage.');
+            }
+
+            return;
+        }
 
         fetchProject();
     }, []);

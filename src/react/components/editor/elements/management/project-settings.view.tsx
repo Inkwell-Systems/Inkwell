@@ -2,6 +2,10 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import UseProjectProvider from '../../../../hooks/project-provider/project-provider.hook.ts';
 import {Button} from '../../../inputs/button/button.component.tsx';
+import {CreateProjectInDatabase, UpdateProject} from '../../../../../firebase';
+import {ErrorMessage} from '../../../../../styles/utils.styles.tsx';
+import {useNavigate} from 'react-router-dom';
+import UseUserProvider from '../../../../hooks/user-provider/userProvider.hook.ts';
 
 const ProjectSettingsContainer = styled.div`
     width: 60%;
@@ -101,17 +105,74 @@ const TextArea = styled.textarea`
 `;
 
 const ProjectSettingsView = () => {
+    const uCtx = UseUserProvider();
     const pCtx = UseProjectProvider();
+    const nav = useNavigate();
 
+    const [error, setError] = useState<Error | null>(null);
     const [cloud, setCloud] = useState<boolean>(false);
     const [name, setName] = useState<string>('');
     const [banner, setBanner] = useState<string>('');
     const [description, setDescription] = useState<string>('');
 
-    const handleSaveProjectSettings = async () => {};
+    const handleTurnProjectCloudOn = async () => {
+        const proj = await CreateProjectInDatabase(
+            name,
+            description,
+            uCtx.value,
+        );
+
+        setError(proj.error);
+        if (!proj.error) {
+            localStorage.setItem('project', null);
+
+            pCtx.setValue(proj.data);
+            nav(`/editor/${proj.data.projectId}`);
+        }
+    };
+
+    const handleSaveProjectSettings = async () => {
+        if (pCtx.value.cloud === false) {
+            if (cloud === true) {
+                await handleTurnProjectCloudOn();
+                console.log(
+                    `Moved local project to cloud. (project-settings.view.tsx)`,
+                );
+                return;
+            }
+
+            pCtx.setValue({
+                ...pCtx.value,
+                projectName: name,
+                projectBanner: banner,
+                projectDescription: description,
+            });
+
+            console.log(
+                `Updated project settings locally. (project-settings.view.tsx)`,
+            );
+            return;
+        }
+
+        setError(null);
+        const project = {
+            ...pCtx.value,
+            cloud: cloud,
+            projectName: name,
+            projectBanner: banner,
+            projectDescription: description,
+        };
+        const result = await UpdateProject(project);
+        setError(result.error);
+        if (!result.error) {
+            pCtx.setValue(project);
+
+            if (result.data === null) nav('/editor/local');
+        }
+    };
 
     useEffect(() => {
-        setCloud(true);
+        setCloud(pCtx.value.cloud);
         setName(pCtx.value.projectName);
         setBanner(pCtx.value.projectBanner);
         setDescription(pCtx.value.projectDescription);
@@ -161,6 +222,17 @@ const ProjectSettingsView = () => {
                         />
                     </Pane>
                 </VerticalSplit>
+
+                <ErrorMessage>
+                    WARNING: Setting CLOUD to OFF will delete the project from
+                    the database! Please have a backup! This will also set your
+                    local project to the current project, and redirect you to
+                    the local editor.
+                </ErrorMessage>
+
+                {error !== null && (
+                    <ErrorMessage>{error?.message}</ErrorMessage>
+                )}
 
                 <Button
                     config={{

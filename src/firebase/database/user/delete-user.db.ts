@@ -1,7 +1,7 @@
 import {User} from 'firebase/auth';
 import {IResult} from '../../../types/IResult.ts';
 import {ref, set} from 'firebase/database';
-import {Database} from '../index.ts';
+import {Database} from '../../index.ts';
 
 export const DeleteUserFromDatabase = async (
     user: User,

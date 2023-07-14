@@ -1,7 +1,7 @@
 import IUser from '../../../types/IUser.ts';
 import {IResult} from '../../../types/IResult.ts';
 import {ref, update} from 'firebase/database';
-import {Database} from '../index.ts';
+import {Database} from '../../index.ts';
 
 export const UpdateUserInDatabase = async (
     user: IUser,

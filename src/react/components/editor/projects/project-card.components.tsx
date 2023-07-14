@@ -83,10 +83,10 @@ const ProjectInfo = styled.div`
 // TODO(calco): Add favourite status.
 const ProjectCard = ({project}: {project: IProject}) => {
     const uCtx = UseUserProvider();
-
     const nav = useNavigate();
     const handleSelect = () => {
-        nav(`/editor/${project.projectId}`);
+        if (!project.cloud) nav('/editor/local');
+        else nav(`/editor/${project.projectId}`);
     };
 
     return (

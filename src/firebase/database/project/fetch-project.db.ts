@@ -1,8 +1,8 @@
 import {IResult} from '../../../types/IResult.ts';
 import IProject from '../../../types/IProject.ts';
 import {get, ref} from 'firebase/database';
-import {Database} from '../index.ts';
 import IUser from '../../../types/IUser.ts';
+import {Database} from '../../index.ts';
 
 export const FetchProjectFromDatabase = async (
     projectId: string,

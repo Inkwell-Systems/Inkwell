@@ -1,8 +1,8 @@
 import {IResult} from '../../types/IResult.ts';
 import {GoogleAuthProvider, signInWithPopup} from 'firebase/auth';
-import {Auth} from './index.ts';
 import IUser from '../../types/IUser.ts';
 import {SaveUserToDatabase} from '../database';
+import {Auth} from '../index.ts';
 
 const GoogleProvider = new GoogleAuthProvider();
 GoogleProvider.setCustomParameters({

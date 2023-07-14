@@ -1,5 +1,3 @@
-import {Auth} from './index.ts';
-
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
@@ -7,6 +5,7 @@ import {
 import {IResult} from '../../types/IResult.ts';
 import IUser from '../../types/IUser.ts';
 import {SaveUserToDatabase} from '../database';
+import {Auth} from '../index.ts';
 
 export const SignUpWithPassword = async (
     email,

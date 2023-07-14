@@ -1,10 +1,6 @@
-import {getAuth} from 'firebase/auth';
-import {FirebaseApp} from '../index.ts';
+import {Auth} from '../index.ts';
 import {IResult} from '../../types/IResult.ts';
 import {DeleteUserFromDatabase} from '../database';
-
-console.log('Initialized firebase auth!');
-export const Auth = getAuth(FirebaseApp);
 
 export * from './google.auth.ts';
 export * from './password.auth.ts';
@@ -35,7 +31,4 @@ export const DeleteUser = async (): Promise<IResult<null>> => {
             error: null,
         };
     }
-
-    // Should be unnecessary
-    // await SignUserOut();
 };

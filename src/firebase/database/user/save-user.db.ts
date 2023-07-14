@@ -2,7 +2,7 @@ import {User} from 'firebase/auth';
 import {IResult} from '../../../types/IResult.ts';
 import IUser from '../../../types/IUser.ts';
 import {get, ref, set} from 'firebase/database';
-import {Database} from '../index.ts';
+import {Database} from '../../index.ts';
 
 export const SaveUserToDatabase = async (
     user: User,

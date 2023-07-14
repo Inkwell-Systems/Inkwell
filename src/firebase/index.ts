@@ -1,4 +1,6 @@
 import {initializeApp} from 'firebase/app';
+import {getAuth} from 'firebase/auth';
+import {getDatabase} from 'firebase/database';
 
 const FirebaseConfig = {
     apiKey: 'AIzaSyAHJwmfTin3xmfEhlupyDKI4yllk8FsJwM',
@@ -11,10 +13,10 @@ const FirebaseConfig = {
         'https://inkwell-7dff3-default-rtdb.europe-west1.firebasedatabase.app',
 };
 
-// Initialize Firebase
-
 console.log('Initialized firebase!');
 export const FirebaseApp = initializeApp(FirebaseConfig);
+export const Database = getDatabase(FirebaseApp);
+export const Auth = getAuth(FirebaseApp);
 
-export * from './auth';
 export * from './database';
+export * from './auth';

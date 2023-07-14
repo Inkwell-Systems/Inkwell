@@ -7,8 +7,6 @@ import IProject, {
     LoadProjectFromJson,
 } from '../../../../types/IProject.ts';
 import ProjectCard from '../../../components/editor/projects/project-card.components.tsx';
-
-// TODO(calco): REMOVE THIS IN PRODUCTION
 import CreateProjectCard from '../../../components/editor/projects/create-project-card.component.tsx';
 import {Button} from '../../../components/inputs/button/button.component.tsx';
 import UseProjectProvider from '../../../hooks/project-provider/project-provider.hook.ts';
@@ -22,7 +20,7 @@ import {DefaultUser} from '../../../../types';
 import {
     CreateProjectInDatabase,
     FetchUserProjectsFromDatabase,
-} from '../../../../firebase/database';
+} from '../../../../firebase';
 
 const Projects = () => {
     const [error, setError] = useState<Error | null>(null);
@@ -40,7 +38,10 @@ const Projects = () => {
     const [projectCloud, setProjectCloud] = useState(false);
 
     const handleLoadLocalProject = () => {
-        const project = LoadProjectFromJson(loadedJson);
+        // TODO(calco): Validate the json.
+        const project = JSON.parse(loadedJson);
+        project.cloud = false;
+
         pCtx.setValue(project);
 
         nav('/editor/local');
@@ -79,11 +80,10 @@ const Projects = () => {
 
     const loadLocalProject = () => {
         const jsonProj = localStorage.getItem('project');
-        if (jsonProj !== null) {
+        if (jsonProj !== 'null') {
             const project = JSON.parse(jsonProj);
             return [project];
         }
-
         return [];
     };
 
