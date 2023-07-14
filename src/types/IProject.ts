@@ -2,6 +2,7 @@ import ITable, {CheckTableValidity} from './ITable.ts';
 
 export default interface IProject {
     cloud: boolean;
+    projectBanner: string;
     projectId: string;
     projectName: string;
     projectDescription: string;
@@ -13,6 +14,8 @@ export default interface IProject {
 
 export const CreateLocalProject = (name, description): IProject => ({
     cloud: false,
+    projectBanner:
+        'https://images.unsplash.com/photo-1482514194978-3ed8cc9d86c6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
     projectId: '',
     projectName: name,
     projectDescription: description,
