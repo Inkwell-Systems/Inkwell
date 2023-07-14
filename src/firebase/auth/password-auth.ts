@@ -3,7 +3,6 @@ import {Auth} from './init.ts';
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
-    User,
 } from 'firebase/auth';
 import {IResult} from '../../types/IResult.ts';
 import IUser from '../../types/IUser.ts';
@@ -57,6 +56,7 @@ export const SignInWithPassword = async (
         const user: IUser = {
             isAuthenticated: true,
             id: firebaseUser.uid,
+            email: firebaseUser.email,
             name: firebaseUser.displayName,
             profilePicture: firebaseUser.photoURL,
         };

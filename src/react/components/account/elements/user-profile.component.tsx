@@ -7,15 +7,40 @@ import {
     AccountSettingsHeader,
 } from './utils.tsx';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
+import IUser from '../../../../types/IUser.ts';
+import {UpdateUserInDatabase} from '../../../../firebase/database/user-db.ts';
+import {
+    ErrorMessage,
+    SuccessMessage,
+} from '../../../../styles/utils.styles.tsx';
 
 const UserProfile = () => {
     const uCtx = UseUserProvider();
+
+    const [error, setError] = useState<Error | null>(null);
+    const [success, setSuccess] = useState<string | null>(null);
+
     const [displayName, setDisplayName] = useState('');
     const [profileUrl, setProfileUrl] = useState('');
 
     // TODO(calco): Send request to API.
-    const handleSaveSettings = () => {
-        console.log('Saving user settings.');
+    const handleSaveSettings = async () => {
+        setError(null);
+        setSuccess(null);
+
+        const newUser: IUser = {
+            ...uCtx.value,
+            name: displayName,
+            profilePicture: profileUrl,
+        };
+
+        const result = await UpdateUserInDatabase(newUser);
+        setError(result.error);
+
+        if (result.data) {
+            uCtx.setValue(result.data);
+            setSuccess('Successfully updated user!');
+        }
     };
 
     useEffect(() => {
@@ -38,6 +63,9 @@ const UserProfile = () => {
                 value={profileUrl}
                 onChange={e => setProfileUrl(e.target.value)}
             />
+
+            <SuccessMessage>{success}</SuccessMessage>
+            <ErrorMessage>{error?.message}</ErrorMessage>
 
             <AccountBottomElement>
                 <Button

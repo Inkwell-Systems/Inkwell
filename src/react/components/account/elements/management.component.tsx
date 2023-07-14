@@ -5,10 +5,15 @@ import {
 } from './utils.tsx';
 import React from 'react';
 import {Button} from '../../inputs/button/button.component.tsx';
+import {DeleteUser} from '../../../../firebase/auth/init.ts';
+import {useNavigate} from 'react-router-dom';
 
 const Management = () => {
-    const handleAccountDeletion = () => {
-        console.log('Deleting account.');
+    const nav = useNavigate();
+
+    const handleAccountDeletion = async () => {
+        await DeleteUser();
+        nav('/');
     };
 
     return (
