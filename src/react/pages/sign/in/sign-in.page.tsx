@@ -13,15 +13,32 @@ import {
     SignContainer,
     SignUpStyles,
 } from '../../../components/sign/sign.styles.tsx';
+import {SignInWithPassword} from '../../../../firebase/auth/password-auth.ts';
+import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
+import {ConvertToUser} from '../../../../types';
+import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
 
 const SignIn = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
+    const uCtx = UseUserProvider();
     const nav = useNavigate();
 
-    const handleSignIn = () => {
-        console.log('Sign in');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<Error | null>(null);
+
+    const handleSignIn = async () => {
+        setEmail('');
+        setPassword('');
+
+        const result = await SignInWithPassword(email, password);
+        setError(result.error);
+
+        if (result.data) {
+            const user = ConvertToUser(result.data);
+            uCtx.setValue(user);
+
+            nav('/projects');
+        }
     };
 
     const handleSignUp = () => {
@@ -55,6 +72,10 @@ const SignIn = () => {
                     label="Password"
                     onChange={e => setPassword(e.target.value)}
                 />
+
+                <ErrorMessage style={{color: 'red'}}>
+                    {error?.message}
+                </ErrorMessage>
 
                 <Button
                     style={{

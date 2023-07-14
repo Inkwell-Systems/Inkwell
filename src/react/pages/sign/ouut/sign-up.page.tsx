@@ -11,20 +11,37 @@ import Separator from '../in/separator.svg';
 import GoogleIcon from '../in/google.svg';
 import PageForm from '../../../components/misc/page-form.component.tsx';
 import {useNavigate} from 'react-router-dom';
+import {SignUpWithPassword} from '../../../../firebase/auth/password-auth.ts';
+import {ConvertToUser} from '../../../../types';
+import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
+import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
 
 const SignUp = () => {
+    const uCtx = UseUserProvider();
+    const nav = useNavigate();
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [passwordConfirm, setPasswordConfirm] = useState('');
-
-    const nav = useNavigate();
+    const [error, setError] = useState<Error | null>(null);
 
     const handleSignIn = () => {
         nav('/sign/in');
     };
 
-    const handleSignUp = () => {
-        console.log('Sign up');
+    const handleSignUp = async () => {
+        setEmail('');
+        setPassword('');
+
+        const result = await SignUpWithPassword(email, password);
+        setError(result.error);
+
+        if (result.data) {
+            const user = ConvertToUser(result.data);
+            uCtx.setValue(user);
+
+            nav('/projects');
+        }
     };
 
     return (
@@ -50,16 +67,22 @@ const SignUp = () => {
                 />
 
                 <TextInput
+                    type="password"
                     value={password}
                     label="Password"
                     onChange={e => setPassword(e.target.value)}
                 />
 
                 <TextInput
+                    type="password"
                     value={passwordConfirm}
                     label="Confirm Password"
                     onChange={e => setPasswordConfirm(e.target.value)}
                 />
+
+                <ErrorMessage style={{color: 'red'}}>
+                    {error?.message}
+                </ErrorMessage>
 
                 <Button
                     style={{

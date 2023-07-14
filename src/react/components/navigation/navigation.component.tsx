@@ -12,6 +12,8 @@ import SignOut from './logos/sign-out.svg';
 import {useNavigate} from 'react-router-dom';
 import UseUserProvider from '../../hooks/user-provider/userProvider.hook.ts';
 import {useState} from 'react';
+import {SignUserOut} from '../../../firebase/auth/init.ts';
+import {DefaultUser} from '../../../types';
 
 const NavbarIcon = styled.img`
     width: 1.5em;
@@ -150,9 +152,15 @@ const Navigation = () => {
     };
 
     // TODO(calco): Properly handle sign out.
-    const handleSignOut = () => {
+    const handleSignOut = async () => {
         setDisplayUserProfile(false);
-        console.log('sign out');
+
+        uCtx.setValue(DefaultUser);
+        if (window.location.pathname === '/account') {
+            nav('/');
+        }
+
+        await SignUserOut();
     };
 
     const toggleDisplayUserProfile = () => {
