@@ -80,7 +80,8 @@ const Projects = () => {
 
     const loadLocalProject = () => {
         const jsonProj = localStorage.getItem('project');
-        if (jsonProj !== 'null') {
+
+        if (jsonProj !== 'null' && jsonProj !== null) {
             const project = JSON.parse(jsonProj);
             return [project];
         }

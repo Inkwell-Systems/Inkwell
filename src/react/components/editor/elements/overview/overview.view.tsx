@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import UseProjectProvider from '../../../../hooks/project-provider/project-provider.hook.ts';
 import {
@@ -10,6 +10,7 @@ import {
     GetProjectTableCount,
 } from '../../../../../types';
 import OverviewCard from './overview-card.component.tsx';
+import {set} from 'firebase/database';
 
 const OverviewContainer = styled.div`
     width: 100%;
@@ -60,13 +61,21 @@ const SideSeparator = styled.hr<{w?: string}>`
 
 const OverviewView = () => {
     const pCtx = UseProjectProvider();
+    const [render, setRender] = useState(false);
+
+    useEffect(() => {
+        console.log('Project context value:');
+        console.log(pCtx.value);
+
+        setRender(pCtx.value !== null);
+    }, [pCtx.value]);
 
     const middleStyle = {
         marginLeft: 'auto',
         marginRight: 'auto',
     };
 
-    return (
+    return render ? (
         <OverviewContainer>
             <OverviewBanner
                 src={pCtx.value.projectBanner}
@@ -145,13 +154,9 @@ const OverviewView = () => {
                     background="#1D1D1F"
                 />
             </NSplitDiv>
-
-            {/*<NSplitDiv n={3}>*/}
-            {/*    <SideSeparator w="50%" />*/}
-            {/*    <SideSeparator style={middleStyle} />*/}
-            {/*    <SideSeparator w="50%" />*/}
-            {/*</NSplitDiv>*/}
         </OverviewContainer>
+    ) : (
+        <h1>No</h1>
     );
 };
 

@@ -2,7 +2,7 @@ import {IResult} from '../../../types/IResult.ts';
 import IProject from '../../../types/IProject.ts';
 import {get, ref} from 'firebase/database';
 import IUser from '../../../types/IUser.ts';
-import {Database} from '../../index.ts';
+import {Database, DatabaseProjectToIProject} from '../../index.ts';
 
 export const FetchProjectFromDatabase = async (
     projectId: string,
@@ -16,23 +16,7 @@ export const FetchProjectFromDatabase = async (
             };
         }
 
-        const project: IProject = {
-            cloud: true,
-            entryMap: snapshot.val().entryMap,
-            scopes: snapshot.val().scopes,
-            projectBanner: snapshot.val().projectBanner,
-            projectId: snapshot.val().projectId,
-            projectName: snapshot.val().projectName,
-            projectDescription: snapshot.val().projectDescription,
-            projectCreatedAt: snapshot.val().projectCreatedAt,
-            tables: snapshot.val().tables,
-            owner: snapshot.val().owner,
-            members: snapshot.val().members,
-        };
-
-        if (project.entryMap === undefined) project.entryMap = {};
-        if (project.members === undefined) project.members = [];
-        if (project.tables === undefined) project.tables = [];
+        const project = DatabaseProjectToIProject(snapshot);
 
         return {
             data: project,

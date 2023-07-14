@@ -4,7 +4,10 @@ import UseProjectProvider from '../../hooks/project-provider/project-provider.ho
 import UnableToLoadProject from '../../components/editor/unable-to-load-project/unable-to-load-project.component.tsx';
 import EditorSidebar from '../../components/editor/sidebar/sidebar.component.tsx';
 import styled from 'styled-components';
-import {FetchProjectFromDatabase} from '../../../firebase/database';
+import {
+    DatabaseProjectToIProject,
+    SubscribeToProject,
+} from '../../../firebase/database';
 
 const EditorContainer = styled.div`
     width: 100vw;
@@ -54,20 +57,6 @@ const Editor = () => {
 
     const [element, setElement] = useState<ReactElement | null>(null);
 
-    // TODO(calco): Should add a timestamp to the project and check if it's outdated
-    const fetchProject = async () => {
-        const res = await FetchProjectFromDatabase(id);
-        if (res.error) {
-            console.log(`Error fetching project: ${id}`);
-            console.error(res.error);
-        } else {
-            console.log(`Successfully fetched project: ${id}`);
-        }
-
-        console.log(res.data);
-        pCtx.setValue(res.data);
-    };
-
     useEffect(() => {
         if (id === 'local') {
             if (pCtx.value.cloud) {
@@ -84,7 +73,20 @@ const Editor = () => {
             return;
         }
 
-        fetchProject();
+        const unsub = SubscribeToProject(id, snapshot => {
+            console.log(
+                `Project ${id} updated. Updating context. (OnValue Callback) (editor.page.tsx)`,
+            );
+
+            const project = DatabaseProjectToIProject(snapshot);
+            pCtx.setValue(project);
+        });
+        console.log(`Subscribing to project ${id} (editor.page.tsx)`);
+
+        return () => {
+            console.log(`Unsubscribing from project ${id} (editor.page.tsx)`);
+            unsub();
+        };
     }, []);
 
     return (
