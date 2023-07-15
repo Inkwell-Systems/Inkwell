@@ -225,6 +225,35 @@ const BaseEntryPanel = ({
     const updateEntry = async () => {
         const entryType = GetEntryType(selectedEntry);
 
+        if (!pCtx.value.cloud) {
+            const newEntry = {
+                ...selectedEntry,
+                key,
+                value,
+            };
+
+            pCtx.setValue({
+                ...pCtx.value,
+                tables: {
+                    ...pCtx.value.tables,
+                    [selectedTable.id]: {
+                        ...selectedTable,
+                        [entryType]: {
+                            ...selectedTable[entryType],
+                            [selectedEntry.id]: newEntry,
+                        },
+                    },
+                },
+                entryMap: {
+                    ...pCtx.value.entryMap,
+                    [selectedEntry.id]: key,
+                },
+            });
+
+            console.log('Updating entry locally!');
+            return;
+        }
+
         await UpdateEntry(
             entryType,
             pCtx.value.projectId,
