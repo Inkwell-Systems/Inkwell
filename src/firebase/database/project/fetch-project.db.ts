@@ -4,7 +4,7 @@ import {get, ref} from 'firebase/database';
 import IUser from '../../../types/IUser.ts';
 import {Database, DatabaseProjectToIProject} from '../../index.ts';
 
-export const FetchProjectFromDatabase = async (
+export const FetchProject = async (
     projectId: string,
 ): Promise<IResult<IProject>> => {
     try {
@@ -44,7 +44,7 @@ export const FetchUserProjectsFromDatabase = async (
 
         const projects: IProject[] = [];
         for (const projectId of snapshot.val()) {
-            const result = await FetchProjectFromDatabase(projectId);
+            const result = await FetchProject(projectId);
 
             if (!result.error) {
                 projects.push(result.data);
@@ -63,6 +63,54 @@ export const FetchUserProjectsFromDatabase = async (
         console.log(
             `Failed to fetch user projects from database. (FetchUserProjectsFromDatabase)\n ${error}`,
         );
+
+        return {
+            data: null,
+            error: error,
+        };
+    }
+};
+
+export const FetchProjectInviteLink = async (
+    projectId: string,
+    inviteCode: string,
+): Promise<IResult<IProject>> => {
+    try {
+        const projRes = await FetchProject(projectId);
+        if (projRes.error) {
+            console.log(
+                `Error fetching project ${projectId} from database. (FetchProjectInviteLink)`,
+            );
+            console.error(projRes.error);
+
+            return {
+                data: null,
+                error: projRes.error,
+            };
+        }
+
+        if (projRes.data.inviteCode !== inviteCode) {
+            console.log(
+                `Invalid invite code for project ${projectId}. (FetchProjectInviteLink)`,
+            );
+
+            return {
+                data: null,
+                error: new Error(
+                    `Invalid invite code for project ${projectId}.`,
+                ),
+            };
+        }
+
+        return {
+            data: projRes.data,
+            error: null,
+        };
+    } catch (error) {
+        console.log(
+            `Failed to fetch project invite link from database. (FetchProjectInviteLink)`,
+        );
+        console.error(error);
 
         return {
             data: null,

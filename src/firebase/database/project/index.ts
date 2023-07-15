@@ -5,6 +5,7 @@ export * from './fetch-project.db.ts';
 export * from './update-project.db.ts';
 export * from './delete-project.db.ts';
 export * from './subscribe-to-project.db.ts';
+export * from './add-user-to-project.db.ts';
 
 export const DatabaseProjectToIProject = (dbSnapshot): IProject => {
     const project: IProject = {

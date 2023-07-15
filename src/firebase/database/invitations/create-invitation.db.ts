@@ -9,7 +9,7 @@ import {
     ref,
     set,
 } from 'firebase/database';
-import {Database, FetchProjectFromDatabase} from '../../index.ts';
+import {Database, FetchProject} from '../../index.ts';
 import {FetchUserByEmail} from '../user/fetch-user.db.ts';
 
 export const CreateInvitation = async (
@@ -33,7 +33,7 @@ export const CreateInvitation = async (
         }
 
         // Check if user is already a member of the project
-        const projRes = await FetchProjectFromDatabase(projectId);
+        const projRes = await FetchProject(projectId);
         if (projRes.error) {
             console.log(
                 `Error fetching project ${projectId} from database. (CreateInvitation)`,

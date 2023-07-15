@@ -12,6 +12,7 @@ import Editor from './react/pages/editor/editor.page.tsx';
 import {UserProvider} from './react/contexts/user-provider/user-provider.ctx.tsx';
 import {ProjectProvider} from './react/contexts/project-provider/project-provider.ctx.tsx';
 import Account from './react/pages/account/account.page.tsx';
+import Invitations from './react/pages/invitations/invitations.page.tsx';
 
 const App = () => {
     const Routes: RouteObject[] = [
@@ -21,6 +22,10 @@ const App = () => {
         {path: '/projects', element: <Projects />},
         {path: '/editor/:id', element: <Editor />},
         {path: '/account', element: <Account />},
+        {
+            path: '/invite/:projectId/:projectInviteKey',
+            element: <Invitations />,
+        },
         {path: '*', element: <PageNotFound />},
     ];
 

@@ -22,8 +22,16 @@ export const SignWithGoogle = async (): Promise<IResult<IUser>> => {
             };
         }
 
+        const userData = user.data;
+        if (typeof userData.projects === 'undefined') {
+            userData.projects = [];
+        }
+
+        console.log('GOOGLE SIGN IN');
+        console.log(userData);
+
         return {
-            data: user.data,
+            data: userData,
             error: null,
         };
     } catch (error) {
