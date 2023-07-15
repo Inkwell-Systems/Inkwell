@@ -34,7 +34,7 @@ const TableCardName = styled.input`
     background-color: transparent;
     border: none;
 
-    //cursor: pointer;
+    cursor: pointer;
 
     &:focus {
         outline: none;

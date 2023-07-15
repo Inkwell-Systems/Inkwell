@@ -5,20 +5,26 @@ import ITable, {
     CreateProjectTable,
 } from '../../../../../../../../types/ITable.ts';
 import UseProjectProvider from '../../../../../../../hooks/project-provider/project-provider.hook.ts';
-import {CreateTable} from '../../../../../../../../firebase';
+import {CreateTable, DeleteTable} from '../../../../../../../../firebase';
 import TableCard from './table-card.component.tsx';
 
 const TablesPanel = () => {
     const pCtx = UseProjectProvider();
 
     const [searchFilter, setSearchFilter] = useState('');
-    const [tables, setTables] = useState<ITable[]>([]);
     const [filteredTables, setFilteredTables] = useState<ITable[]>([]);
 
     const [selectedTable, setSelectedTable] = useState(0);
 
+    useEffect(() => {
+        const t = pCtx.value.tables.filter(table =>
+            table.key.toLowerCase().includes(searchFilter.toLowerCase()),
+        );
+        setFilteredTables(t);
+    }, [searchFilter, pCtx.value]);
+
     const handleDeleteTable = async () => {
-        console.log('Delete table');
+        await DeleteTable(pCtx.value.projectId, selectedTable);
     };
 
     const handleAddTable = async () => {
@@ -26,7 +32,7 @@ const TablesPanel = () => {
             const table = CreateProjectTable('New Table', pCtx.value);
             pCtx.setValue({
                 ...pCtx.value,
-                entryMap: {...pCtx.value.entryMap, [table.id]: table},
+                entryMap: {...pCtx.value.entryMap, [table.id]: table.key},
             });
 
             console.log('Created a local table.');
@@ -55,14 +61,14 @@ const TablesPanel = () => {
                 />
             </PanelHeader>
             <PanelContentContainer>
-                {pCtx.value.tables.map((table: ITable, index) => (
+                {filteredTables.map((table: ITable) => (
                     <TableCard
                         table={table}
                         onClick={() => {
-                            setSelectedTable(index);
+                            setSelectedTable(table.id);
                         }}
-                        selected={index === selectedTable}
-                        key={index}
+                        selected={selectedTable === table.id}
+                        key={table.id}
                     />
                 ))}
             </PanelContentContainer>

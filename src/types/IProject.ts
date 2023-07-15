@@ -9,7 +9,7 @@ export default interface IProject {
     projectDescription: string;
     projectCreatedAt: number;
     tables: ITable[];
-    entryMap: {[key: string]: number};
+    entryMap: {[key: number]: string};
     scopes: IScopeHierarchy;
     owner: string;
     members: string[];

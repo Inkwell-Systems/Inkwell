@@ -1,4 +1,4 @@
-import {ref, update} from 'firebase/database';
+import {ref, set, update} from 'firebase/database';
 import {Database} from '../../index.ts';
 
 export const UpdateTableKey = async (
@@ -10,6 +10,11 @@ export const UpdateTableKey = async (
         await update(ref(Database, `projects/${projectId}/tables/${tableId}`), {
             key: key,
         });
+
+        await set(
+            ref(Database, `projects/${projectId}/entryMap/${tableId}`),
+            key,
+        );
     } catch (error) {
         console.log(
             `Error updating table key ${key} in project ${projectId}. (UpdateTableName)`,
