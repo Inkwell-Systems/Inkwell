@@ -1,5 +1,12 @@
 import {IResult} from '../../../types/IResult.ts';
-import {get, ref} from 'firebase/database';
+import {
+    equalTo,
+    get,
+    limitToFirst,
+    orderByChild,
+    query,
+    ref,
+} from 'firebase/database';
 import {Database} from '../../index.ts';
 import {IFetchedUser} from '../../../types';
 
@@ -32,6 +39,51 @@ export const FetchUser = async (
         };
     } catch (error) {
         console.log(`Error fetching user ${uid}from database. (FetchUser)`);
+        console.error(error);
+
+        return {
+            data: null,
+            error: error,
+        };
+    }
+};
+
+export const FetchUserByEmail = async (
+    email: string,
+): Promise<IResult<IFetchedUser>> => {
+    try {
+        const usersRef = ref(Database, 'users');
+
+        // Query users ref for user with email
+        const q = query(
+            usersRef,
+            orderByChild('email'),
+            equalTo(email),
+            limitToFirst(1),
+        );
+
+        const querySnap = await get(q);
+        if (!querySnap.exists()) {
+            console.log(
+                `Tried fetching user with email ${email}, but such a user does not exist. (FetchUser)`,
+            );
+            return {
+                data: null,
+                error: new Error(`User with email ${email} does not exist.`),
+            };
+        }
+
+        const user = querySnap.val()[
+            Object.keys(querySnap.val())[0]
+        ] as IFetchedUser;
+        return {
+            data: user,
+            error: null,
+        };
+    } catch (error) {
+        console.log(
+            `Error fetching user with email ${email} from database. (FetchUser)`,
+        );
         console.error(error);
 
         return {

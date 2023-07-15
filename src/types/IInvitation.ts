@@ -4,4 +4,5 @@ export interface IInvitation {
     userIdFrom: string;
     projectId: string;
     createdAt: Date;
+    message: string;
 }
