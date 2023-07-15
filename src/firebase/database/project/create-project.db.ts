@@ -12,7 +12,7 @@ export const CreateProjectInDatabase = async (
     description: string,
     owner: IUser,
     scopes: IScopeHierarchy,
-    tables: ITable[],
+    tables: {[key: number]: ITable},
 ): Promise<IResult<IProject>> => {
     try {
         const result = await push(ref(Database, `projects/`));

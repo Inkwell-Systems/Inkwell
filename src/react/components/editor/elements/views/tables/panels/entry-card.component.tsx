@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import {useEffect, useRef, useState} from 'react';
 
-const TableCardContainer = styled.div<{selected: boolean}>`
-    width: 100%;
+const TableCardContainer = styled.div<{selected: boolean; indent: number}>`
     height: 3rem;
 
     display: flex;
@@ -10,6 +9,8 @@ const TableCardContainer = styled.div<{selected: boolean}>`
     justify-content: space-between;
 
     padding: 0.5rem;
+    margin-left: ${p => p.indent * 0.5}rem;
+    width: calc(100% - ${p => p.indent * 0.5}rem);
 
     border-radius: 0.5rem;
     background-color: ${p => (p.selected ? '#3d3d40' : '#1d1d1f')};
@@ -53,11 +54,13 @@ const EntryCard = ({
     onClick,
     selected,
     onFinishEditing,
+    indentLevel,
 }: {
     defaultKey: string;
     onClick: () => void;
     selected: boolean;
     onFinishEditing: (string) => void;
+    indentLevel?: number;
 }) => {
     const [key, setKey] = useState(defaultKey);
     const [editing, setEditing] = useState(false);
@@ -80,7 +83,11 @@ const EntryCard = ({
     }, [editing]);
 
     return (
-        <TableCardContainer selected={selected} onClick={onClick}>
+        <TableCardContainer
+            indent={indentLevel || 0}
+            selected={selected}
+            onClick={onClick}
+        >
             <TableCardName
                 ref={keyInputRef}
                 disabled={!editing}

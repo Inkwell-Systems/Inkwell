@@ -10,6 +10,8 @@ import EntryFlowMenu from '../entry-flow-menu.component.tsx';
 import styled from 'styled-components';
 import ITable, {GetTableEntries} from '../../../../../../../../types/ITable.ts';
 import {
+    GetEntryType,
+    GetIEntryFromId,
     IEntry,
     IEvent,
     IFact,
@@ -20,11 +22,21 @@ import {
 } from '../../../../../../../../types';
 import UseProjectProvider from '../../../../../../../hooks/project-provider/project-provider.hook.ts';
 import EntryCard from '../entry-card.component.tsx';
+import {
+    CreateEvent,
+    CreateFact,
+    CreateRule,
+    DeleteEntry,
+    UpdateEntryKey,
+} from '../../../../../../../../firebase';
 
 const EntryContainer = styled.div`
     width: 100%;
     height: 100%;
     padding-left: 0.5rem;
+
+    overflow-x: hidden;
+    overflow-y: auto;
 `;
 
 const CreateEntryDropdown = styled.div`
@@ -69,30 +81,76 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
     const [addEntryRef, setAddEntryRef] = useState(null);
 
     const handleDeleteEntry = async () => {
-        console.log('Delete entry');
+        if (!pCtx.value.cloud) {
+            return;
+        }
+
+        const entry = GetIEntryFromId(pCtx.value, selectedEntry);
+        const type = GetEntryType(entry);
+        await DeleteEntry(
+            pCtx.value.projectId,
+            selectedTable.id,
+            type,
+            selectedEntry,
+        );
     };
 
     const handleAddEntry = async () => {
+        if (selectedTable === null) {
+            console.log(
+                'Tried adding entry with no table selected. Aborting...',
+            );
+            return;
+        }
+
         setDisplayAddEntry(!displayAddEntry);
     };
 
+    // TODO(calco): Handle local entry creation
     const handleCreateFact = async () => {
         setDisplayAddEntry(false);
-        console.log('Create fact');
+
+        if (!pCtx.value.cloud) {
+            return;
+        }
+
+        await CreateFact(pCtx.value.projectId, selectedTable.id);
+        setSearchFilter('');
     };
 
     const handleCreateEvent = async () => {
         setDisplayAddEntry(false);
-        console.log('Create event');
+
+        if (!pCtx.value.cloud) {
+            return;
+        }
+        await CreateEvent(pCtx.value.projectId, selectedTable.id);
+        setSearchFilter('');
     };
 
     const handleCreateRule = async () => {
         setDisplayAddEntry(false);
-        console.log('Create rule');
+
+        if (!pCtx.value.cloud) {
+            return;
+        }
+        await CreateRule(pCtx.value.projectId, selectedTable.id);
+        setSearchFilter('');
     };
 
     const handleRenameEntry = async (newKey, entry) => {
-        console.log(`Rename entry ${entry.key} to ${newKey}`);
+        if (!pCtx.value.cloud) {
+            return;
+        }
+
+        const type = GetEntryType(entry);
+        await UpdateEntryKey(
+            newKey,
+            type,
+            pCtx.value.projectId,
+            selectedTable.id,
+            entry.id,
+        );
     };
 
     const getFilteredFacts = () => {
@@ -114,13 +172,17 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
     };
 
     useEffect(() => {
-        if (selectedTable == null) return;
+        if (selectedTable == null) {
+            setFilteredEntries([]);
+            return;
+        }
 
         const e = GetTableEntries(selectedTable).filter(entry =>
             entry.key.toLowerCase().includes(searchFilter.toLowerCase()),
         );
+
         setFilteredEntries(e);
-    }, [searchFilter, pCtx.value]);
+    }, [searchFilter, selectedTable, pCtx.value]);
 
     useEffect(() => {
         if (typeof containerRef !== 'undefined' && containerRef != null) {
@@ -172,6 +234,7 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
                         <EntryContainer>
                             {getFilteredFacts().map(fact => (
                                 <EntryCard
+                                    indentLevel={2}
                                     onFinishEditing={key =>
                                         handleRenameEntry(key, fact)
                                     }
@@ -188,10 +251,42 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
                     <YeetableBar size={5} />
                     <YeetableSection defaultSize={thirdSize} minSize={100}>
                         <h1>{'> Events'}</h1>
+                        <EntryContainer>
+                            {getFilteredEvents().map(event => (
+                                <EntryCard
+                                    indentLevel={2}
+                                    onFinishEditing={key =>
+                                        handleRenameEntry(key, event)
+                                    }
+                                    defaultKey={event.key}
+                                    onClick={() => {
+                                        setSelectedEntry(event.id);
+                                    }}
+                                    selected={selectedEntry === event.id}
+                                    key={event.id}
+                                />
+                            ))}
+                        </EntryContainer>
                     </YeetableSection>
                     <YeetableBar size={5} />
                     <YeetableSection defaultSize={thirdSize} minSize={100}>
                         <h1>{'> Rules'}</h1>
+                        <EntryContainer>
+                            {getFilteredRules().map(rule => (
+                                <EntryCard
+                                    indentLevel={2}
+                                    onFinishEditing={key =>
+                                        handleRenameEntry(key, rule)
+                                    }
+                                    defaultKey={rule.key}
+                                    onClick={() => {
+                                        setSelectedEntry(rule.id);
+                                    }}
+                                    selected={selectedEntry === rule.id}
+                                    key={rule.id}
+                                />
+                            ))}
+                        </EntryContainer>
                     </YeetableSection>
                 </YeetableContainer>
             </PanelContentContainer>

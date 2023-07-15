@@ -17,20 +17,15 @@ export const DatabaseProjectToIProject = (dbSnapshot): IProject => {
 
     if (project.entryMap === undefined) project.entryMap = {};
     if (project.members === undefined) project.members = [];
-    if (project.tables === undefined) project.tables = [];
+    if (project.tables === undefined) project.tables = {};
 
-    // Loop through all tables
-    // const flattenedTables: ITable[] = [];
-    for (const table of project.tables) {
+    for (const table of Object.values(project.tables)) {
         if (table === undefined) continue;
 
-        if (table.facts === undefined) table.facts = [];
-        if (table.events === undefined) table.events = [];
-        if (table.rules === undefined) table.rules = [];
-        // flattenedTables.push(table);
+        if (table.facts === undefined) table.facts = {};
+        if (table.events === undefined) table.events = {};
+        if (table.rules === undefined) table.rules = {};
     }
-    // project.tables = flattenedTables;
-    // console.log(project);
 
     return project;
 };

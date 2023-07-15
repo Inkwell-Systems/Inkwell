@@ -21,23 +21,29 @@ const TablesPanel = ({setBigSelectedTable}) => {
     const [selectedTable, setSelectedTable] = useState(0);
 
     useEffect(() => {
-        const t = pCtx.value.tables.filter(table =>
+        const t = Object.values(pCtx.value.tables).filter(table =>
             table.key.toLowerCase().includes(searchFilter.toLowerCase()),
         );
         setFilteredTables(t);
     }, [searchFilter, pCtx.value]);
 
     useEffect(() => {
-        console.log('Selected table changed: ');
-        console.log(selectedTable);
+        // Check if current selected table was just deleted
+        if (selectedTable === -1 || !pCtx.value.tables[selectedTable]) {
+            console.log('Deselecting table.');
+            setSelectedTable(-1);
+            setBigSelectedTable(null);
+        }
+
         setBigSelectedTable(pCtx.value.tables[selectedTable]);
-    }, [selectedTable]);
+    }, [selectedTable, pCtx.value]);
 
     const handleDeleteTable = async () => {
         await DeleteTable(pCtx.value.projectId, selectedTable);
     };
 
     const handleAddTable = async () => {
+        // TODO(calco): Check local table adding.
         if (!pCtx.value.cloud) {
             const table = CreateProjectTable('New Table', pCtx.value);
             pCtx.setValue({

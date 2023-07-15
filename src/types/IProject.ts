@@ -8,7 +8,7 @@ export default interface IProject {
     projectName: string;
     projectDescription: string;
     projectCreatedAt: number;
-    tables: ITable[];
+    tables: {[key: number]: ITable};
     entryMap: {[key: number]: string};
     scopes: IScopeHierarchy;
     owner: string;
@@ -31,6 +31,34 @@ export const CreateLocalProject = (name, description): IProject => ({
     members: [],
     inviteCode: '',
 });
+
+export const GetIEntryFromId = (project: IProject, entryId: number) => {
+    const {tables} = project;
+
+    for (const table of Object.values(tables)) {
+        const {events, facts, rules} = table;
+
+        if (entryId in events) return events[entryId];
+        if (entryId in facts) return facts[entryId];
+        if (entryId in rules) return rules[entryId];
+    }
+
+    return null;
+};
+
+export const GetMinimumEntryIdFromProject = (project: IProject): number => {
+    return GetMinimumEntryIdFromMap(project.entryMap);
+};
+
+export const GetMinimumEntryIdFromMap = (map: {
+    [key: number]: string;
+}): number => {
+    const entries = Object.keys(map).map(Number);
+
+    if (entries.length === 0) return 0;
+
+    return Math.max(...entries) + 1;
+};
 
 export const LoadProjectFromJson = (json: string): IProject => {
     const project = JSON.parse(json);
@@ -81,7 +109,7 @@ export const GetFormattedProjectDate = (date: Date) => {
 };
 
 export const GetProjectTableCount = (project: IProject) => {
-    return project.tables.length;
+    return Object.values(project.tables).length;
 };
 
 export const GetProjectEntryCount = (project: IProject) => {

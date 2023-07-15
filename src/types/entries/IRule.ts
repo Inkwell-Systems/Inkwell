@@ -31,6 +31,7 @@ export const CheckCriterionValidity = (criterion: ICriterion): boolean => {
 };
 
 export interface IRule extends IEntry {
+    ruleGuard: number;
     ruleTriggers: IEvent[];
     ruleCriteria: ICriterion[];
     ruleModifications: IModification[];
