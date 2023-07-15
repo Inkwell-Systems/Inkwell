@@ -273,26 +273,23 @@ const ProjectSettingsView = () => {
                 </Button>
             </EditorSectionContainer>
 
-            {pCtx.value.owner === uCtx.value.id ||
-                (!pCtx.value.cloud && (
-                    <>
-                        <EditorSectionTitle>Management</EditorSectionTitle>
-                        <EditorSectionContainer>
-                            <Button
-                                config={{
-                                    style: 'danger',
-                                    inverted: false,
-                                }}
-                                onClick={handleDeleteProject}
-                            >
-                                DELETE PROJECT
-                            </Button>
-                            <ErrorMessage>
-                                !!!THIS IS IRREVERSIBLE!!!
-                            </ErrorMessage>
-                        </EditorSectionContainer>
-                    </>
-                ))}
+            {(pCtx.value.owner === uCtx.value.id || !pCtx.value.cloud) && (
+                <>
+                    <EditorSectionTitle>Management</EditorSectionTitle>
+                    <EditorSectionContainer>
+                        <Button
+                            config={{
+                                style: 'danger',
+                                inverted: false,
+                            }}
+                            onClick={handleDeleteProject}
+                        >
+                            DELETE PROJECT
+                        </Button>
+                        <ErrorMessage>!!!THIS IS IRREVERSIBLE!!!</ErrorMessage>
+                    </EditorSectionContainer>
+                </>
+            )}
         </EditorElementContainer>
     );
 };
