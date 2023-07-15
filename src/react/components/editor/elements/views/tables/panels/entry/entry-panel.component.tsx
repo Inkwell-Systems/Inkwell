@@ -45,7 +45,7 @@ const EntryPanel = ({
     const getEntryPath = () => {
         if (selectedEntry == null) return '';
 
-        return `#${pCtx.value.projectName} > ${
+        return `#${pCtx.value.projectName} > (${selectedTable.id})${
             selectedTable.key
         }/${GetEntryType(selectedEntry)}`;
     };
