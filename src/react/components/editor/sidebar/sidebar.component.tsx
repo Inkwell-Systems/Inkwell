@@ -12,7 +12,6 @@ import CollaborationView from '../elements/management/collaboration/collaboratio
 import CustomEntriesView from '../elements/management/custom-entries.view.tsx';
 import TablesView from '../elements/views/tables.view.tsx';
 import SpreadsheetView from '../elements/views/spreadsheet.view.tsx';
-import ListView from '../elements/views/list.view.tsx';
 import DiagramView from '../elements/views/diagram.view.tsx';
 import ScopesView from '../elements/views/scopes.view.tsx';
 
@@ -113,10 +112,6 @@ const EditorSidebar = ({setElement}) => {
                     {
                         title: 'Spreadsheet',
                         element: <SpreadsheetView />,
-                    },
-                    {
-                        title: 'List',
-                        element: <ListView />,
                     },
                     {
                         title: 'Diagram',
