@@ -13,6 +13,7 @@ export const CreateProjectInDatabase = async (
     owner: IUser,
     scopes: IScopeHierarchy,
     tables: {[key: number]: ITable},
+    entryMap: {[key: number]: string},
 ): Promise<IResult<IProject>> => {
     try {
         const result = await push(ref(Database, `projects/`));
@@ -25,7 +26,7 @@ export const CreateProjectInDatabase = async (
             projectName: title,
             projectDescription: description,
             projectCreatedAt: Date.now(),
-            entryMap: {},
+            entryMap: entryMap,
             tables: tables,
             owner: owner.id,
             members: [],

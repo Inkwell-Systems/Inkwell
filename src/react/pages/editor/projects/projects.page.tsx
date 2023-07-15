@@ -53,7 +53,8 @@ const Projects = () => {
                 projectDescription,
                 uCtx.value,
                 DefaultScopeHierarchy,
-                [],
+                {},
+                {},
             );
             setError(result.error);
 

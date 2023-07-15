@@ -99,6 +99,7 @@ const ProjectSettingsView = () => {
             uCtx.value,
             pCtx.value.scopes,
             pCtx.value.tables,
+            pCtx.value.entryMap,
         );
 
         setError(proj.error);
