@@ -2,7 +2,11 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import UseProjectProvider from '../../../../hooks/project-provider/project-provider.hook.ts';
 import {Button} from '../../../inputs/button/button.component.tsx';
-import {CreateProjectInDatabase, UpdateProject} from '../../../../../firebase';
+import {
+    CreateProjectInDatabase,
+    DeleteProject,
+    UpdateProject,
+} from '../../../../../firebase';
 import {ErrorMessage} from '../../../../../styles/utils.styles.tsx';
 import {useNavigate} from 'react-router-dom';
 import UseUserProvider from '../../../../hooks/user-provider/userProvider.hook.ts';
@@ -11,6 +15,10 @@ import {
     EditorSectionContainer,
     EditorSectionTitle,
 } from '../utils.tsx';
+import {
+    GetProjectInvitationLink,
+    GetProjectInviteCode,
+} from '../../../../../types';
 
 const VerticalSplit = styled.div`
     display: flex;
@@ -26,6 +34,7 @@ const Pane = styled.div`
     p {
         font-size: 1rem;
         font-weight: 400;
+        min-height: 1.75rem;
         color: #b4b4b4;
     }
 `;
@@ -108,6 +117,16 @@ const ProjectSettingsView = () => {
                 `Failed to move local project to cloud. (project-settings.view.tsx)`,
             );
         }
+    };
+
+    const handleCopyProjectCode = () => {
+        const code = GetProjectInviteCode(pCtx.value);
+        navigator.clipboard.writeText(code);
+    };
+
+    const handleDeleteProject = async () => {
+        await DeleteProject(pCtx.value);
+        nav('/projects');
     };
 
     const handleSaveProjectSettings = async () => {
@@ -233,6 +252,33 @@ const ProjectSettingsView = () => {
                 >
                     Save
                 </Button>
+            </EditorSectionContainer>
+
+            <EditorSectionTitle>Project Info</EditorSectionTitle>
+            <EditorSectionContainer>
+                <Button
+                    config={{
+                        style: 'secondary',
+                        inverted: true,
+                    }}
+                    onClick={handleCopyProjectCode}
+                >
+                    Copy Invite Code
+                </Button>
+            </EditorSectionContainer>
+
+            <EditorSectionTitle>Management</EditorSectionTitle>
+            <EditorSectionContainer>
+                <Button
+                    config={{
+                        style: 'danger',
+                        inverted: false,
+                    }}
+                    onClick={handleDeleteProject}
+                >
+                    DELETE PROJECT
+                </Button>
+                <ErrorMessage>!!!THIS IS IRREVERSIBLE!!!</ErrorMessage>
             </EditorSectionContainer>
         </EditorElementContainer>
     );

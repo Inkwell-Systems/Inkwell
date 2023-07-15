@@ -2,10 +2,7 @@ import PageForm from '../../../components/misc/page-form.component.tsx';
 import Navigation from '../../../components/navigation/navigation.component.tsx';
 import {SignContainer} from '../../../components/sign/sign.styles.tsx';
 import {useEffect, useState} from 'react';
-import IProject, {
-    CreateLocalProject,
-    LoadProjectFromJson,
-} from '../../../../types/IProject.ts';
+import IProject, {CreateLocalProject} from '../../../../types/IProject.ts';
 import ProjectCard from '../../../components/editor/projects/project-card.components.tsx';
 import CreateProjectCard from '../../../components/editor/projects/create-project-card.component.tsx';
 import {Button} from '../../../components/inputs/button/button.component.tsx';
@@ -36,6 +33,7 @@ const Projects = () => {
     const [projectTitle, setProjectTitle] = useState('');
     const [projectDescription, setProjectDescription] = useState('');
     const [projectCloud, setProjectCloud] = useState(false);
+    const [projectCode, setProjectCode] = useState('');
 
     const handleLoadLocalProject = () => {
         // TODO(calco): Validate the json.
@@ -86,6 +84,10 @@ const Projects = () => {
             return [project];
         }
         return [];
+    };
+
+    const handleJoinViaCode = async () => {
+        nav(`/invite/${projectCode}`);
     };
 
     // TODO(calco): This is bad.
@@ -250,7 +252,25 @@ const Projects = () => {
             outerStyles={{}}
             title={'PROJECTS'}
         >
-            <h3>WORK IN PROGRESS</h3>
+            <TextInput
+                styles={{
+                    marginBottom: '2rem',
+                }}
+                label="Code"
+                value={projectCode}
+                onChange={e => setProjectCode(e.target.value)}
+            />
+
+            <Button
+                config={{
+                    style: 'secondary',
+                    inverted: true,
+                }}
+                style={{}}
+                onClick={handleJoinViaCode}
+            >
+                Join
+            </Button>
         </PageForm>,
     ];
 

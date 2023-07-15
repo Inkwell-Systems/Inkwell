@@ -101,8 +101,12 @@ export const GetProjectMemberCount = (project: IProject) => {
     return project.members.length;
 };
 
+export const GetProjectInviteCode = (project: IProject) => {
+    return `${project.projectId}/${project.inviteCode}`;
+};
+
 export const GetProjectInvitationLink = (project: IProject) => {
-    return `inkwell.systems/invite/${project.projectId}/${project.inviteCode}`;
+    return `inkwell.systems/invite/${GetProjectInviteCode(project)}}`;
 };
 
 export const GenerateProjectId = () => {
