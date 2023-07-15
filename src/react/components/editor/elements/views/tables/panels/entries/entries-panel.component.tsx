@@ -71,7 +71,13 @@ const CreateEntryOption = styled.div`
     }
 `;
 
-const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
+const EntriesPanel = ({
+    selectedTable,
+    setBigSelectedEntry,
+}: {
+    selectedTable: ITable;
+    setBigSelectedEntry: (entry: IFact | IEvent | IRule | null) => void;
+}) => {
     const pCtx = UseProjectProvider();
 
     const [searchFilter, setSearchFilter] = useState('');
@@ -291,6 +297,17 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
             setThirdSize(containerRef.offsetWidth / 3);
         }
     }, [containerRef]);
+
+    useEffect(() => {
+        if (selectedEntry == null || selectedTable == null) {
+            return;
+        }
+
+        const ientry = GetIEntryFromId(pCtx.value, selectedEntry);
+        if (ientry == null) return;
+
+        setBigSelectedEntry(ientry);
+    }, [selectedEntry, pCtx.value]);
 
     return (
         <>

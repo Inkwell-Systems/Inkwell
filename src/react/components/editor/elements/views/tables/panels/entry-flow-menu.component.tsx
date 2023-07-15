@@ -66,10 +66,11 @@ const EntryFlowMenu = ({
                     value={value}
                     innerStyles={{
                         color: '#b4b4b4',
+                        backgroundColor: '#131315',
                         padding: 0,
                     }}
                     labelStyles={{
-                        top: '0.3rem',
+                        top: '0.2rem',
                         left: '0rem',
                         fontSize: '0.9rem',
                         opacity: `${value.length > 0 ? '0' : '100'}`,
