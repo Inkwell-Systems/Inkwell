@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {Bar, Container, Section} from 'react-simple-resizer';
-import TablesPanel from './panels/tables-panel.component.tsx';
+import TablesPanel from './panels/tables/tables-panel.component.tsx';
 import EntriesPanel from './panels/entries-panel.component.tsx';
 
 const TablesContainer = styled.div`

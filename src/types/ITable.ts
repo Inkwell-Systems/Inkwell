@@ -6,6 +6,7 @@ import {
     IFact,
     IRule,
 } from './entries';
+import IProject from './IProject.ts';
 
 export default interface ITable {
     id: number;
@@ -14,6 +15,17 @@ export default interface ITable {
     facts: IFact[];
     rules: IRule[];
 }
+
+export const CreateProjectTable = (key: string, project: IProject): ITable => {
+    const id = Object.keys(project.entryMap).length;
+    return {
+        id,
+        key,
+        events: [],
+        facts: [],
+        rules: [],
+    };
+};
 
 export const CheckTableValidity = (table: ITable): boolean => {
     const isIdValid = 'id' in table && typeof table.id === 'number';
