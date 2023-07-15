@@ -5,7 +5,7 @@ import EntriesPanel from './panels/entries/entries-panel.component.tsx';
 import {YeetableBar, YeetableContainer, YeetableSection} from './util.tsx';
 import ITable from '../../../../../../types/ITable.ts';
 import EntryPanel from './panels/entry/entry-panel.component.tsx';
-import {IEntry, IEvent, IFact, IRule} from '../../../../../../types';
+import {IEvent, IFact, IRule} from '../../../../../../types';
 
 const TablesContainer = styled.div`
     flex: 1;
@@ -44,7 +44,10 @@ const TablesView = () => {
                 </YeetableSection>
                 <YeetableBar size={5} />
                 <YeetableSection defaultSize={thirdSize} minSize={250}>
-                    <EntryPanel selectedEntry={selectedEntry} />
+                    <EntryPanel
+                        selectedTable={selectedTable}
+                        selectedEntry={selectedEntry}
+                    />
                 </YeetableSection>
             </YeetableContainer>
         </TablesContainer>
