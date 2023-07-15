@@ -31,10 +31,10 @@ export const FetchProject = async (
 };
 
 export const FetchUserProjectsFromDatabase = async (
-    user: IUser,
+    userId: string,
 ): Promise<IResult<IProject[]>> => {
     try {
-        const snapshot = await get(ref(Database, `users/${user.id}/projects`));
+        const snapshot = await get(ref(Database, `users/${userId}/projects`));
         if (!snapshot.exists()) {
             return {
                 data: [],

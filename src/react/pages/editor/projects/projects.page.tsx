@@ -72,7 +72,7 @@ const Projects = () => {
     };
 
     const loadCloudProjects = async () => {
-        const result = await FetchUserProjectsFromDatabase(uCtx.value);
+        const result = await FetchUserProjectsFromDatabase(uCtx.value.id);
         if (!result.error) {
             return result.data;
         }
