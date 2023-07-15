@@ -125,7 +125,13 @@ const ProjectSettingsView = () => {
     };
 
     const handleDeleteProject = async () => {
-        await DeleteProject(pCtx.value);
+        if (!pCtx.value.cloud) {
+            localStorage.setItem('project', null);
+        } else {
+            if (pCtx.value.owner === uCtx.value.id)
+                await DeleteProject(pCtx.value);
+        }
+
         nav('/projects');
     };
 
@@ -267,19 +273,23 @@ const ProjectSettingsView = () => {
                 </Button>
             </EditorSectionContainer>
 
-            <EditorSectionTitle>Management</EditorSectionTitle>
-            <EditorSectionContainer>
-                <Button
-                    config={{
-                        style: 'danger',
-                        inverted: false,
-                    }}
-                    onClick={handleDeleteProject}
-                >
-                    DELETE PROJECT
-                </Button>
-                <ErrorMessage>!!!THIS IS IRREVERSIBLE!!!</ErrorMessage>
-            </EditorSectionContainer>
+            {pCtx.value.owner === uCtx.value.id && (
+                <>
+                    <EditorSectionTitle>Management</EditorSectionTitle>
+                    <EditorSectionContainer>
+                        <Button
+                            config={{
+                                style: 'danger',
+                                inverted: false,
+                            }}
+                            onClick={handleDeleteProject}
+                        >
+                            DELETE PROJECT
+                        </Button>
+                        <ErrorMessage>!!!THIS IS IRREVERSIBLE!!!</ErrorMessage>
+                    </EditorSectionContainer>
+                </>
+            )}
         </EditorElementContainer>
     );
 };
