@@ -18,6 +18,7 @@ import {
     CreateProjectInDatabase,
     FetchUserProjectsFromDatabase,
 } from '../../../../firebase';
+import {DefaultScopeHierarchy} from '../../../../types/IScope.ts';
 
 const Projects = () => {
     const [error, setError] = useState<Error | null>(null);
@@ -51,6 +52,8 @@ const Projects = () => {
                 projectTitle,
                 projectDescription,
                 uCtx.value,
+                DefaultScopeHierarchy,
+                [],
             );
             setError(result.error);
 

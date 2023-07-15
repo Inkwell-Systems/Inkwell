@@ -18,7 +18,9 @@ export interface ITextInputProps extends IInputProps<string, HTMLInputElement> {
 const TextInput = (props: ITextInputProps) => {
     return (
         <InputContainer style={props.styles}>
-            <TextBasedInput value={props.value}>{props.label}</TextBasedInput>
+            <TextBasedInput style={props.labelStyles} value={props.value}>
+                {props.label}
+            </TextBasedInput>
 
             <Inp
                 disabled={props?.disabled ?? false}

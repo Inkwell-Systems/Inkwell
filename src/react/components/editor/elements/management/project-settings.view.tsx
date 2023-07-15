@@ -15,10 +15,7 @@ import {
     EditorSectionContainer,
     EditorSectionTitle,
 } from '../utils.tsx';
-import {
-    GetProjectInvitationLink,
-    GetProjectInviteCode,
-} from '../../../../../types';
+import {GetProjectInviteCode} from '../../../../../types';
 
 const VerticalSplit = styled.div`
     display: flex;
@@ -100,6 +97,8 @@ const ProjectSettingsView = () => {
             name,
             description,
             uCtx.value,
+            pCtx.value.scopes,
+            pCtx.value.tables,
         );
 
         setError(proj.error);

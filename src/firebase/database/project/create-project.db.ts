@@ -2,13 +2,17 @@ import IUser from '../../../types/IUser.ts';
 import {IResult} from '../../../types/IResult.ts';
 import IProject, {GenerateProjectId} from '../../../types/IProject.ts';
 import {get, push, ref, set} from 'firebase/database';
-import {DefaultScopeHierarchy} from '../../../types/IScope.ts';
+import {IScopeHierarchy} from '../../../types/IScope.ts';
 import {Database} from '../../index.ts';
+import ITable from '../../../types/ITable.ts';
 
+// TODO(calco)
 export const CreateProjectInDatabase = async (
     title: string,
     description: string,
     owner: IUser,
+    scopes: IScopeHierarchy,
+    tables: ITable[],
 ): Promise<IResult<IProject>> => {
     try {
         const result = await push(ref(Database, `projects/`));
@@ -17,12 +21,12 @@ export const CreateProjectInDatabase = async (
             projectId: result.key,
             projectBanner:
                 'https://images.unsplash.com/photo-1460411794035-42aac080490a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80',
-            scopes: DefaultScopeHierarchy,
+            scopes: scopes,
             projectName: title,
             projectDescription: description,
             projectCreatedAt: Date.now(),
             entryMap: {},
-            tables: [],
+            tables: tables,
             owner: owner.id,
             members: [],
             inviteCode: GenerateProjectId(),

@@ -10,7 +10,7 @@ import OverviewView from '../elements/overview/overview.view.tsx';
 import ProjectSettingsView from '../elements/management/project-settings.view.tsx';
 import CollaborationView from '../elements/management/collaboration/collaboration.view.tsx';
 import CustomEntriesView from '../elements/management/custom-entries.view.tsx';
-import TablesView from '../elements/views/tables.view.tsx';
+import TablesView from '../elements/views/tables/tables.view.tsx';
 import SpreadsheetView from '../elements/views/spreadsheet.view.tsx';
 import DiagramView from '../elements/views/diagram.view.tsx';
 import ScopesView from '../elements/views/scopes.view.tsx';
