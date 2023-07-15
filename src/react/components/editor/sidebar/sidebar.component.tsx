@@ -8,7 +8,7 @@ import ViewsIcon from './icons/views.icon.tsx';
 import InnerSidebarElement from './inner-sidebar-element/inner-sidebar-element.component.tsx';
 import OverviewView from '../elements/overview/overview.view.tsx';
 import ProjectSettingsView from '../elements/management/project-settings.view.tsx';
-import CollaborationView from '../elements/management/collaboration.view.tsx';
+import CollaborationView from '../elements/management/collaboration/collaboration.view.tsx';
 import CustomEntriesView from '../elements/management/custom-entries.view.tsx';
 import TablesView from '../elements/views/tables.view.tsx';
 import SpreadsheetView from '../elements/views/spreadsheet.view.tsx';

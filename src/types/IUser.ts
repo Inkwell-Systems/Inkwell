@@ -7,6 +7,13 @@ export default interface IUser {
     projects: string[];
 }
 
+export interface IFetchedUser {
+    id: string;
+    name: string;
+    email: string;
+    profilePicture: string;
+}
+
 // TODO(calco): CHANGE THIS IN PRODUCTION
 export const DefaultUser: IUser = {
     isAuthenticated: false,
