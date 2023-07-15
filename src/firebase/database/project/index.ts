@@ -1,4 +1,5 @@
 import IProject from '../../../types/IProject.ts';
+import ITable from '../../../types/ITable.ts';
 
 export * from './create-project.db.ts';
 export * from './fetch-project.db.ts';
@@ -17,6 +18,19 @@ export const DatabaseProjectToIProject = (dbSnapshot): IProject => {
     if (project.entryMap === undefined) project.entryMap = {};
     if (project.members === undefined) project.members = [];
     if (project.tables === undefined) project.tables = [];
+
+    // Loop through all tables
+    // const flattenedTables: ITable[] = [];
+    for (const table of project.tables) {
+        if (table === undefined) continue;
+
+        if (table.facts === undefined) table.facts = [];
+        if (table.events === undefined) table.events = [];
+        if (table.rules === undefined) table.rules = [];
+        // flattenedTables.push(table);
+    }
+    // project.tables = flattenedTables;
+    // console.log(project);
 
     return project;
 };

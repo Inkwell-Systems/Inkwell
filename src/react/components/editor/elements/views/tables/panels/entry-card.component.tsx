@@ -1,7 +1,5 @@
 import styled from 'styled-components';
 import {useEffect, useRef, useState} from 'react';
-import {UpdateTableKey} from '../../../../../../../../firebase';
-import UseProjectProvider from '../../../../../../../hooks/project-provider/project-provider.hook.ts';
 
 const TableCardContainer = styled.div<{selected: boolean}>`
     width: 100%;
@@ -29,12 +27,14 @@ const TableCardName = styled.input`
     height: 100%;
     padding: 0.5rem;
 
-    color: #b4b4b4;
-
     background-color: transparent;
     border: none;
 
     cursor: pointer;
+
+    color: #b4b4b4;
+    font-size: 1rem;
+    font-weight: 300;
 
     &:focus {
         outline: none;
@@ -48,20 +48,29 @@ const TableCardEditButton = styled.svg`
     height: 1.5rem;
 `;
 
-const TableCard = ({table, onClick, selected}) => {
-    const [key, setKey] = useState(table.key);
+const EntryCard = ({
+    defaultKey,
+    onClick,
+    selected,
+    onFinishEditing,
+}: {
+    defaultKey: string;
+    onClick: () => void;
+    selected: boolean;
+    onFinishEditing: (string) => void;
+}) => {
+    const [key, setKey] = useState(defaultKey);
     const [editing, setEditing] = useState(false);
 
-    const pCtx = UseProjectProvider();
     const keyInputRef = useRef(null);
-
-    const handleStartEditing = () => {
-        setEditing(true);
-    };
 
     const handleFinishEditing = async () => {
         setEditing(false);
-        await UpdateTableKey(key, pCtx.value.projectId, table.id);
+        await onFinishEditing(key);
+    };
+
+    const handleKeyDown = async e => {
+        if (e.key === 'Enter') await handleFinishEditing();
     };
 
     useEffect(() => {
@@ -77,6 +86,7 @@ const TableCard = ({table, onClick, selected}) => {
                 disabled={!editing}
                 value={key}
                 onChange={e => setKey(e.target.value)}
+                onKeyDown={handleKeyDown}
             />
 
             {editing ? (
@@ -95,7 +105,7 @@ const TableCard = ({table, onClick, selected}) => {
                 </TableCardEditButton>
             ) : (
                 <TableCardEditButton
-                    onClick={handleStartEditing}
+                    onClick={() => setEditing(true)}
                     width="16"
                     height="16"
                     viewBox="0 0 16 16"
@@ -112,4 +122,4 @@ const TableCard = ({table, onClick, selected}) => {
     );
 };
 
-export default TableCard;
+export default EntryCard;

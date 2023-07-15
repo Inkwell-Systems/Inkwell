@@ -1,14 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {PanelContentContainer, PanelHeader} from '../util.tsx';
+import {PanelContentContainer, PanelHeader} from '../../util.tsx';
 import EntryFlowMenu from '../entry-flow-menu.component.tsx';
 import ITable, {
     CreateProjectTable,
 } from '../../../../../../../../types/ITable.ts';
 import UseProjectProvider from '../../../../../../../hooks/project-provider/project-provider.hook.ts';
-import {CreateTable, DeleteTable} from '../../../../../../../../firebase';
-import TableCard from './table-card.component.tsx';
+import {
+    CreateTable,
+    DeleteTable,
+    UpdateTableKey,
+} from '../../../../../../../../firebase';
+import EntryCard from '../entry-card.component.tsx';
 
-const TablesPanel = () => {
+const TablesPanel = ({setBigSelectedTable}) => {
     const pCtx = UseProjectProvider();
 
     const [searchFilter, setSearchFilter] = useState('');
@@ -22,6 +26,12 @@ const TablesPanel = () => {
         );
         setFilteredTables(t);
     }, [searchFilter, pCtx.value]);
+
+    useEffect(() => {
+        console.log('Selected table changed: ');
+        console.log(selectedTable);
+        setBigSelectedTable(pCtx.value.tables[selectedTable]);
+    }, [selectedTable]);
 
     const handleDeleteTable = async () => {
         await DeleteTable(pCtx.value.projectId, selectedTable);
@@ -49,6 +59,10 @@ const TablesPanel = () => {
         }
     };
 
+    const handleRenameTable = async (newKey, table) => {
+        await UpdateTableKey(newKey, pCtx.value.projectId, table.id);
+    };
+
     return (
         <>
             <PanelHeader>
@@ -62,8 +76,9 @@ const TablesPanel = () => {
             </PanelHeader>
             <PanelContentContainer>
                 {filteredTables.map((table: ITable) => (
-                    <TableCard
-                        table={table}
+                    <EntryCard
+                        onFinishEditing={key => handleRenameTable(key, table)}
+                        defaultKey={table.key}
                         onClick={() => {
                             setSelectedTable(table.id);
                         }}

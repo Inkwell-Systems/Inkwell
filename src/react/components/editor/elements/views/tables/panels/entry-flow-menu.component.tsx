@@ -33,7 +33,21 @@ const FlowMenuImage = styled.img`
     height: 1.5rem;
 `;
 
-const EntryFlowMenu = ({label, value, setValue, handleDelete, handleAdd}) => {
+const EntryFlowMenu = ({
+    label,
+    value,
+    setValue,
+    handleDelete,
+    handleAdd,
+    setAddEntryRef,
+}: {
+    label: string;
+    value: string;
+    setValue: (string) => void;
+    handleDelete: () => void;
+    handleAdd: () => void;
+    setAddEntryRef?: (any) => void;
+}) => {
     return (
         <FlowMenuContainer>
             <div>
@@ -65,6 +79,7 @@ const EntryFlowMenu = ({label, value, setValue, handleDelete, handleAdd}) => {
             </div>
             <FlowMenuButtonContainer>
                 <FlowMenuImage
+                    ref={setAddEntryRef ? setAddEntryRef : null}
                     src={PlusIcon}
                     alt="New table / entry"
                     onClick={handleAdd}

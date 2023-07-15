@@ -16,6 +16,10 @@ export default interface ITable {
     rules: IRule[];
 }
 
+export const GetTableEntries = (table: ITable): (IEvent | IFact | IRule)[] => {
+    return [...table.events, ...table.facts, ...table.rules];
+};
+
 export const CreateProjectTable = (key: string, project: IProject): ITable => {
     const id = Object.keys(project.entryMap).length;
     return {
