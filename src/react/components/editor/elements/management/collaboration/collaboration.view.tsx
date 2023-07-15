@@ -11,15 +11,27 @@ import {ErrorMessage} from '../../../../../../styles/utils.styles.tsx';
 import UserCard from './user-card.component.tsx';
 import Invitations from './invitations/invitations.component.tsx';
 import {RemoveUserFromProject} from '../../../../../../firebase';
+import UseUserProvider from '../../../../../hooks/user-provider/userProvider.hook.ts';
 
 const CollaborationView = () => {
     const pCtx = UseProjectProvider();
+    const uCtx = UseUserProvider();
     const [users, setUsers] = useState<IFetchedUser[]>();
 
     const [error, setError] = useState<Error | null>(null);
 
     const handleKickUser = async (userId: string) => {
         setError(null);
+
+        if (userId === pCtx.value.owner) {
+            setError(new Error('Cannot kick owner'));
+            return;
+        }
+
+        if (uCtx.value?.id !== pCtx.value.owner) {
+            setError(new Error('Only the owner can kick members'));
+            return;
+        }
 
         const res = await RemoveUserFromProject(pCtx.value.projectId, userId);
         setError(res.error);
@@ -73,6 +85,10 @@ const CollaborationView = () => {
 
                         {users?.map(user => (
                             <UserCard
+                                disabled={
+                                    user.id === pCtx.value.owner ||
+                                    uCtx.value?.id !== pCtx.value.owner
+                                }
                                 user={user}
                                 handleKick={() => handleKickUser(user.id)}
                                 key={user.id}
