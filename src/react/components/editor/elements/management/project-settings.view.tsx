@@ -132,6 +132,13 @@ const ProjectSettingsView = () => {
             return;
         }
 
+        if (uCtx.value.id !== pCtx.value.owner && !cloud) {
+            setError(
+                new Error('Only the owner of the project can take it down!'),
+            );
+            return;
+        }
+
         const project = {
             ...pCtx.value,
             cloud: cloud,
@@ -142,6 +149,11 @@ const ProjectSettingsView = () => {
         const result = await UpdateProject(project);
         setError(result.error);
         if (!result.error && result.data === null) {
+            project.members = [];
+            project.owner = uCtx.value.id;
+            project.cloud = false;
+            project.inviteCode = '';
+
             pCtx.setValue(project);
             nav('/editor/local');
 

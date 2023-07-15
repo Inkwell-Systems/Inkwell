@@ -56,35 +56,43 @@ const CollaborationView = () => {
     }, [pCtx.value]);
 
     return (
-        <EditorElementContainer>
-            <EditorSectionTitle>Current Members</EditorSectionTitle>
-            {error !== null && <ErrorMessage>{error?.message}</ErrorMessage>}
+        <>
+            {pCtx.value.cloud ? (
+                <EditorElementContainer>
+                    <EditorSectionTitle>Current Members</EditorSectionTitle>
+                    {error !== null && (
+                        <ErrorMessage>{error?.message}</ErrorMessage>
+                    )}
 
-            <EditorSectionContainer>
-                <ErrorMessage>
-                    Changing user roles has no effect. It is a work in progress.
-                    For now, only the owner can delete the project and control
-                    member flow.
-                </ErrorMessage>
+                    <EditorSectionContainer>
+                        <ErrorMessage>
+                            Changing user roles has no effect. It is a work in
+                            progress. For now, only the owner can delete the
+                            project and control member flow.
+                        </ErrorMessage>
 
-                {users?.map(user => (
-                    <UserCard
-                        user={user}
-                        handleKick={() => handleKickUser(user.id)}
-                        key={user.id}
-                    />
-                ))}
-            </EditorSectionContainer>
+                        {users?.map(user => (
+                            <UserCard
+                                user={user}
+                                handleKick={() => handleKickUser(user.id)}
+                                key={user.id}
+                            />
+                        ))}
+                    </EditorSectionContainer>
 
-            <EditorSectionTitle>Invitations</EditorSectionTitle>
-            <EditorSectionContainer
-                style={{
-                    gap: '1rem',
-                }}
-            >
-                <Invitations />
-            </EditorSectionContainer>
-        </EditorElementContainer>
+                    <EditorSectionTitle>Invitations</EditorSectionTitle>
+                    <EditorSectionContainer
+                        style={{
+                            gap: '1rem',
+                        }}
+                    >
+                        <Invitations />
+                    </EditorSectionContainer>
+                </EditorElementContainer>
+            ) : (
+                <h1>A cloud project is required for this.</h1>
+            )}
+        </>
     );
 };
 

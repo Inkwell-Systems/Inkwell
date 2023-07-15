@@ -1,16 +1,16 @@
 import {IResult} from '../../../types/IResult.ts';
-import IUser from '../../../types/IUser.ts';
-import {FetchProject} from './fetch-project.db.ts';
+import {
+    FetchProject,
+    FetchUserProjectsFromDatabase,
+} from './fetch-project.db.ts';
 import {Database} from '../../index.ts';
 import {ref, update} from 'firebase/database';
 
 export const AddUserToProject = async (
-    user: IUser,
+    userId: string,
     projectId: string,
 ): Promise<IResult<null>> => {
     try {
-        console.log(user);
-
         // Add user to project
         const projRes = await FetchProject(projectId);
         if (projRes.error) {
@@ -25,25 +25,38 @@ export const AddUserToProject = async (
             };
         }
 
-        if (projRes.data.members.includes(user.id)) {
+        if (projRes.data.members.includes(userId)) {
             console.log(
-                `User ${user.id} is already a member of project ${projectId}. (AddUserToProject)`,
+                `User ${userId} is already a member of project ${projectId}. (AddUserToProject)`,
             );
             return {
                 data: null,
                 error: new Error(
-                    `User ${user.id} is already a member of project ${projectId}.`,
+                    `User ${userId} is already a member of project ${projectId}.`,
                 ),
             };
         }
 
         await update(ref(Database, `projects/${projectId}`), {
-            members: [...projRes.data.members, user.id],
+            members: [...projRes.data.members, userId],
         });
 
-        // Add project to user
-        await update(ref(Database, `users/${user.id}`), {
-            projects: [...user.projects, projectId],
+        // Get user's projects
+        const userRes = await FetchUserProjectsFromDatabase(userId);
+        if (userRes.error) {
+            console.log(
+                `Error fetching projects for user ${userId} from database. (AddUserToProject)`,
+            );
+            console.error(userRes.error);
+
+            return {
+                data: null,
+                error: userRes.error,
+            };
+        }
+
+        await update(ref(Database, `users/${userId}`), {
+            projects: [...userRes.data, projectId],
         });
 
         return {
@@ -52,7 +65,7 @@ export const AddUserToProject = async (
         };
     } catch (error) {
         console.log(
-            `Error adding user ${user.id} to project ${projectId}. (AddUserToProject)`,
+            `Error adding user ${userId} to project ${projectId}. (AddUserToProject)`,
         );
         console.error(error);
 

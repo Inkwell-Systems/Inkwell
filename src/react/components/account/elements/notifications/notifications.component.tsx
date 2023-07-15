@@ -34,6 +34,7 @@ const Notifications = () => {
             }}
         >
             <AccountSettingsHeader>Notifications</AccountSettingsHeader>
+            <ErrorMessage>{error?.message}</ErrorMessage>
 
             <AccountElementContainer
                 style={{
@@ -44,17 +45,11 @@ const Notifications = () => {
                 {notifs.map(notif => (
                     <Notification
                         key={notif.id}
-                        id={notif.id}
-                        userIdFrom={notif.userIdFrom}
-                        projectId={notif.projectId}
-                        message={notif.message}
-                        createdAt={notif.createdAt}
-                        userIdTo={notif.userIdTo}
+                        setError={setError}
+                        invitation={notif}
                     />
                 ))}
             </AccountElementContainer>
-
-            {/*{error && <ErrorMessage>{error.message}</ErrorMessage>}*/}
         </AccountElementContainer>
     );
 };

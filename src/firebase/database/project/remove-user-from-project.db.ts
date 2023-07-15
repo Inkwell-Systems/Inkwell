@@ -62,19 +62,15 @@ export const RemoveUserFromProject = async (
         }
 
         await update(ref(Database, `projects/${projectId}`), {
-            members: [
-                projRes.data.members.filter(
-                    (member: string) => member !== userId,
-                ),
-            ],
+            members: projRes.data.members.filter(
+                (member: string) => member !== userId,
+            ),
         });
 
         await update(ref(Database, `users/${userId}`), {
-            projects: [
-                userProjectsRes.data.filter(
-                    project => project.projectId !== projectId,
-                ),
-            ],
+            projects: userProjectsRes.data.filter(
+                project => project.projectId !== projectId,
+            ),
         });
 
         console.log(

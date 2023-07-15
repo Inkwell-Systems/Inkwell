@@ -1,16 +1,18 @@
-import IUser from '../../../types/IUser.ts';
 import {IResult} from '../../../types/IResult.ts';
 import {AddUserToProject} from '../project';
+import {IInvitation} from '../../../types/IInvitation.ts';
+import {ref, set} from 'firebase/database';
+import {Database} from '../../index.ts';
 
 export const AcceptLinkInvitation = async (
-    user: IUser,
+    userId: string,
     projectId: string,
 ): Promise<IResult<null>> => {
     try {
-        const res = await AddUserToProject(user, projectId);
+        const res = await AddUserToProject(userId, projectId);
         if (res.error) {
             console.log(
-                `Error adding user ${user.id} to project ${projectId}. (AcceptLinkInvitation)`,
+                `Error adding user ${userId} to project ${projectId}. (AcceptLinkInvitation)`,
             );
             console.error(res.error);
 
@@ -26,7 +28,51 @@ export const AcceptLinkInvitation = async (
         };
     } catch (error) {
         console.log(
-            `Error accepting invitation for user ${user.id}. (AcceptLinkInvitation)`,
+            `Error accepting invitation for user ${userId}. (AcceptLinkInvitation)`,
+        );
+        console.error(error);
+
+        return {
+            data: null,
+            error: error,
+        };
+    }
+};
+
+export const AcceptInvitation = async (
+    invitation: IInvitation,
+): Promise<IResult<null>> => {
+    try {
+        const res = await AddUserToProject(
+            invitation.userIdTo,
+            invitation.projectId,
+        );
+
+        if (res.error) {
+            console.log(
+                `Error adding user ${invitation.userIdTo} to project ${invitation.projectId}. (AcceptInvitation)`,
+            );
+            console.error(res.error);
+
+            return {
+                data: null,
+                error: res.error,
+            };
+        }
+
+        // Remove the invitation
+        await set(ref(Database, `invitations/${invitation.id}`), null);
+
+        console.log(
+            `Successfully accepted invitation to ${invitation.projectId} for user ${invitation.userIdTo}. (AcceptInvitation)`,
+        );
+        return {
+            data: null,
+            error: null,
+        };
+    } catch (error) {
+        console.log(
+            `Error accepting invitation to ${invitation.projectId} for user ${invitation.userIdTo}. (AcceptInvitation)`,
         );
         console.error(error);
 

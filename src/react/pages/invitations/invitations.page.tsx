@@ -38,7 +38,7 @@ const Invitations = () => {
     const [i, setI] = useState(0);
 
     const handleAccept = async () => {
-        const res = await AcceptLinkInvitation(uCtx.value, projectId);
+        const res = await AcceptLinkInvitation(uCtx.value.id, projectId);
         if (res.error) setError(res.error);
         else nav('/projects');
     };
