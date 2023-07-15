@@ -27,8 +27,8 @@ const EmailInvitation = () => {
     const handleEmailInvitation = async () => {
         setError(null);
 
-        // setEmail('');
-        // setMessage('');
+        setEmail('');
+        setMessage('');
 
         const result = await CreateInvitation(
             email,
@@ -36,7 +36,6 @@ const EmailInvitation = () => {
             pCtx.value.projectId,
             message,
         );
-        console.log(result);
 
         setError(result.error);
         if (!result.error) {

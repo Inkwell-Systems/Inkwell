@@ -45,6 +45,7 @@ export const FetchUserProjectsFromDatabase = async (
         const projects: IProject[] = [];
         for (const projectId of snapshot.val()) {
             const result = await FetchProjectFromDatabase(projectId);
+
             if (!result.error) {
                 projects.push(result.data);
             }
