@@ -1,10 +1,10 @@
 import {get, ref, set, update} from 'firebase/database';
 import {Database} from '../../../index.ts';
 import {
+    CreateProjectEvent,
+    CreateProjectFact,
+    CreateProjectRule,
     GetMinimumEntryIdFromMap,
-    IEvent,
-    IFact,
-    IRule,
 } from '../../../../types';
 
 export const CreateFact = async (projectId: string, tableId: number) => {
@@ -13,13 +13,7 @@ export const CreateFact = async (projectId: string, tableId: number) => {
             await get(ref(Database, `projects/${projectId}/entryMap`))
         ).val();
         const factId = GetMinimumEntryIdFromMap(entryMap);
-
-        const fact: IFact = {
-            key: 'New Fact',
-            id: factId,
-            value: 0,
-            factGuard: 1,
-        };
+        const fact = CreateProjectFact(factId);
 
         await set(
             ref(
@@ -53,13 +47,7 @@ export const CreateEvent = async (projectId: string, tableId: number) => {
             await get(ref(Database, `projects/${projectId}/entryMap`))
         ).val();
         const eventId = GetMinimumEntryIdFromMap(entryMap);
-
-        const event: IEvent = {
-            key: 'New Event',
-            id: eventId,
-            value: 0,
-            eventGuard: 1,
-        };
+        const event = CreateProjectEvent(eventId);
 
         await set(
             ref(
@@ -93,16 +81,7 @@ export const CreateRule = async (projectId: string, tableId: number) => {
             await get(ref(Database, `projects/${projectId}/entryMap`))
         ).val();
         const ruleId = GetMinimumEntryIdFromMap(entryMap);
-
-        const rule: IRule = {
-            key: 'New Rule',
-            ruleGuard: 1,
-            id: ruleId,
-            value: 0,
-            ruleCriteria: [],
-            ruleModifications: [],
-            ruleTriggers: [],
-        };
+        const rule = CreateProjectRule(ruleId);
 
         await set(
             ref(

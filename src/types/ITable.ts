@@ -37,14 +37,18 @@ export const GetTableEntries = (table: ITable): (IEvent | IFact | IRule)[] => {
     ];
 };
 
+export const GetTableEntriesIds = (table: ITable): number[] => {
+    return GetTableEntries(table).map(entry => entry.id);
+};
+
 export const CreateProjectTable = (key: string, project: IProject): ITable => {
     const id = GetMinimumEntryIdFromProject(project);
     return {
         id,
         key,
-        events: [],
-        facts: [],
-        rules: [],
+        events: {},
+        facts: {},
+        rules: {},
     };
 };
 

@@ -10,8 +10,12 @@ import EntryFlowMenu from '../entry-flow-menu.component.tsx';
 import styled from 'styled-components';
 import ITable, {GetTableEntries} from '../../../../../../../../types/ITable.ts';
 import {
+    CreateProjectEvent,
+    CreateProjectFact,
+    CreateProjectRule,
     GetEntryType,
     GetIEntryFromId,
+    GetMinimumEntryIdFromProject,
     IEntry,
     IEvent,
     IFact,
@@ -81,12 +85,28 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
     const [addEntryRef, setAddEntryRef] = useState(null);
 
     const handleDeleteEntry = async () => {
+        const entry = GetIEntryFromId(pCtx.value, selectedEntry);
+        const type = GetEntryType(entry);
+
         if (!pCtx.value.cloud) {
+            const newEntryMap = {...pCtx.value.entryMap};
+            delete newEntryMap[selectedEntry];
+
+            const newTable = {...selectedTable};
+            delete newTable[type][selectedEntry];
+
+            pCtx.setValue({
+                ...pCtx.value,
+                entryMap: newEntryMap,
+                tables: {
+                    ...pCtx.value.tables,
+                },
+            });
+
+            console.log('Deleted local entry!');
             return;
         }
 
-        const entry = GetIEntryFromId(pCtx.value, selectedEntry);
-        const type = GetEntryType(entry);
         await DeleteEntry(
             pCtx.value.projectId,
             selectedTable.id,
@@ -106,11 +126,31 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
         setDisplayAddEntry(!displayAddEntry);
     };
 
-    // TODO(calco): Handle local entry creation
     const handleCreateFact = async () => {
         setDisplayAddEntry(false);
 
         if (!pCtx.value.cloud) {
+            const factId = GetMinimumEntryIdFromProject(pCtx.value);
+            const newFact = CreateProjectFact(factId);
+
+            pCtx.setValue({
+                ...pCtx.value,
+                tables: {
+                    ...pCtx.value.tables,
+                    [selectedTable.id]: {
+                        ...selectedTable,
+                        facts: {
+                            ...selectedTable.facts,
+                            [factId]: newFact,
+                        },
+                    },
+                },
+                entryMap: {
+                    ...pCtx.value.entryMap,
+                    [factId]: newFact.key,
+                },
+            });
+            console.log('Created local fact!');
             return;
         }
 
@@ -122,8 +162,31 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
         setDisplayAddEntry(false);
 
         if (!pCtx.value.cloud) {
+            const eventId = GetMinimumEntryIdFromProject(pCtx.value);
+            const event = CreateProjectEvent(eventId);
+
+            pCtx.setValue({
+                ...pCtx.value,
+                tables: {
+                    ...pCtx.value.tables,
+                    [selectedTable.id]: {
+                        ...selectedTable,
+                        events: {
+                            ...selectedTable.events,
+                            [eventId]: event,
+                        },
+                    },
+                },
+                entryMap: {
+                    ...pCtx.value.entryMap,
+                    [eventId]: event.key,
+                },
+            });
+
+            console.log('Created local event!');
             return;
         }
+
         await CreateEvent(pCtx.value.projectId, selectedTable.id);
         setSearchFilter('');
     };
@@ -132,14 +195,53 @@ const EntriesPanel = ({selectedTable}: {selectedTable: ITable}) => {
         setDisplayAddEntry(false);
 
         if (!pCtx.value.cloud) {
+            const ruleId = GetMinimumEntryIdFromProject(pCtx.value);
+            const rule = CreateProjectRule(ruleId);
+
+            pCtx.setValue({
+                ...pCtx.value,
+                tables: {
+                    ...pCtx.value.tables,
+                    [selectedTable.id]: {
+                        ...selectedTable,
+                        rules: {
+                            ...selectedTable.rules,
+                            [ruleId]: rule,
+                        },
+                    },
+                },
+                entryMap: {
+                    ...pCtx.value.entryMap,
+                    [ruleId]: rule.key,
+                },
+            });
+
+            console.log('Created local rule!');
             return;
         }
+
         await CreateRule(pCtx.value.projectId, selectedTable.id);
         setSearchFilter('');
     };
 
     const handleRenameEntry = async (newKey, entry) => {
         if (!pCtx.value.cloud) {
+            const newEntryMap = {...pCtx.value.entryMap};
+            newEntryMap[entry.id] = newKey;
+
+            const newTable = {...selectedTable};
+            newTable[GetEntryType(entry)][entry.id].key = newKey;
+
+            pCtx.setValue({
+                ...pCtx.value,
+                entryMap: newEntryMap,
+                tables: {
+                    ...pCtx.value.tables,
+                    [selectedTable.id]: newTable,
+                },
+            });
+
+            console.log('Renamed local entry!');
             return;
         }
 

@@ -5,6 +5,13 @@ export interface IFact extends IEntry {
     factGuard: number;
 }
 
+export const CreateProjectFact = (factId: number): IFact => ({
+    key: 'New Fact',
+    id: factId,
+    value: 0,
+    factGuard: 1,
+});
+
 export const CheckFactValidity = (fact: IFact): boolean => {
     return CheckEntryValidity(fact);
 };

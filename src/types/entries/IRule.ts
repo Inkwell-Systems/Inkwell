@@ -37,6 +37,16 @@ export interface IRule extends IEntry {
     ruleModifications: IModification[];
 }
 
+export const CreateProjectRule = (ruleId: number): IRule => ({
+    key: 'New Rule',
+    id: ruleId,
+    value: 0,
+    ruleGuard: 1,
+    ruleTriggers: [],
+    ruleCriteria: [],
+    ruleModifications: [],
+});
+
 // TODO(calco): Check if IDs are actually valid!!!
 export const CheckRuleValidity = (rule: IRule): boolean => {
     const isValidEntry = CheckEntryValidity(rule);
