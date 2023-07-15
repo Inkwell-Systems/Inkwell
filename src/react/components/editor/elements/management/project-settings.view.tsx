@@ -6,40 +6,11 @@ import {CreateProjectInDatabase, UpdateProject} from '../../../../../firebase';
 import {ErrorMessage} from '../../../../../styles/utils.styles.tsx';
 import {useNavigate} from 'react-router-dom';
 import UseUserProvider from '../../../../hooks/user-provider/userProvider.hook.ts';
-
-const ProjectSettingsContainer = styled.div`
-    width: 60%;
-    min-width: 40rem;
-
-    margin-left: auto;
-    margin-right: auto;
-
-    height: 100%;
-
-    overflow: hidden;
-    overflow-y: scroll;
-
-    padding: 2rem;
-`;
-
-const ProjectSettingsSectionTitle = styled.h1`
-    font-size: 0.8rem;
-    font-weight: 300;
-    color: #b4b4b4;
-    margin-bottom: 2rem;
-`;
-
-const ProjectSettingsSection = styled.div`
-    width: 100%;
-    background-color: #1e1e1f;
-    border-radius: 1rem;
-    padding: 2rem;
-    margin-bottom: 2rem;
-
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-`;
+import {
+    EditorElementContainer,
+    EditorSectionContainer,
+    EditorSectionTitle,
+} from '../utils.tsx';
 
 const VerticalSplit = styled.div`
     display: flex;
@@ -188,12 +159,10 @@ const ProjectSettingsView = () => {
     }, []);
 
     return (
-        <ProjectSettingsContainer>
-            <ProjectSettingsSectionTitle>
-                Your Project
-            </ProjectSettingsSectionTitle>
+        <EditorElementContainer>
+            <EditorSectionTitle>Your Project</EditorSectionTitle>
 
-            <ProjectSettingsSection>
+            <EditorSectionContainer>
                 <VerticalSplit>
                     <Pane
                         style={{
@@ -252,8 +221,8 @@ const ProjectSettingsView = () => {
                 >
                     Save
                 </Button>
-            </ProjectSettingsSection>
-        </ProjectSettingsContainer>
+            </EditorSectionContainer>
+        </EditorElementContainer>
     );
 };
 
