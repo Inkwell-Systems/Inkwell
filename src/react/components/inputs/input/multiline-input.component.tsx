@@ -15,7 +15,11 @@ const MultilineInput = (props: IInputProps<string, HTMLTextAreaElement>) => {
         <InputContainer style={props.styles}>
             <TextBasedInput value={props.value}>{props.label}</TextBasedInput>
 
-            <Inp value={props.value} onChange={props.onChange} />
+            <Inp
+                style={props.innerStyles}
+                value={props.value}
+                onChange={props.onChange}
+            />
         </InputContainer>
     );
 };

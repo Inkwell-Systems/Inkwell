@@ -13,6 +13,7 @@ export default interface IProject {
     scopes: IScopeHierarchy;
     owner: string;
     members: string[];
+    inviteCode: string;
 }
 
 export const CreateLocalProject = (name, description): IProject => ({
@@ -28,6 +29,7 @@ export const CreateLocalProject = (name, description): IProject => ({
     tables: [],
     owner: '',
     members: [],
+    inviteCode: '',
 });
 
 export const LoadProjectFromJson = (json: string): IProject => {
@@ -97,4 +99,18 @@ export const GetProjectScopeLevel = (project: IProject) => {
 
 export const GetProjectMemberCount = (project: IProject) => {
     return project.members.length;
+};
+
+export const GetProjectInvitationLink = (project: IProject) => {
+    return `inkwell.systems/invite/${project.projectId}/${project.inviteCode}`;
+};
+
+export const GenerateProjectId = () => {
+    function dec2hex(dec) {
+        return dec.toString(16).padStart(2, '0');
+    }
+
+    const arr = new Uint8Array(40 / 2);
+    window.crypto.getRandomValues(arr);
+    return Array.from(arr, dec2hex).join('');
 };

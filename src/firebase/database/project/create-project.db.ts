@@ -1,6 +1,6 @@
 import IUser from '../../../types/IUser.ts';
 import {IResult} from '../../../types/IResult.ts';
-import IProject from '../../../types/IProject.ts';
+import IProject, {GenerateProjectId} from '../../../types/IProject.ts';
 import {get, push, ref, set} from 'firebase/database';
 import {DefaultScopeHierarchy} from '../../../types/IScope.ts';
 import {Database} from '../../index.ts';
@@ -25,6 +25,7 @@ export const CreateProjectInDatabase = async (
             tables: [],
             owner: owner.id,
             members: [],
+            inviteCode: GenerateProjectId(),
         };
 
         await set(ref(Database, `projects/${result.key}`), proj);

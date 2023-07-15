@@ -12,6 +12,7 @@ const Inp = styled.input`
 
 export interface ITextInputProps extends IInputProps<string, HTMLInputElement> {
     type?: string;
+    disabled?: boolean;
 }
 
 const TextInput = (props: ITextInputProps) => {
@@ -20,6 +21,8 @@ const TextInput = (props: ITextInputProps) => {
             <TextBasedInput value={props.value}>{props.label}</TextBasedInput>
 
             <Inp
+                disabled={props?.disabled ?? false}
+                style={props.innerStyles}
                 type={props.type}
                 value={props.value}
                 onChange={props.onChange}

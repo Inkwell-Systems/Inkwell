@@ -6,6 +6,7 @@ export interface IInputProps<TValue, TEvent> {
     value: TValue;
     onChange: (e: React.ChangeEvent<TEvent>) => void;
     styles?: React.CSSProperties;
+    innerStyles?: React.CSSProperties;
 }
 
 export const InputContainer = styled.div`

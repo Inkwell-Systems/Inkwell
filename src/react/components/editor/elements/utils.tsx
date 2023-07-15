@@ -19,7 +19,7 @@ export const EditorSectionTitle = styled.h1`
     font-size: 0.8rem;
     font-weight: 300;
     color: #b4b4b4;
-    margin-bottom: 2rem;
+    margin-bottom: 0.5rem;
 `;
 
 export const EditorSectionContainer = styled.div`

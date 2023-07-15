@@ -1,7 +1,7 @@
 import {IFetchedUser} from '../../../../../../types';
 import styled from 'styled-components';
 import UseProjectProvider from '../../../../../hooks/project-provider/project-provider.hook.ts';
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import UseUserProvider from '../../../../../hooks/user-provider/userProvider.hook.ts';
 
 const CardContainer = styled.div`
