@@ -23,6 +23,7 @@ const Help = () => {
 
             <AccountElementContainer>
                 <TextInput
+                    disabled={true}
                     label={'Support Email'}
                     value={'support@inkwell.systems'}
                     onChange={_ => {}}
@@ -30,6 +31,7 @@ const Help = () => {
 
                 <div>
                     <TextInput
+                        disabled={true}
                         label={'Documentation'}
                         value={'https://github.com/Inkwell-Systems/InkwellAPI'}
                         onChange={_ => {}}
