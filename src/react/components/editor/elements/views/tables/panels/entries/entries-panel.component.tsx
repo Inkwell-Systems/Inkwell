@@ -31,7 +31,7 @@ import {
     CreateFact,
     CreateRule,
     DeleteEntry,
-    UpdateEntryKey,
+    UpdateEntry,
 } from '../../../../../../../../firebase';
 
 const EntryContainer = styled.div`
@@ -89,6 +89,8 @@ const EntriesPanel = ({
 
     const [displayAddEntry, setDisplayAddEntry] = useState(false);
     const [addEntryRef, setAddEntryRef] = useState(null);
+
+    const [forceUpdate, setForceUpdate] = useState(0);
 
     const handleDeleteEntry = async () => {
         const entry = GetIEntryFromId(pCtx.value, selectedEntry);
@@ -252,12 +254,12 @@ const EntriesPanel = ({
         }
 
         const type = GetEntryType(entry);
-        await UpdateEntryKey(
-            newKey,
+        await UpdateEntry(
             type,
             pCtx.value.projectId,
             selectedTable.id,
             entry.id,
+            newKey,
         );
     };
 
@@ -290,6 +292,7 @@ const EntriesPanel = ({
         );
 
         setFilteredEntries(e);
+        setForceUpdate(forceUpdate + 1);
     }, [searchFilter, selectedTable, pCtx.value]);
 
     useEffect(() => {
@@ -362,7 +365,7 @@ const EntriesPanel = ({
                                         setSelectedEntry(fact.id);
                                     }}
                                     selected={selectedEntry === fact.id}
-                                    key={fact.id}
+                                    key={fact.id + forceUpdate}
                                 />
                             ))}
                         </EntryContainer>
@@ -382,7 +385,7 @@ const EntriesPanel = ({
                                         setSelectedEntry(event.id);
                                     }}
                                     selected={selectedEntry === event.id}
-                                    key={event.id}
+                                    key={event.id + forceUpdate}
                                 />
                             ))}
                         </EntryContainer>
@@ -402,7 +405,7 @@ const EntriesPanel = ({
                                         setSelectedEntry(rule.id);
                                     }}
                                     selected={selectedEntry === rule.id}
-                                    key={rule.id}
+                                    key={rule.id + forceUpdate}
                                 />
                             ))}
                         </EntryContainer>

@@ -11,6 +11,7 @@ import styled from 'styled-components';
 import {ReactElement, useEffect, useState} from 'react';
 
 import CopyIcon from './icons/copy.svg';
+import {UpdateEntry} from '../../../../../../../../firebase';
 
 const CustomPanelHeader = styled(PanelHeader)`
     display: inline-table;
@@ -56,14 +57,25 @@ const EntryPanel = ({
         switch (type) {
             case 'facts':
                 return (
-                    <BaseEntryPanel selectedEntry={selectedEntry as IFact} />
+                    <BaseEntryPanel
+                        selectedTable={selectedTable}
+                        selectedEntry={selectedEntry as IFact}
+                    />
                 );
             case 'events':
                 return (
-                    <BaseEntryPanel selectedEntry={selectedEntry as IEvent} />
+                    <BaseEntryPanel
+                        selectedTable={selectedTable}
+                        selectedEntry={selectedEntry as IEvent}
+                    />
                 );
             case 'rules':
-                return <RulePanel selectedRule={selectedEntry as IRule} />;
+                return (
+                    <RulePanel
+                        selectedTable={selectedTable}
+                        selectedRule={selectedEntry as IRule}
+                    />
+                );
             default:
                 return <div>HMMM</div>;
         }
@@ -176,23 +188,59 @@ const DisabledInput = ({value}) => {
 };
 
 const BaseEntryPanel = ({
+    selectedTable,
     selectedEntry,
     children,
 }: {
+    selectedTable: ITable;
     selectedEntry: IFact | IEvent | IRule;
     children?: ReactElement;
 }) => {
+    const pCtx = UseProjectProvider();
+
+    const [key, setKey] = useState<string>('');
     const [value, setValue] = useState<number>(0);
+
+    const [selfCaused, setSelfCaused] = useState<boolean>(false);
 
     useEffect(() => {
         if (selectedEntry === null) return;
 
         setValue(selectedEntry.value);
+        setKey(selectedEntry.key);
     }, [selectedEntry]);
 
     const handleValueChange = e => {
-        setValue(e.target.value);
+        const newValue = parseInt(e.target.value);
+        setValue(newValue);
+        setSelfCaused(true);
     };
+
+    const handleKeyChange = e => {
+        const newKey = e.target.value;
+        setKey(newKey);
+        setSelfCaused(true);
+    };
+
+    const updateEntry = async () => {
+        const entryType = GetEntryType(selectedEntry);
+
+        await UpdateEntry(
+            entryType,
+            pCtx.value.projectId,
+            selectedTable.id,
+            selectedEntry.id,
+            key,
+            value,
+        );
+    };
+
+    useEffect(() => {
+        if (!selfCaused) return;
+
+        setSelfCaused(false);
+        updateEntry();
+    }, [value, key]);
 
     return (
         <VerticalBox>
@@ -202,7 +250,13 @@ const BaseEntryPanel = ({
             </HorizontalBox>
             <HorizontalBox>
                 <Label>Key: </Label>
-                <DisabledInput value={selectedEntry.key} />
+                <div
+                    style={{
+                        flex: 7,
+                    }}
+                >
+                    <Input value={key} type="text" onChange={handleKeyChange} />
+                </div>
             </HorizontalBox>
             <HorizontalBox>
                 <Label>Value: </Label>
@@ -223,9 +277,18 @@ const BaseEntryPanel = ({
     );
 };
 
-const RulePanel = ({selectedRule}: {selectedRule: IRule}) => {
+const RulePanel = ({
+    selectedTable,
+    selectedRule,
+}: {
+    selectedTable: ITable;
+    selectedRule: IRule;
+}) => {
     return (
-        <BaseEntryPanel selectedEntry={selectedRule}>
+        <BaseEntryPanel
+            selectedTable={selectedTable}
+            selectedEntry={selectedRule}
+        >
             <h1>RUUUUUULE</h1>
         </BaseEntryPanel>
     );

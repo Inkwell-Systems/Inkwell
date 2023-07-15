@@ -2,30 +2,33 @@ import {ref, update} from 'firebase/database';
 import {Database} from '../../../index.ts';
 import {IEntryType} from '../../../../types';
 
-export const UpdateEntryKey = async (
-    key: string,
+export const UpdateEntry = async (
     type: IEntryType,
     projectId: string,
     tableId: number,
     entryId: number,
+    key?: string,
+    value?: number,
 ) => {
     try {
-        await update(
-            ref(
-                Database,
-                `projects/${projectId}/tables/${tableId}/${type}/${entryId}`,
-            ),
-            {
-                key: key,
-            },
-        );
+        const newEntry = {};
+        if (key) newEntry['key'] = key;
+        if (value) newEntry['value'] = value;
 
-        await update(ref(Database, `projects/${projectId}/entryMap`), {
-            [entryId]: key,
-        });
+        const r = ref(
+            Database,
+            `projects/${projectId}/tables/${tableId}/${type}/${entryId}`,
+        );
+        await update(r, newEntry);
+
+        if (key) {
+            await update(ref(Database, `projects/${projectId}/entryMap`), {
+                [entryId]: key,
+            });
+        }
     } catch (error) {
         console.log(
-            `Error updating entry key ${key} in project ${projectId}. (UpdateEntryKey)`,
+            `Error updating entry ${entryId} in project ${projectId}. (UpdateEntryKey)`,
         );
         console.error(error);
     }
