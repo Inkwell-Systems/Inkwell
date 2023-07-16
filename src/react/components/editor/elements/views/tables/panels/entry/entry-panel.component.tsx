@@ -1,25 +1,31 @@
 import {
+    CriterionToString,
     GetEntryType,
+    ICriterion,
     IEvent,
     IFact,
+    IModification,
     IRule,
+    ModificationToString,
+    StringToCriterion,
+    StringToModification,
 } from '../../../../../../../../types';
 import {PanelContentContainer, PanelHeader} from '../../util.tsx';
 import UseProjectProvider from '../../../../../../../hooks/project-provider/project-provider.hook.ts';
 import ITable from '../../../../../../../../types/ITable.ts';
 import styled from 'styled-components';
 import React, {ReactElement, useEffect, useState} from 'react';
-
-import CopyIcon from './icons/copy.svg';
 import {
     UpdateEntry,
     UpdateEventTriggers,
+    UpdateRuleSpecific,
 } from '../../../../../../../../firebase';
 import {
     DisabledInput,
     HorizontalBox,
     Input,
     Label,
+    MultilineInput,
     VerticalBox,
 } from '../../../utils.tsx';
 import {ErrorMessage} from '../../../../../../../../styles/utils.styles.tsx';
@@ -43,6 +49,16 @@ const CustomPanelHeader = styled(PanelHeader)`
         color: #b4b4b4;
     }
 `;
+
+const CheckArrayEquality = (a, b) => {
+    if (a == null || b == null) return false;
+
+    if (a.length !== b.length) return false;
+
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+
+    return true;
+};
 
 const EntryPanel = ({
     selectedTable,
@@ -260,20 +276,8 @@ const EventPanel = ({
             .filter(t => !isNaN(t) && t > 0);
 
         if (!pCtx.value.cloud) {
-            // Check if old triggers and current triggers contain the same values
-            let same = true;
-            if (processedTriggers.length !== prevProcessedTriggers.length) {
-                same = false;
-            } else {
-                for (let i = 0; i < processedTriggers.length; i++) {
-                    if (processedTriggers[i] !== prevProcessedTriggers[i]) {
-                        same = false;
-                        break;
-                    }
-                }
-            }
-
-            if (same) return;
+            if (CheckArrayEquality(processedTriggers, prevProcessedTriggers))
+                return;
 
             const newEvent = {
                 ...selectedEvent,
@@ -345,16 +349,177 @@ const RulePanel = ({
     selectedTable: ITable;
     selectedRule: IRule;
 }) => {
+    const pCtx = UseProjectProvider();
+
+    const [criteria, setCriteria] = useState<string>('');
+    const [modifications, setModifications] = useState<string>('');
+
+    const [prevProcessedCriteria, setPrevProcessedCriteria] = useState<
+        ICriterion[]
+    >([]);
+    const [prevProcessedModifications, setPrevProcessedModifications] =
+        useState<IModification[]>([]);
+
+    const convertInputToOutput = (input, fc) => {
+        return input
+            .split('\n')
+            .filter(c => c.startsWith('|') && c.endsWith('|') && c.length > 2)
+            .map(c =>
+                fc(
+                    c
+                        .slice(1, c.length - 1)
+                        .split(',')
+                        .map(s => s.trim()),
+                ),
+            )
+            .filter(c => c !== null);
+    };
+
+    useEffect(() => {
+        if (selectedRule === null) return;
+
+        const deprocessedCriteria = selectedRule.ruleCriteria
+            .map(c => CriterionToString(c))
+            .join('\n');
+        setCriteria(deprocessedCriteria);
+
+        const deprocessedModifications = selectedRule.ruleModifications
+            .map(m => ModificationToString(m))
+            .join('\n');
+        setModifications(deprocessedModifications);
+
+        setPrevProcessedCriteria(null);
+        setPrevProcessedModifications(null);
+    }, [selectedRule]);
+
+    const handleValueChange = async (e, changed) => {
+        if (selectedRule === null || criteria == null || modifications == null)
+            return;
+
+        let newProcessedCriteria = null;
+        let newProcessedModifications = null;
+
+        if (changed === 'criteria') {
+            const newCriteria = e.target.value;
+            setCriteria(newCriteria);
+
+            console.log('newCriteria', newCriteria);
+
+            newProcessedCriteria = convertInputToOutput(
+                newCriteria,
+                StringToCriterion,
+            );
+
+            console.log('newProcessedCriteria', newProcessedCriteria);
+
+            if (CheckArrayEquality(newProcessedCriteria, prevProcessedCriteria))
+                return;
+
+            console.log('passed check');
+
+            setPrevProcessedCriteria(newProcessedCriteria);
+        } else if (changed === 'modifications') {
+            const newModifications = e.target.value;
+            setModifications(newModifications);
+
+            newProcessedModifications = convertInputToOutput(
+                newModifications,
+                StringToModification,
+            );
+            if (
+                CheckArrayEquality(
+                    newProcessedModifications,
+                    prevProcessedModifications,
+                )
+            )
+                return;
+
+            setPrevProcessedModifications(newProcessedModifications);
+        }
+
+        // TODO(calco): handle not cloud
+        newProcessedCriteria =
+            newProcessedCriteria ?? selectedRule.ruleCriteria;
+        newProcessedModifications =
+            newProcessedModifications ?? selectedRule.ruleModifications;
+
+        await UpdateRuleSpecific(
+            pCtx.value.projectId,
+            selectedTable.id,
+            selectedRule.id,
+            newProcessedCriteria,
+            newProcessedModifications,
+        );
+    };
+
     return (
         <BaseEntryPanel
             selectedTable={selectedTable}
             selectedEntry={selectedRule}
         >
-            <ErrorMessage>
-                Rule editing is not yet fully UX friendly.
-                <br />
-                For `ruleTriggers` and `
-            </ErrorMessage>
+            <>
+                <HorizontalBox>
+                    <Label
+                        style={{
+                            alignSelf: 'flex-start',
+                        }}
+                    >
+                        Criteria:{' '}
+                    </Label>
+                    <div
+                        style={{
+                            flex: 7,
+                        }}
+                    >
+                        <MultilineInput
+                            value={criteria}
+                            onChange={e => handleValueChange(e, 'criteria')}
+                        />
+                    </div>
+                </HorizontalBox>
+                <HorizontalBox>
+                    <Label
+                        style={{
+                            alignSelf: 'flex-start',
+                        }}
+                    >
+                        Modifications:{' '}
+                    </Label>
+                    <div
+                        style={{
+                            flex: 7,
+                        }}
+                    >
+                        <MultilineInput
+                            value={modifications}
+                            onChange={e =>
+                                handleValueChange(e, 'modifications')
+                            }
+                        />
+                    </div>
+                </HorizontalBox>
+                <ErrorMessage>
+                    Rule editing is not yet fully UX friendly.
+                    <br />
+                    <br />
+                    `ruleTriggers` is a comma separated list of event keys.
+                    <br />
+                    <br />
+                    `ruleCriteria` is a {`'\\n'`} separated list of the format.
+                    <br />`
+                    {`|entryToCheck: id, operator: '=/<=/>=/</>', value: number|`}
+                    `
+                    <br />
+                    <br />
+                    `ruleModifications` is a {`'\\n'`} separated list of the
+                    format.
+                    <br />`
+                    {`|entryToModify: id, operator: '=/+', newValue: number|`}
+                    <br />
+                    <br />
+                    !!! NO ENTRY EXISTENCE VALIDATION IS DONE !!!
+                </ErrorMessage>
+            </>
         </BaseEntryPanel>
     );
 };

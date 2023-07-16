@@ -47,6 +47,26 @@ export const Input = styled.input`
         border: 2px solid #18a5ec;
     }
 `;
+export const MultilineInput = styled.textarea`
+    width: 100%;
+    height: 10rem;
+
+    flex: 7;
+
+    background-color: #2c2c2e;
+    border: 2px solid #2c2c2e;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+
+    font-size: 1rem;
+    font-weight: 400;
+    color: #b4b4b4;
+
+    &:focus {
+        outline: none;
+        border: 2px solid #18a5ec;
+    }
+`;
 
 export const DisabledInputContainer = styled.div`
     flex: 7;

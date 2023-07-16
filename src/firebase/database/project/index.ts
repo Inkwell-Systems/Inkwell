@@ -1,5 +1,4 @@
 import IProject from '../../../types/IProject.ts';
-import ITable from '../../../types/ITable.ts';
 
 export * from './create-project.db.ts';
 export * from './fetch-project.db.ts';
@@ -31,6 +30,14 @@ export const DatabaseProjectToIProject = (dbSnapshot): IProject => {
             if (event === undefined) continue;
 
             if (event.triggers === undefined) event.triggers = [];
+        }
+
+        for (const rule of Object.values(table.rules)) {
+            if (rule === undefined) continue;
+
+            if (rule.ruleCriteria === undefined) rule.ruleCriteria = [];
+            if (rule.ruleModifications === undefined)
+                rule.ruleModifications = [];
         }
     }
 
