@@ -1,4 +1,4 @@
-import {ref, update} from 'firebase/database';
+import {get, ref, set, update} from 'firebase/database';
 import {Database} from '../../../index.ts';
 import {IEntryType} from '../../../../types';
 
@@ -29,6 +29,43 @@ export const UpdateEntry = async (
     } catch (error) {
         console.log(
             `Error updating entry ${entryId} in project ${projectId}. (UpdateEntryKey)`,
+        );
+        console.error(error);
+    }
+};
+
+export const UpdateEventTriggers = async (
+    projectId: string,
+    tableId: number,
+    eventId: number,
+    triggers: number[],
+) => {
+    try {
+        console.log(triggers);
+
+        // Check if triggers exists in the event
+        const r = ref(
+            Database,
+            `projects/${projectId}/tables/${tableId}/events/${eventId}`,
+        );
+        const s = (await get(r)).val();
+        if (typeof s.triggers === 'undefined') {
+            await set(r, {
+                ...s,
+                triggers: triggers,
+            });
+        } else {
+            await update(r, {
+                triggers: triggers,
+            });
+        }
+
+        console.log(
+            `Updated triggers for event ${eventId} in project ${projectId}. (UpdateEventTriggers)`,
+        );
+    } catch (error) {
+        console.log(
+            `Error updating triggers for event ${eventId} in project ${projectId}. (UpdateEventTriggers)`,
         );
         console.error(error);
     }

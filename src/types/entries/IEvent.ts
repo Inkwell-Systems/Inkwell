@@ -1,8 +1,8 @@
 import {CheckEntryValidity, IEntry} from './IEntry.ts';
 
 export interface IEvent extends IEntry {
-    // eslint-disable-next-line @typescript-eslint/naming-convention
     eventGuard: number;
+    triggers: number[];
 }
 
 export const CreateProjectEvent = (eventId: number): IEvent => ({
@@ -10,6 +10,7 @@ export const CreateProjectEvent = (eventId: number): IEvent => ({
     id: eventId,
     value: 0,
     eventGuard: 1,
+    triggers: [],
 });
 
 export const CheckEventValidity = (event: IEvent): boolean => {

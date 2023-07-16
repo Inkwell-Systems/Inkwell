@@ -26,6 +26,12 @@ export const DatabaseProjectToIProject = (dbSnapshot): IProject => {
         if (table.facts === undefined) table.facts = {};
         if (table.events === undefined) table.events = {};
         if (table.rules === undefined) table.rules = {};
+
+        for (const event of Object.values(table.events)) {
+            if (event === undefined) continue;
+
+            if (event.triggers === undefined) event.triggers = [];
+        }
     }
 
     return project;

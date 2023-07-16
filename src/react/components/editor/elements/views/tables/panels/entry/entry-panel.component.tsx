@@ -11,7 +11,10 @@ import styled from 'styled-components';
 import React, {ReactElement, useEffect, useState} from 'react';
 
 import CopyIcon from './icons/copy.svg';
-import {UpdateEntry} from '../../../../../../../../firebase';
+import {
+    UpdateEntry,
+    UpdateEventTriggers,
+} from '../../../../../../../../firebase';
 import {
     DisabledInput,
     HorizontalBox,
@@ -19,6 +22,7 @@ import {
     Label,
     VerticalBox,
 } from '../../../utils.tsx';
+import {ErrorMessage} from '../../../../../../../../styles/utils.styles.tsx';
 
 const CustomPanelHeader = styled(PanelHeader)`
     display: inline-table;
@@ -71,9 +75,9 @@ const EntryPanel = ({
                 );
             case 'events':
                 return (
-                    <BaseEntryPanel
+                    <EventPanel
                         selectedTable={selectedTable}
-                        selectedEntry={selectedEntry as IEvent}
+                        selectedEvent={selectedEntry as IEvent}
                     />
                 );
             case 'rules':
@@ -222,6 +226,101 @@ const BaseEntryPanel = ({
     );
 };
 
+const EventPanel = ({
+    selectedTable,
+    selectedEvent,
+}: {
+    selectedTable: ITable;
+    selectedEvent: IEvent;
+}) => {
+    const pCtx = UseProjectProvider();
+    const [triggers, setTriggers] = useState<string>('');
+
+    useEffect(() => {
+        if (selectedEvent === null) return;
+
+        if (selectedEvent.triggers.length > 0) {
+            const deprocessedTriggers = selectedEvent.triggers.join(', ');
+            setTriggers(deprocessedTriggers);
+        }
+    }, [selectedEvent]);
+
+    const handleValueChange = async e => {
+        if (selectedEvent === null || triggers === null) return;
+
+        const newTriggers = e.target.value;
+        setTriggers(newTriggers);
+
+        const processedTriggers = newTriggers
+            .split(',')
+            .map(t => parseInt(t.trim()))
+            .filter(t => !isNaN(t) && t > 0);
+
+        if (!pCtx.value.cloud) {
+            const newEvent = {
+                ...selectedEvent,
+                triggers: processedTriggers,
+            };
+
+            pCtx.setValue({
+                ...pCtx.value,
+                tables: {
+                    ...pCtx.value.tables,
+                    [selectedTable.id]: {
+                        ...selectedTable,
+                        events: {
+                            ...selectedTable.events,
+                            [selectedEvent.id]: newEvent,
+                        },
+                    },
+                },
+            });
+
+            console.log('Updating event locally!');
+            return;
+        }
+
+        console.log(pCtx.value.projectId, selectedEvent.id, processedTriggers);
+
+        await UpdateEventTriggers(
+            pCtx.value.projectId,
+            selectedTable.id,
+            selectedEvent.id,
+            processedTriggers,
+        );
+    };
+
+    return (
+        <BaseEntryPanel
+            selectedTable={selectedTable}
+            selectedEntry={selectedEvent}
+        >
+            <>
+                <HorizontalBox>
+                    <Label>Triggers: </Label>
+                    <div
+                        style={{
+                            flex: 7,
+                        }}
+                    >
+                        <Input
+                            value={triggers}
+                            type="text"
+                            onChange={handleValueChange}
+                        />
+                    </div>
+                </HorizontalBox>
+                <ErrorMessage>
+                    The `triggers` field is not yet fully UX friendly.
+                    <br />
+                    For now, you can enter a comma separated list of rule keys.
+                    !!! NO RULE VALIDATION IS DONE !!!
+                </ErrorMessage>
+            </>
+        </BaseEntryPanel>
+    );
+};
+
 const RulePanel = ({
     selectedTable,
     selectedRule,
@@ -234,7 +333,11 @@ const RulePanel = ({
             selectedTable={selectedTable}
             selectedEntry={selectedRule}
         >
-            <h1>RUUUUUULE</h1>
+            <ErrorMessage>
+                Rule editing is not yet fully UX friendly.
+                <br />
+                For `ruleTriggers` and `
+            </ErrorMessage>
         </BaseEntryPanel>
     );
 };
