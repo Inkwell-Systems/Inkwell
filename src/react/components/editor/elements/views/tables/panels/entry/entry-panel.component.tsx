@@ -235,6 +235,9 @@ const EventPanel = ({
 }) => {
     const pCtx = UseProjectProvider();
     const [triggers, setTriggers] = useState<string>('');
+    const [prevProcessedTriggers, setPrevProcessedTriggers] = useState<
+        number[]
+    >([]);
 
     useEffect(() => {
         if (selectedEvent === null) return;
@@ -257,6 +260,21 @@ const EventPanel = ({
             .filter(t => !isNaN(t) && t > 0);
 
         if (!pCtx.value.cloud) {
+            // Check if old triggers and current triggers contain the same values
+            let same = true;
+            if (processedTriggers.length !== prevProcessedTriggers.length) {
+                same = false;
+            } else {
+                for (let i = 0; i < processedTriggers.length; i++) {
+                    if (processedTriggers[i] !== prevProcessedTriggers[i]) {
+                        same = false;
+                        break;
+                    }
+                }
+            }
+
+            if (same) return;
+
             const newEvent = {
                 ...selectedEvent,
                 triggers: processedTriggers,
@@ -277,10 +295,9 @@ const EventPanel = ({
             });
 
             console.log('Updating event locally!');
+            setPrevProcessedTriggers(processedTriggers);
             return;
         }
-
-        console.log(pCtx.value.projectId, selectedEvent.id, processedTriggers);
 
         await UpdateEventTriggers(
             pCtx.value.projectId,
