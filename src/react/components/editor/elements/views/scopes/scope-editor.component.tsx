@@ -79,8 +79,21 @@ const ScopeEditor = ({selectedScope}: {selectedScope: IScope}) => {
 
     const updateScope = async () => {
         if (!pCtx.value.cloud) {
+            const newScope = {
+                id: selectedScope.id,
+                key,
+                level,
+            };
+
+            pCtx.setValue({
+                ...pCtx.value,
+                scopes: {
+                    ...pCtx.value.scopes,
+                    [selectedScope.id]: newScope,
+                },
+            });
+
             console.log('Editing local scope.');
-            // TODO(calco): Local scope
             return;
         }
 

@@ -5,13 +5,14 @@ import {
     EditorSectionTitle,
 } from '../../utils.tsx';
 import UseProjectProvider from '../../../../../hooks/project-provider/project-provider.hook.ts';
-import {IScope} from '../../../../../../types/IScope.ts';
+import {CreateProjectScope, IScope} from '../../../../../../types/IScope.ts';
 import ScopeCard from './scope-card.component.tsx';
 import SectionHeaderMenu from '../section-header-flow.component.tsx';
 import {PanelHeader} from '../tables/util.tsx';
 import {CreateScope, DeleteScope} from '../../../../../../firebase';
 import NumberInput from '../../../../inputs/input/number-input.component.tsx';
 import ScopeEditor from './scope-editor.component.tsx';
+import {GetMinimumScopeId} from '../../../../../../types';
 
 const ScopesView = () => {
     const pCtx = UseProjectProvider();
@@ -27,8 +28,18 @@ const ScopesView = () => {
 
     const handleAddScope = async () => {
         if (!pCtx.value.cloud) {
-            console.log('Creating local scope! TODO');
-            // TODO(calco): local scope
+            const scopeId = GetMinimumScopeId(pCtx.value.scopes);
+            const newScope = CreateProjectScope(scopeId, 'New Scope', -1);
+
+            pCtx.setValue({
+                ...pCtx.value,
+                scopes: {
+                    ...pCtx.value.scopes,
+                    [scopeId]: newScope,
+                },
+            });
+
+            console.log('Creating local scope!');
             return;
         }
 
@@ -39,8 +50,15 @@ const ScopesView = () => {
         if (selectedScopeId == null) return;
 
         if (!pCtx.value.cloud) {
-            console.log('Deleting local scope! TODO');
-            // TODO(calco): local scope
+            const scopes = pCtx.value.scopes;
+            delete scopes[selectedScopeId];
+
+            pCtx.setValue({
+                ...pCtx.value,
+                scopes,
+            });
+
+            console.log('Deleting local scope!');
             return;
         }
 
