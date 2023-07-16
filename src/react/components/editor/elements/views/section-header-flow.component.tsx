@@ -1,7 +1,7 @@
-import React from 'react';
-import SearchIcon from '../icons/search.svg';
-import PlusIcon from '../icons/plus.svg';
-import TextInput from '../../../../../inputs/input/text-input.component.tsx';
+import React, {ReactElement} from 'react';
+import SearchIcon from './tables/icons/search.svg';
+import PlusIcon from './tables/icons/plus.svg';
+import TextInput from '../../../inputs/input/text-input.component.tsx';
 import styled from 'styled-components';
 
 const FlowMenuContainer = styled.div`
@@ -33,13 +33,14 @@ const FlowMenuImage = styled.img`
     height: 1.5rem;
 `;
 
-const EntryFlowMenu = ({
+const SectionHeaderMenu = ({
     label,
     value,
     setValue,
     handleDelete,
     handleAdd,
     setAddEntryRef,
+    secondInput,
 }: {
     label: string;
     value: string;
@@ -47,6 +48,7 @@ const EntryFlowMenu = ({
     handleDelete: () => void;
     handleAdd: () => void;
     setAddEntryRef?: (any) => void;
+    secondInput?: ReactElement;
 }) => {
     return (
         <FlowMenuContainer>
@@ -57,26 +59,43 @@ const EntryFlowMenu = ({
                 style={{
                     flex: '1',
                     display: 'flex',
-                    justifyContent: 'center',
+                    justifyContent: 'space-between',
                     alignItems: 'center',
+                    gap: '1rem',
                 }}
             >
-                <TextInput
-                    label={label}
-                    value={value}
-                    innerStyles={{
-                        color: '#b4b4b4',
-                        backgroundColor: '#131315',
-                        padding: 0,
+                <div
+                    style={{
+                        flex: 1,
                     }}
-                    labelStyles={{
-                        top: '0.2rem',
-                        left: '0rem',
-                        fontSize: '0.9rem',
-                        opacity: `${value.length > 0 ? '0' : '100'}`,
-                    }}
-                    onChange={e => setValue(e.target.value)}
-                />
+                >
+                    <TextInput
+                        label={label}
+                        value={value}
+                        innerStyles={{
+                            color: '#b4b4b4',
+                            backgroundColor: '#131315',
+                            padding: 0,
+                        }}
+                        labelStyles={{
+                            top: '0.2rem',
+                            left: '0rem',
+                            fontSize: '0.9rem',
+                            opacity: `${value.length > 0 ? '0' : '100'}`,
+                        }}
+                        onChange={e => setValue(e.target.value)}
+                    />
+                </div>
+
+                {secondInput !== null && (
+                    <div
+                        style={{
+                            flex: 1,
+                        }}
+                    >
+                        {secondInput}
+                    </div>
+                )}
             </div>
             <FlowMenuButtonContainer>
                 <FlowMenuImage
@@ -98,4 +117,4 @@ const EntryFlowMenu = ({
     );
 };
 
-export default EntryFlowMenu;
+export default SectionHeaderMenu;

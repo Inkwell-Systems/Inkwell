@@ -13,7 +13,7 @@ import CustomEntriesView from '../elements/management/custom-entries.view.tsx';
 import TablesView from '../elements/views/tables/tables.view.tsx';
 import SpreadsheetView from '../elements/views/spreadsheet.view.tsx';
 import DiagramView from '../elements/views/diagram.view.tsx';
-import ScopesView from '../elements/views/scopes.view.tsx';
+import ScopesView from '../elements/views/scopes/scopes.view.tsx';
 
 const SidebarContainer = styled.div`
     display: flex;

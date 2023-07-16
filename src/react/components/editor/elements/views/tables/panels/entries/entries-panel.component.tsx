@@ -6,7 +6,7 @@ import {
     YeetableContainer,
     YeetableSection,
 } from '../../util.tsx';
-import EntryFlowMenu from '../entry-flow-menu.component.tsx';
+import SectionHeaderMenu from '../../../section-header-flow.component.tsx';
 import styled from 'styled-components';
 import ITable, {GetTableEntries} from '../../../../../../../../types/ITable.ts';
 import {
@@ -340,7 +340,7 @@ const EntriesPanel = ({
             )}
 
             <PanelHeader>
-                <EntryFlowMenu
+                <SectionHeaderMenu
                     setAddEntryRef={setAddEntryRef}
                     label="Entries"
                     value={searchFilter}

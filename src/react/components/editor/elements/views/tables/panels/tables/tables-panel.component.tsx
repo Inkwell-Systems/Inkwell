@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {PanelContentContainer, PanelHeader} from '../../util.tsx';
-import EntryFlowMenu from '../entry-flow-menu.component.tsx';
+import SectionHeaderMenu from '../../../section-header-flow.component.tsx';
 import ITable, {
     CreateProjectTable,
     GetTableEntriesIds,
@@ -114,7 +114,7 @@ const TablesPanel = ({setBigSelectedTable}) => {
     return (
         <>
             <PanelHeader>
-                <EntryFlowMenu
+                <SectionHeaderMenu
                     label="Tables"
                     value={searchFilter}
                     setValue={setSearchFilter}

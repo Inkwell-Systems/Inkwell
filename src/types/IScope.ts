@@ -14,6 +14,12 @@ export const GlobalScope: IScope = {
     level: 0,
 };
 
+export const CreateProjectScope = (id: number, key: string, level: number) => ({
+    id: id,
+    key: key,
+    level: level,
+});
+
 const DefaultScopeHierarchy: IScopeHierarchy = {};
 DefaultScopeHierarchy[GlobalScope.id] = GlobalScope;
 export {DefaultScopeHierarchy};

@@ -1,5 +1,5 @@
 import ITable, {CheckTableValidity} from './ITable.ts';
-import {DefaultScopeHierarchy, IScopeHierarchy} from './IScope.ts';
+import {DefaultScopeHierarchy, IScope, IScopeHierarchy} from './IScope.ts';
 
 export default interface IProject {
     cloud: boolean;
@@ -53,6 +53,14 @@ export const GetMinimumEntryIdFromProject = (project: IProject): number => {
 export const GetMinimumEntryIdFromMap = (map: {
     [key: number]: string;
 }): number => {
+    const entries = Object.keys(map).map(Number);
+
+    if (entries.length === 0) return 0;
+
+    return Math.max(...entries) + 1;
+};
+
+export const GetMinimumScopeId = (map: {[key: number]: IScope}): number => {
     const entries = Object.keys(map).map(Number);
 
     if (entries.length === 0) return 0;

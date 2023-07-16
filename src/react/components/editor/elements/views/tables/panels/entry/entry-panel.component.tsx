@@ -8,10 +8,17 @@ import {PanelContentContainer, PanelHeader} from '../../util.tsx';
 import UseProjectProvider from '../../../../../../../hooks/project-provider/project-provider.hook.ts';
 import ITable from '../../../../../../../../types/ITable.ts';
 import styled from 'styled-components';
-import {ReactElement, useEffect, useState} from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
 
 import CopyIcon from './icons/copy.svg';
 import {UpdateEntry} from '../../../../../../../../firebase';
+import {
+    DisabledInput,
+    HorizontalBox,
+    Input,
+    Label,
+    VerticalBox,
+} from '../../../utils.tsx';
 
 const CustomPanelHeader = styled(PanelHeader)`
     display: inline-table;
@@ -93,97 +100,6 @@ const EntryPanel = ({
                 {renderAppropriateComponent()}
             </PanelContentContainer>
         </>
-    );
-};
-
-const VerticalBox = styled.div`
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-`;
-
-const HorizontalBox = styled.div`
-    display: flex;
-    flex-direction: row;
-
-    width: 100%;
-    align-items: center;
-
-    margin: 0.5rem 0;
-`;
-
-const Label = styled.span`
-    margin: 0;
-    padding: 0;
-    font-size: 1rem;
-    font-weight: 300;
-    color: #b4b4b4;
-
-    flex: 3;
-`;
-
-const Input = styled.input`
-    width: 100%;
-    height: 2rem;
-
-    flex: 7;
-
-    background-color: #2c2c2e;
-    border: 2px solid #2c2c2e;
-    border-radius: 0.5rem;
-    padding: 0.5rem;
-
-    font-size: 1rem;
-    font-weight: 400;
-    color: #b4b4b4;
-
-    &:focus {
-        outline: none;
-        border: 2px solid #18a5ec;
-    }
-`;
-
-const DisabledInputContainer = styled.div`
-    flex: 7;
-    position: relative;
-`;
-
-const DisabledInputCopyIcon = styled.img`
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
-
-    cursor: pointer;
-
-    transition: all 0.1s ease-in-out;
-
-    &:hover {
-        filter: brightness(2);
-        scale: 1.1;
-    }
-
-    &:active {
-        filter: invert(75%) sepia(100%) saturate(100%) hue-rotate(100deg)
-            brightness(4);
-
-        scale: 0.9;
-    }
-`;
-
-const DisabledInput = ({value}) => {
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(value);
-    };
-
-    return (
-        <DisabledInputContainer>
-            <Input disabled={true} value={value} />
-            <DisabledInputCopyIcon
-                onClick={copyToClipboard}
-                src={CopyIcon}
-                alt={'Copy'}
-            />
-        </DisabledInputContainer>
     );
 };
 

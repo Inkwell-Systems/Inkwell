@@ -10,7 +10,7 @@ export const EditorElementContainer = styled.div`
     height: 100%;
 
     overflow: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     padding: 2rem;
 `;

@@ -18,6 +18,7 @@ export const DatabaseProjectToIProject = (dbSnapshot): IProject => {
     if (project.entryMap === undefined) project.entryMap = {};
     if (project.members === undefined) project.members = [];
     if (project.tables === undefined) project.tables = {};
+    if (project.scopes === undefined) project.scopes = {};
 
     for (const table of Object.values(project.tables)) {
         if (table === undefined) continue;
