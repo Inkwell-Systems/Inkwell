@@ -16,6 +16,8 @@ export const PanelContentContainer = styled.div`
     width: 100%;
     padding: 1rem;
     flex: 1;
+
+    overflow-y: auto;
 `;
 
 export const YeetableContainer = styled(Container)`

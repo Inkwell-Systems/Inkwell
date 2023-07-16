@@ -365,7 +365,7 @@ const EntriesPanel = ({
                                         setSelectedEntry(fact.id);
                                     }}
                                     selected={selectedEntry === fact.id}
-                                    key={fact.id + forceUpdate}
+                                    key={fact.id + forceUpdate * 2}
                                 />
                             ))}
                         </EntryContainer>

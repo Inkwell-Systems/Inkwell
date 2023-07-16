@@ -60,6 +60,20 @@ const CheckArrayEquality = (a, b) => {
     return true;
 };
 
+const CheckObjectEqualityDeep = (a, b) => {
+    if (a == null || b == null) return false;
+
+    if (Object.keys(a).length !== Object.keys(b).length) return false;
+
+    for (const key in a) {
+        if (typeof a[key] === 'object') {
+            if (!CheckObjectEqualityDeep(a[key], b[key])) return false;
+        } else if (a[key] !== b[key]) return false;
+    }
+
+    return true;
+};
+
 const EntryPanel = ({
     selectedTable,
     selectedEntry,
@@ -70,9 +84,9 @@ const EntryPanel = ({
     const pCtx = UseProjectProvider();
 
     const getEntryPath = () => {
-        if (selectedEntry == null) return '';
+        if (selectedEntry == null || selectedTable == null) return '';
 
-        return `#${pCtx.value.projectName} > (${selectedTable.id})${
+        return `#${pCtx.value.projectName} > (${selectedTable?.id})${
             selectedTable.key
         }/${GetEntryType(selectedEntry)}`;
     };
@@ -388,8 +402,13 @@ const RulePanel = ({
             .join('\n');
         setModifications(deprocessedModifications);
 
-        setPrevProcessedCriteria(null);
-        setPrevProcessedModifications(null);
+        if (pCtx.value.cloud) {
+            setPrevProcessedCriteria(null);
+            setPrevProcessedModifications(null);
+        } else {
+            setPrevProcessedCriteria(selectedRule.ruleCriteria);
+            setPrevProcessedModifications(selectedRule.ruleModifications);
+        }
     }, [selectedRule]);
 
     const handleValueChange = async (e, changed) => {
@@ -403,19 +422,43 @@ const RulePanel = ({
             const newCriteria = e.target.value;
             setCriteria(newCriteria);
 
-            console.log('newCriteria', newCriteria);
-
             newProcessedCriteria = convertInputToOutput(
                 newCriteria,
                 StringToCriterion,
             );
 
-            console.log('newProcessedCriteria', newProcessedCriteria);
+            if (!pCtx.value.cloud) {
+                const b = CheckObjectEqualityDeep(
+                    newProcessedCriteria,
+                    prevProcessedCriteria,
+                );
+
+                if (!b) {
+                    const newRule = {
+                        ...selectedRule,
+                        ruleCriteria: newProcessedCriteria,
+                    };
+
+                    pCtx.setValue({
+                        ...pCtx.value,
+                        tables: {
+                            ...pCtx.value.tables,
+                            [selectedTable.id]: {
+                                ...selectedTable,
+                                rules: {
+                                    ...selectedTable.rules,
+                                    [selectedRule.id]: newRule,
+                                },
+                            },
+                        },
+                    });
+
+                    console.log('Updating rule locally!');
+                }
+            }
 
             if (CheckArrayEquality(newProcessedCriteria, prevProcessedCriteria))
                 return;
-
-            console.log('passed check');
 
             setPrevProcessedCriteria(newProcessedCriteria);
         } else if (changed === 'modifications') {
@@ -426,6 +469,37 @@ const RulePanel = ({
                 newModifications,
                 StringToModification,
             );
+
+            if (!pCtx.value.cloud) {
+                const b = CheckObjectEqualityDeep(
+                    newProcessedModifications,
+                    prevProcessedModifications,
+                );
+
+                if (!b) {
+                    const newRule = {
+                        ...selectedRule,
+                        ruleModifications: newProcessedModifications,
+                    };
+
+                    pCtx.setValue({
+                        ...pCtx.value,
+                        tables: {
+                            ...pCtx.value.tables,
+                            [selectedTable.id]: {
+                                ...selectedTable,
+                                rules: {
+                                    ...selectedTable.rules,
+                                    [selectedRule.id]: newRule,
+                                },
+                            },
+                        },
+                    });
+
+                    console.log('Updating rule locally!');
+                }
+            }
+
             if (
                 CheckArrayEquality(
                     newProcessedModifications,
@@ -437,7 +511,10 @@ const RulePanel = ({
             setPrevProcessedModifications(newProcessedModifications);
         }
 
-        // TODO(calco): handle not cloud
+        if (!pCtx.value.cloud) {
+            return;
+        }
+
         newProcessedCriteria =
             newProcessedCriteria ?? selectedRule.ruleCriteria;
         newProcessedModifications =
