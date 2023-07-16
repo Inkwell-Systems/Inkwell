@@ -38,12 +38,13 @@ const Projects = () => {
 
     const handleLoadLocalProject = () => {
         // TODO(calco): Validate the json.
-        const project = JSON.parse(loadedJson);
-        project.cloud = false;
 
-        pCtx.setValue(project);
+        const res = JSON.parse(loadedJson);
 
-        nav('/editor/local');
+        pCtx.setValue(res as IProject);
+        console.log(pCtx);
+
+        nav(`/editor/local`);
     };
 
     const handleCreateNewProject = async () => {
@@ -187,6 +188,17 @@ const Projects = () => {
             >
                 Load Project
             </Button>
+            <ErrorMessage>
+                Currently, there is no validation done on the JSON.
+                <br />
+                <br />
+                As such, loading a file which has been changed from the default
+                <br />
+                exported versions by the app
+                <br />
+                <br />
+                MAY RESULT IN CRASHES
+            </ErrorMessage>
         </PageForm>,
         // Create completely new one
         <PageForm

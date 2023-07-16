@@ -1,6 +1,8 @@
 ## DISCLAIMER INFOEDUCATIE 2023
-Întrucât pe site nu este permisă încărcarea unei organizații ci doar a unui singur repository, l-am ales pe acesta. Toate celelalte părți ale aplicației, inclusiv librăriile, pot fi găsite în cadrul aceleiași organizații.
 
+Întrucât pe site nu este permisă încărcarea unei organizații ci doar a unui
+singur repository, l-am ales pe acesta. Toate celelalte părți ale aplicației,
+inclusiv librăriile, pot fi găsite în cadrul aceleiași organizații.
 
 https://github.com/Inkwell-Systems
 
@@ -43,3 +45,5 @@ details
     -   [React](https://react.dev/)
     -   [React Router](https://reactrouter.com/en/main)
     -   [Styled Components](https://styled-components.com/)
+    -   [Quicktype](https://quicktype.io/)
+    -   [Octicons](https://primer.style/design/foundations/icons/)

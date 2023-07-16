@@ -56,28 +56,3 @@ export const ModificationToString = (m: IModification): string => {
 
     return `|${s1}, ${op}, ${s2}|`;
 };
-
-export const CheckModificationValidity = (
-    modification: IModification,
-): boolean => {
-    const isModifiedEntryValid =
-        'modifiedEntry' in modification &&
-        typeof modification.modifiedEntry === 'number';
-
-    const isModificationOperatorValid =
-        'modificationOperator' in modification &&
-        typeof modification.modificationOperator === 'string' &&
-        Object.values(Modification).includes(
-            modification.modificationOperator as Modification,
-        );
-
-    const isModifyWithValueValid =
-        'modifyWithValue' in modification &&
-        typeof modification.modifyWithValue === 'number';
-
-    return (
-        isModifiedEntryValid &&
-        isModificationOperatorValid &&
-        isModifyWithValueValid
-    );
-};

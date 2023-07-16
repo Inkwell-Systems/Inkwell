@@ -1,4 +1,4 @@
-import {CheckEntryValidity, IEntry} from './IEntry.ts';
+import {IEntry} from './IEntry.ts';
 
 export interface IFact extends IEntry {
     // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -11,7 +11,3 @@ export const CreateProjectFact = (factId: number): IFact => ({
     value: 0,
     factGuard: 1,
 });
-
-export const CheckFactValidity = (fact: IFact): boolean => {
-    return CheckEntryValidity(fact);
-};

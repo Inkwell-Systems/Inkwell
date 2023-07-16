@@ -1,4 +1,4 @@
-import {CheckEntryValidity, IEntry} from './IEntry.ts';
+import {IEntry} from './IEntry.ts';
 
 export interface IEvent extends IEntry {
     eventGuard: number;
@@ -12,7 +12,3 @@ export const CreateProjectEvent = (eventId: number): IEvent => ({
     eventGuard: 1,
     triggers: [],
 });
-
-export const CheckEventValidity = (event: IEvent): boolean => {
-    return CheckEntryValidity(event);
-};

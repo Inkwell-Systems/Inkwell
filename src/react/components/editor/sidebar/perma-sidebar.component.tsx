@@ -80,7 +80,9 @@ const PermaSidebar = ({selected, setSelected, elements, setHovered}) => {
     const nav = useNavigate();
 
     const handleExportProject = () => {
-        const text = JSON.stringify(pCtx.value, null, 4);
+        const p = pCtx.value;
+        p.cloud = false;
+        const text = JSON.stringify(p, null, 4);
 
         const element = document.createElement('a');
         const file = new Blob([text], {type: 'inkwell'});

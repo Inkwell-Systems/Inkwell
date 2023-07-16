@@ -6,7 +6,3 @@ export enum Operator {
     LessThan = 'lessThan',
     LessThanOrEqual = 'lessThanOrEqual',
 }
-
-export const CheckOperatorValidity = (str: string): boolean => {
-    return Object.values(Operator).includes(str as Operator);
-};

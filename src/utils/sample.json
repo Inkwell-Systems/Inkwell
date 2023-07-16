@@ -1,0 +1,106 @@
+{
+    "cloud": false,
+    "entryMap": [
+        "Sample Table",
+        "test",
+        "New Fact",
+        "sample_event",
+        "Rules Are Easy",
+        "Event Tuesday",
+        "Rule Nr 2",
+        "yet another table"
+    ],
+    "inviteCode": "0f982c217dd663077e64eb4bd51d68769b1b4b7d",
+    "owner": "4NS8RYZFAvXqt1pge79SqcKAVnX2",
+    "projectBanner": "https://images.unsplash.com/photo-1460411794035-42aac080490a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    "projectCreatedAt": 1689512211401,
+    "projectDescription": "This is a project saved from the cloud, hopefully loaded from a local JSON!",
+    "projectId": "-N_TlbR4k-cva0pN7Rh9",
+    "projectName": "Saved From Cloud",
+    "scopes": [
+        {
+            "id": 0,
+            "key": "global",
+            "level": 0
+        },
+        {
+            "id": 1,
+            "key": "aaaaaaa",
+            "level": 4
+        },
+        null,
+        {
+            "id": 3,
+            "key": "please lol",
+            "level": 6
+        },
+        {
+            "id": 4,
+            "key": "ooga booga",
+            "level": 2
+        }
+    ],
+    "tables": {
+        "0": {
+            "events": {
+                "3": {
+                    "eventGuard": 1,
+                    "id": 3,
+                    "key": "sample_event",
+                    "triggers": [1, 2, 12],
+                    "value": 3
+                },
+                "5": {
+                    "eventGuard": 1,
+                    "id": 5,
+                    "key": "Event Tuesday",
+                    "value": 9,
+                    "triggers": []
+                }
+            },
+            "facts": [
+                null,
+                {
+                    "factGuard": 1,
+                    "id": 1,
+                    "key": "test",
+                    "value": 3
+                },
+                {
+                    "factGuard": 1,
+                    "id": 2,
+                    "key": "New Fact",
+                    "value": -7
+                }
+            ],
+            "id": 0,
+            "key": "Sample Table",
+            "rules": {
+                "4": {
+                    "id": 4,
+                    "key": "Rules Are Easy",
+                    "ruleGuard": 1,
+                    "value": 0,
+                    "ruleCriteria": [],
+                    "ruleModifications": []
+                },
+                "6": {
+                    "id": 6,
+                    "key": "Rule Nr 2",
+                    "ruleGuard": 1,
+                    "value": 0,
+                    "ruleCriteria": [],
+                    "ruleModifications": []
+                }
+            }
+        },
+        "7": {
+            "id": 7,
+            "key": "yet another table",
+            "facts": {},
+            "events": {},
+            "rules": {}
+        }
+    },
+    "members": []
+}

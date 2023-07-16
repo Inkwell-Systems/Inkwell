@@ -5,6 +5,7 @@ const FormContainer = styled.div`
     border-radius: 0.5em;
 
     min-width: 30rem;
+    width: 30%;
     height: 30rem;
 
     overflow-x: hidden;
