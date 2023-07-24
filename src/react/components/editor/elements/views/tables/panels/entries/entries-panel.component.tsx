@@ -385,7 +385,7 @@ const EntriesPanel = ({
                                         setSelectedEntry(event.id);
                                     }}
                                     selected={selectedEntry === event.id}
-                                    key={event.id + forceUpdate}
+                                    key={event.id + forceUpdate * 4}
                                 />
                             ))}
                         </EntryContainer>
@@ -405,7 +405,7 @@ const EntriesPanel = ({
                                         setSelectedEntry(rule.id);
                                     }}
                                     selected={selectedEntry === rule.id}
-                                    key={rule.id + forceUpdate}
+                                    key={rule.id + forceUpdate * 12}
                                 />
                             ))}
                         </EntryContainer>
