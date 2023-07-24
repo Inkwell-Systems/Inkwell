@@ -107,7 +107,7 @@ export const GetProjectInviteCode = (project: IProject) => {
 };
 
 export const GetProjectInvitationLink = (project: IProject) => {
-    return `inkwell.systems/invite/${GetProjectInviteCode(project)}}`;
+    return `inkwell.systems/invite/${GetProjectInviteCode(project)}`;
 };
 
 export const GenerateProjectId = () => {

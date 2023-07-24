@@ -286,7 +286,6 @@ const ProjectSettingsView = () => {
                         >
                             DELETE PROJECT
                         </Button>
-                        <ErrorMessage>!!!THIS IS IRREVERSIBLE!!!</ErrorMessage>
                     </EditorSectionContainer>
                 </>
             )}

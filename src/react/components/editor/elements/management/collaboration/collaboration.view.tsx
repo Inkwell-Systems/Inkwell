@@ -7,7 +7,7 @@ import {
 import UseProjectProvider from '../../../../../hooks/project-provider/project-provider.hook.ts';
 import {IFetchedUser} from '../../../../../../types';
 import {FetchUser} from '../../../../../../firebase/database/user/fetch-user.db.ts';
-import {ErrorMessage} from '../../../../../../styles/utils.styles.tsx';
+import {ErrorMessage, WarningMessage} from '../../../../../../styles/utils.styles.tsx';
 import UserCard from './user-card.component.tsx';
 import Invitations from './invitations/invitations.component.tsx';
 import {RemoveUserFromProject} from '../../../../../../firebase';
@@ -77,11 +77,11 @@ const CollaborationView = () => {
                     )}
 
                     <EditorSectionContainer>
-                        <ErrorMessage>
+                        <WarningMessage>
                             Changing user roles has no effect. It is a work in
                             progress. For now, only the owner can delete the
                             project and control member flow.
-                        </ErrorMessage>
+                        </WarningMessage>
 
                         {users?.map(user => (
                             <UserCard

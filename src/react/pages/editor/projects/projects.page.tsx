@@ -11,7 +11,7 @@ import {useNavigate} from 'react-router-dom';
 import TextInput from '../../../components/inputs/input/text-input.component.tsx';
 import MultilineInput from '../../../components/inputs/input/multiline-input.component.tsx';
 import CheckboxInput from '../../../components/inputs/input/checkbox-input.component.tsx';
-import {ErrorMessage} from '../../../../styles/utils.styles.tsx';
+import {ErrorMessage, WarningMessage} from '../../../../styles/utils.styles.tsx';
 import UseUserProvider from '../../../hooks/user-provider/userProvider.hook.ts';
 import {DefaultUser} from '../../../../types';
 import {
@@ -188,17 +188,14 @@ const Projects = () => {
             >
                 Load Project
             </Button>
-            <ErrorMessage>
+            <WarningMessage>
                 Currently, there is no validation done on the JSON.
                 <br />
                 <br />
                 As such, loading a file which has been changed from the default
                 <br />
-                exported versions by the app
-                <br />
-                <br />
-                MAY RESULT IN CRASHES
-            </ErrorMessage>
+                exported versions by the app may result in unexpected behaviour.
+            </WarningMessage>
         </PageForm>,
         // Create completely new one
         <PageForm

@@ -28,7 +28,7 @@ import {
     MultilineInput,
     VerticalBox,
 } from '../../../utils.tsx';
-import {ErrorMessage} from '../../../../../../../../styles/utils.styles.tsx';
+import {ErrorMessage, WarningMessage, WarningMessageLeft} from '../../../../../../../../styles/utils.styles.tsx';
 
 const CustomPanelHeader = styled(PanelHeader)`
     display: inline-table;
@@ -345,12 +345,9 @@ const EventPanel = ({
                         />
                     </div>
                 </HorizontalBox>
-                <ErrorMessage>
-                    The `triggers` field is not yet fully UX friendly.
-                    <br />
-                    For now, you can enter a comma separated list of rule keys.
-                    !!! NO RULE VALIDATION IS DONE !!!
-                </ErrorMessage>
+                <WarningMessageLeft>
+                    `<i>triggers</i>` is a comma-separated-list of rule IDs.
+                </WarningMessageLeft>
             </>
         </BaseEntryPanel>
     );
@@ -554,6 +551,11 @@ const RulePanel = ({
                         />
                     </div>
                 </HorizontalBox>
+                <WarningMessageLeft>
+                    `ruleCriteria` is a {`'\\n'`} separated list of the format.
+                    <br />`
+                    {`|entryToCheck: id, operator: '=/<=/>=/</>', value: number|`}
+                </WarningMessageLeft>
                 <HorizontalBox>
                     <Label
                         style={{
@@ -575,27 +577,12 @@ const RulePanel = ({
                         />
                     </div>
                 </HorizontalBox>
-                <ErrorMessage>
-                    Rule editing is not yet fully UX friendly.
-                    <br />
-                    <br />
-                    `ruleTriggers` is a comma separated list of event keys.
-                    <br />
-                    <br />
-                    `ruleCriteria` is a {`'\\n'`} separated list of the format.
-                    <br />`
-                    {`|entryToCheck: id, operator: '=/<=/>=/</>', value: number|`}
-                    `
-                    <br />
-                    <br />
+                <WarningMessageLeft>
                     `ruleModifications` is a {`'\\n'`} separated list of the
                     format.
                     <br />`
                     {`|entryToModify: id, operator: '=/+', newValue: number|`}
-                    <br />
-                    <br />
-                    !!! NO ENTRY EXISTENCE VALIDATION IS DONE !!!
-                </ErrorMessage>
+                </WarningMessageLeft>
             </>
         </BaseEntryPanel>
     );
