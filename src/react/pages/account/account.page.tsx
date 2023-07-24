@@ -7,7 +7,7 @@ import HelpIcon from './icons/help.svg';
 import ManagementIcon from './icons/management.svg';
 import NotificationsIcon from './icons/notifications.svg';
 
-import React, {ReactElement, useState} from 'react';
+import React, {ReactElement, useEffect, useState} from 'react';
 import styled from 'styled-components';
 import AccountNavElement from '../../components/account/nav-element.component.tsx';
 import UserProfile from '../../components/account/elements/user-profile.component.tsx';
@@ -15,6 +15,7 @@ import Security from '../../components/account/elements/security.component.tsx';
 import Help from '../../components/account/elements/help.component.tsx';
 import Management from '../../components/account/elements/management.component.tsx';
 import Notifications from '../../components/account/elements/notifications/notifications.component.tsx';
+import UseUserProvider from "../../hooks/user-provider/userProvider.hook.ts";
 
 const AccountSettingsContainer = styled.div`
     width: 100%;

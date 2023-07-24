@@ -82,3 +82,30 @@ export const AcceptInvitation = async (
         };
     }
 };
+
+export const RejectInvitation = async (
+    invitation: IInvitation,
+): Promise<IResult<null>> => {
+    try {
+        // Remove the invitation
+        await set(ref(Database, `invitations/${invitation.id}`), null);
+
+        console.log(
+            `Successfully rejected invitation to ${invitation.projectId} for user ${invitation.userIdTo}. (RejectInvitation)`,
+        );
+        return {
+            data: null,
+            error: null,
+        };
+    } catch (error) {
+        console.log(
+            `Error rejecting invitation to ${invitation.projectId} for user ${invitation.userIdTo}. (RejectInvitation)`,
+        );
+        console.error(error);
+
+        return {
+            data: null,
+            error: error,
+        };
+    }
+}

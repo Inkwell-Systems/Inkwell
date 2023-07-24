@@ -1,8 +1,13 @@
 import {Button} from '../../../inputs/button/button.component.tsx';
 import styled from 'styled-components';
-import {AcceptInvitation} from '../../../../../firebase';
-import {Simulate} from 'react-dom/test-utils';
+import {
+    AcceptInvitation,
+    GetInvitationProjectName,
+    GetInvitationUserName,
+    RejectInvitation
+} from '../../../../../firebase';
 import {useNavigate} from 'react-router-dom';
+import {useEffect, useState} from "react";
 
 const NotificationContainer = styled.div`
     display: flex;
@@ -49,6 +54,25 @@ const ButtonContainer = styled.div`
 const Notification = ({invitation, setError}) => {
     const nav = useNavigate();
 
+    const [projName, setProjName] = useState('');
+    const [userName, setUserName] = useState('');
+
+    useEffect(() => {
+        GetInvitationProjectName(invitation).then((res) => {
+            if (res.error != null)
+                return;
+
+            setProjName(res.data);
+        });
+
+        GetInvitationUserName(invitation).then((res) => {
+            if (res.error != null)
+                return;
+
+            setUserName(res.data);
+        });
+    }, [invitation]);
+
     const handleAccept = async () => {
         setError(null);
         const res = await AcceptInvitation(invitation);
@@ -60,16 +84,22 @@ const Notification = ({invitation, setError}) => {
     };
 
     const handleDecline = async () => {
-        console.log('decline');
+        setError(null);
+        const res = await RejectInvitation(invitation);
+        setError(res.error);
+
+        if (!res.error) {
+            nav('/projects');
+        }
     };
 
     return (
         <NotificationContainer>
             <NotificationContent>
-                <h1>{invitation.projectId}</h1>
+                <h1>{projName}</h1>
                 <div>
                     <p>"{invitation.message}"</p>
-                    <span>- {invitation.userIdFrom}</span>
+                    <span>- {userName}</span>
                 </div>
             </NotificationContent>
             <ButtonContainer>
