@@ -14,7 +14,7 @@ import ProjectsIcon from './logos/projects.svg';
 import {useNavigate} from 'react-router-dom';
 import UseUserProvider from '../../hooks/user-provider/userProvider.hook.ts';
 import {useState} from 'react';
-import {SignUserOut} from '../../../firebase/auth';
+import {SignUserOut} from '../../../firebase';
 import {DefaultUser} from '../../../types';
 import UseProjectProvider from '../../hooks/project-provider/project-provider.hook.ts';
 
@@ -244,8 +244,31 @@ const Navigation = () => {
             </NavbarSide>
 
             <NavbarSide>
-                <NavbarIcon src={DiscordIcon} />
-                <NavbarIcon src={GitHubIcon} />
+                <NavbarIcon
+                    onAuxClick={() =>
+                        openInNewTab(
+                            'https://discord.gg/QQx6Ucu96r',
+                        )
+                    }
+                    onClick={() =>
+                        openInNewTab(
+                            'https://discord.gg/QQx6Ucu96r',
+                        )
+                    }
+                    src={DiscordIcon}
+                />
+                <NavbarIcon
+                    onAuxClick={() =>
+                        openInNewTab(
+                            'https://github.com/Inkwell-Systems/InkwellAPI',
+                        )
+                    }
+                    onClick={() =>
+                        openInNewTab(
+                            'https://github.com/Inkwell-Systems/InkwellAPI',
+                        )
+                    }
+                    src={GitHubIcon} />
                 <NavbarIcon src={ThemeIcon} />
 
                 {uCtx.value.isAuthenticated ? (
